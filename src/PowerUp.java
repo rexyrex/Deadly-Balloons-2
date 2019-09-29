@@ -126,6 +126,12 @@ public class PowerUp {
 			name = "Friends";
 		}
 		
+		if(type == 17){
+			color1 = Color.RED;
+			r = 30;
+			name = "DIE";
+		}
+		
 		
 	}
 	

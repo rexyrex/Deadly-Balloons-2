@@ -40,10 +40,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			"이 건 머 징 ?", "다 합 쳐", 
 			"양 세 훈", "보안 박사를 뽑아야돼",
 			"점심때 머먹지?","엥?",
-			"커 진 다","Fola and Friends",
-			"Look at dem colors","Bigger Colors",
-			"More Practice With Colors","One of Each Please",
-			"Calm Before the Storm",
+			"커 진 다","띠 용",
+			"쉽 다","좀 많 네",
+			"거 의 끝","어 려 운 건 끝",
+			"폭 풍 전 야",
 			"42","ㅅㄱㄹ"};
 	
 	private BufferedImage image;
@@ -109,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
         try {
-            img = ImageIO.read(new File("Resources/img/backImg4.jpg"));
+            img = ImageIO.read(new File("Resources/img/backImg6.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveStartTimer = 0;
 		waveStartTimerDiff = 0;
 		waveStart = true;
-		waveNumber = 0;
+		waveNumber = 9;
 		
 		
 		long startTime;
@@ -837,7 +837,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}	
 				
 				//Friends
-				if(RandomUtils.runChance(5.5 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.5 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(16, e.getx()+offset[0],e.gety()+offset[1]));
 				}
@@ -846,6 +846,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				if(RandomUtils.runChance(0.8 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(15, e.getx()+offset[0],e.gety()+offset[1]));
+				}
+				
+				//DIE Powerup (avoid)
+				if(RandomUtils.runChance(1.2)) {
+					double[] offset = RandomUtils.getRandomOffset(5, 5);
+					powerups.add(new PowerUp(17, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 
 				player.addScore(e.getMoney());
@@ -996,6 +1002,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					texts.add(new Text(player.getx(), player.gety(),2000,"칭구 칭구"));
 				}
 				
+				if(type==17){
+					player.loseLife();
+					texts.add(new Text(player.getx(), player.gety(),2000,"아프다..."));
+				}
+				
 				powerups.remove(i);
 				i--;
 			}
@@ -1129,9 +1140,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(waveNumber == 10){
-			enemies.add(new Enemy(7,4,1));
-			enemies.add(new Enemy(7,4,1));
-			enemies.add(new Enemy(7,4,1));
+			for(int j=0; j<6; j++) {
+				enemies.add(new Enemy(7,4,1));
+			}
 		}
 		
 		if(waveNumber == 11){			
@@ -1139,30 +1150,39 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			enemies.add(new Enemy(2,4,1));
 			enemies.add(new Enemy(3,4,1));
 			enemies.add(new Enemy(4,4,1));
+			enemies.add(new Enemy(7,4,1));
 		}
 		
 		if(waveNumber == 12){
-			enemies.add(new Enemy(6,4,1));
-			enemies.add(new Enemy(7,4,1));
+			for(int j=0; j<3; j++) {
+				enemies.add(new Enemy(6,4,1));
+				enemies.add(new Enemy(7,4,1));
+			}
 		}
 		
 		if(waveNumber == 13){
-			enemies.add(new Enemy(5,4,1));
-			enemies.add(new Enemy(7,4,1));
+			for(int j=0; j<2; j++) {
+				enemies.add(new Enemy(3,4,1));
+				enemies.add(new Enemy(5,4,1));
+				enemies.add(new Enemy(7,4,1));
+			}
 		}
 		
 		if(waveNumber == 14){
-			enemies.add(new Enemy(5,4,1));
-			enemies.add(new Enemy(1,4,1));
-			enemies.add(new Enemy(2,4,1));
+			for(int j=0; j<2; j++) {
+				enemies.add(new Enemy(5,4,1));
+				enemies.add(new Enemy(3,4,1));
+				enemies.add(new Enemy(7,4,1));
+			}
 		}
 		
 		if(waveNumber == 15){
-			enemies.add(new Enemy(5,4,1));
+			enemies.add(new Enemy(6,4,1));
 			enemies.add(new Enemy(1,4,1));
 			enemies.add(new Enemy(2,4,1));
 			enemies.add(new Enemy(3,4,1));
 			enemies.add(new Enemy(4,4,1));
+			enemies.add(new Enemy(7,4,1));
 		}
 		
 		if(waveNumber == 16){			
@@ -1171,17 +1191,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(waveNumber == 17){			
-			enemies.add(new Enemy(6,1,1));
+			enemies.add(new Enemy(101,1,1));
 		}
-		
-		
-		
-		
 		
 		if(waveNumber == 18){
 			running=false;
 		}
-		
 	}
 
 	@Override

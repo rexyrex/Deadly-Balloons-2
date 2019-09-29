@@ -43,14 +43,14 @@ public class ShopPanel extends JPanel{
 		itemBaseName = new HashMap();
 		
         final JButton buyLifeBtn = new JButton("Extra Life 1 ( Cost : " + 120 + " )");        
-        final JButton buyPowerBtn = new JButton("Power Up 1 ( Cost : " + 40 + " )");
-        final JButton spazDurationBtn = new JButton("Spaz Longer 1 ( Cost : " + 70 + " )");
-        final JButton missileDurationBtn = new JButton("Missile Longer 1 ( Cost : " + 80 + " )");
+        final JButton buyPowerBtn = new JButton("Power Up 1 ( Cost : " + 30 + " )");
+        final JButton spazDurationBtn = new JButton("Spaz Longer 1 ( Cost : " + 60 + " )");
+        final JButton missileDurationBtn = new JButton("Missile Longer 1 ( Cost : " + 70 + " )");
         final JButton dropRateBtn = new JButton("Drop Rate 1 ( Cost : " + 100 + " )");
         
         initMaps(buyLifeBtn, "Extra Life", 120);
-        initMaps(buyPowerBtn, "Power Up", 50);
-        initMaps(spazDurationBtn, "Spaz Longer", 70);
+        initMaps(buyPowerBtn, "Power Up", 30);
+        initMaps(spazDurationBtn, "Spaz Longer", 60);
         initMaps(missileDurationBtn, "Missile Longer", 70);
         initMaps(dropRateBtn, "Drop Rate", 100);
         

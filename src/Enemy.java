@@ -288,7 +288,7 @@ public class Enemy {
 		}
 		
 		if(type ==7){
-			skillSet.put("growing skill", 1.7);
+			skillSet.put("growing skill", 2.2);
 			color1 = new Color(102,222,255,128);
 			skillSet.put("health bar skill", 1.0);
 			//name = "haha";
@@ -334,26 +334,29 @@ public class Enemy {
 			if(rank == 1){
 				speed = 4;
 				r = 90;
-				health = 1200;
-				maxHealth = 1200;
-				money = 50;
+				health = 850;
+				maxHealth = 850;
+				money = 250;
 			}			
 		}
 		
 		if(type ==101){
-			skillSet.put("boss 1 skill", 3.0);
+			skillSet.put("boss 2 skill", 3.0);
 			skillSet.put("health bar skill", 1.0);
 			skillSet.put("regen skill", 10000.0);
 			skillSet.put("spawn powerup skill", 0.1);
+			skillSet.put("blackhole chance skill", 1.0);
+			skillSet.put("bomb chance skill",0.7);
+			skillSet.put("growing skill", 1.0);
 			color1 = new Color(255,255,255,128);
 			name = "42";
 			if(rank == 1){
 				speed = 4;
-				r = 90;
-				health = 1200;
-				maxHealth = 1200;
-				money = 50;
-			}			
+				r = 50;
+				health = 2000;
+				maxHealth = 2000;
+				money = 1000;
+			}
 		}
 		
 		money = (int) (money * moneyMult);
@@ -790,7 +793,6 @@ public class Enemy {
 				//Seeker missile
 				GamePanel.powerups.add(new PowerUp(10, getx(),gety()));
 			}	
-
 		}
 		
 		if(skillSet.containsKey("charge skill")) {
@@ -823,7 +825,7 @@ public class Enemy {
 		}
 		
 		if(skillSet.containsKey("boss 1 skill")){
-			if(RandomUtils.runChance(1)){
+			if(RandomUtils.runChance(0.7)){
 				int nSpawns = 2;
 				texts.add(new Text(getx(), gety(), 2000, "+" + nSpawns + " spawned!"));
 				for(int ss=0; ss<nSpawns; ss++){						
@@ -845,8 +847,46 @@ public class Enemy {
 			
 			if(RandomUtils.runChance(0.1)){
 				//heal();
+			}			
+			
+
+		}
+		
+		if(skillSet.containsKey("boss 2 skill")){
+			if(RandomUtils.runChance(0.8)){
+				int nSpawns = 2;
+				texts.add(new Text(getx(), gety(), 2000, "+" + nSpawns + " spawned!"));
+				for(int ss=0; ss<nSpawns; ss++){						
+					produceChargingEnemy();
+				}
 			}
 			
+			if(RandomUtils.runChance(3)){
+				changeDirectionRandomly();
+			}
+			
+			if(RandomUtils.runChance(0.5)){
+				changeSpeedRandomly();
+			}
+			
+			if(RandomUtils.runChance(1.5)){
+				goTowards(player.getx(), player.gety());
+			}
+			
+			if(RandomUtils.runChance(0.1)){
+				//heal();
+			}	
+			
+			if(RandomUtils.runChance(0.1)){
+				int tmpInterval = GamePanel.HEIGHT / 7;
+				
+				for(int j=0; j<7; j++) {
+					if(RandomUtils.runChance(50)) {
+						GamePanel.powerups.add(new PowerUp(17, 35 + j*tmpInterval,0));
+					}					
+				}					
+				
+			}
 		}
 		
 		
@@ -930,8 +970,8 @@ public class Enemy {
 		
 		//draw name
 		if(type==6 || rank>3){
-			g.setColor(Color.RED);
-			g.setFont(new Font("Gulim",Font.BOLD,14));
+			g.setColor(Color.RED.brighter());
+			g.setFont(new Font("Gulim",Font.BOLD,16));
 			String s = name;
 			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 			g.drawString(s, (int)(x-(length)/2), (int)(y));
