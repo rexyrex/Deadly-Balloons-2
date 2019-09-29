@@ -161,8 +161,6 @@ public class Player {
 		bombingTimer = System.nanoTime();
 		bombingLength = 700;
 		
-	
-		
 		bombs =1;
 		
 		addOn = 0;
@@ -238,7 +236,6 @@ public class Player {
 	public double getAttSpeed(){
 		return (300-firingDelay)/4;
 	}
-	
 	
 	public boolean isInvincible() { return invincible; }
 	

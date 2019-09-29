@@ -20,4 +20,11 @@ public class RandomUtils {
 		return offset;
 	}
 	
+	public static int[] getRandomDest(int width, int height) {
+		int[] dest = new int[2];
+		dest[0] = (int) (Math.random() * width);
+		dest[1] = (int) (Math.random() * height);
+		return dest;
+	}
+	
 }

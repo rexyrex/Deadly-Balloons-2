@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private String[] lvlNames = {"손 풀 기", 
 			"손 풀 기 2", "손 풀 기 3", 
-			"이 건 머 징?", "다 합 쳐", 
+			"이 건 머 징 ?", "다 합 쳐", 
 			"양 세 훈", "보안 박사를 뽑아야돼",
 			"점심때 머먹지?","엥?",
 			"커 진 다","Fola and Friends",
@@ -109,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
         try {
-            img = ImageIO.read(new File("Resources/img/dino.png"));
+            img = ImageIO.read(new File("Resources/img/backImg4.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -759,13 +759,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 				
 				//Power + 1
-				if(RandomUtils.runChance(2 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(1.4 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(3, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Power + 2
-				if(RandomUtils.runChance(1 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.7 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(2, e.getx()+offset[0],e.gety()+offset[1]));
 				}
@@ -777,67 +777,73 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 				
 				//Player Speed Increase
-				if(RandomUtils.runChance(0.4 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(5, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Bomb +1
-				if(RandomUtils.runChance(0.4 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(6, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Att Speed +1
-				if(RandomUtils.runChance(0.4 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(7, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Spaz
-				if(RandomUtils.runChance(1.6 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(1.2 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(8, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Seeker missile
-				if(RandomUtils.runChance(1.2 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(1.0 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(10, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Add on
-				if(RandomUtils.runChance(0.4 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.2 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(9, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Stamina
-				if(RandomUtils.runChance(1 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.7 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(11, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Max Stamina
-				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.15 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(12, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Wall
-				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.1 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(13, e.getx()+offset[0],e.gety()+offset[1]));
 				}	
 				
 				//Army
-				if(RandomUtils.runChance(0.7 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.5 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(14, e.getx()+offset[0],e.gety()+offset[1]));
 				}	
 				
+				//Friends
+				if(RandomUtils.runChance(5.5 + player.getDropRateBonus())) {
+					double[] offset = RandomUtils.getRandomOffset(5, 5);
+					powerups.add(new PowerUp(16, e.getx()+offset[0],e.gety()+offset[1]));
+				}
+				
 				//Turret supercharge
-				if(RandomUtils.runChance(1.0 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.8 + player.getDropRateBonus())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(15, e.getx()+offset[0],e.gety()+offset[1]));
 				}
@@ -983,6 +989,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					}
 				}
 				
+				if(type==16){
+					for(int j=0; j<4; j++) {
+						friends.add(new Friend(player.getx(), player.gety(), 0, 0, 2));
+					}
+					texts.add(new Text(player.getx(), player.gety(),2000,"칭구 칭구"));
+				}
+				
 				powerups.remove(i);
 				i--;
 			}
@@ -1058,16 +1071,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 		
 		if(waveNumber == 1){
-			enemies.add(new Enemy(10,1, 1));
-			for(int i=0; i<6; i++){
-				//enemies.add(new Enemy(1,4, 1));
-				//enemies.add(new Enemy(7,4, 1));
+			for(int i=0; i<5; i++){
+				enemies.add(new Enemy(1,4, 1));
 			}
 		}
 		
 		if(waveNumber == 2){
 			for(int i=0; i<6; i++){				
-				enemies.add(new Enemy(2,3, 1));
+				enemies.add(new Enemy(2,4, 1));
 			}
 		}
 		
@@ -1093,45 +1104,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(waveNumber == 6){
-			enemies.add(new Enemy(10,1,1));
-//			for(int i=0; i<5; i++){
-//				enemies.add(new Enemy(2,4,1));
-//				enemies.add(new Enemy(1,4,1));				
-//			}
+			enemies.add(new Enemy(100,1,1));
 		}
 		
 		if(waveNumber == 7){
-			for(int i=0; i<4; i++){
-				enemies.add(new Enemy(7,4,1));
+			for(int i=0; i<3; i++){
+				enemies.add(new Enemy(1,4,1));
+				enemies.add(new Enemy(6,4,1));
 			}
 		}
 		
 		if(waveNumber == 8){
-			for(int i=0; i<2; i++){
-				enemies.add(new Enemy(7,4,1));	
-				enemies.add(new Enemy(6,4,1));
-			}			
+			for(int i=0; i<3; i++){
+				enemies.add(new Enemy(3,4,1));	
+				enemies.add(new Enemy(4,4,1));				
+			}
 		}
 		
 		if(waveNumber == 9){
-			for(int i=0; i<2; i++){
-				enemies.add(new Enemy(7,4,1));			
-			}
 			for(int i=0; i<3; i++){
-				enemies.add(new Enemy(6,4,1));
 				enemies.add(new Enemy(1,4,1));
+				enemies.add(new Enemy(5,3,1));
 			}
 		}
 		
 		if(waveNumber == 10){
-			player.gainLife();
-			for(int i=0; i<2; i++){
-				enemies.add(new Enemy(4,4,1));			
-			}			
+			enemies.add(new Enemy(7,4,1));
+			enemies.add(new Enemy(7,4,1));
+			enemies.add(new Enemy(7,4,1));
 		}
 		
-		if(waveNumber == 11){
-			
+		if(waveNumber == 11){			
 			enemies.add(new Enemy(1,4,1));
 			enemies.add(new Enemy(2,4,1));
 			enemies.add(new Enemy(3,4,1));
@@ -1139,11 +1142,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(waveNumber == 12){
-			enemies.add(new Enemy(5,3,1));			
+			enemies.add(new Enemy(6,4,1));
+			enemies.add(new Enemy(7,4,1));
 		}
 		
 		if(waveNumber == 13){
 			enemies.add(new Enemy(5,4,1));
+			enemies.add(new Enemy(7,4,1));
 		}
 		
 		if(waveNumber == 14){
@@ -1167,7 +1172,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		if(waveNumber == 17){			
 			enemies.add(new Enemy(6,1,1));
-            enemies.add(new Enemy(6,1,1));
 		}
 		
 		
@@ -1221,7 +1225,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_F){
-
+			//bombs.add(new Bomb(player.getx(),player.gety(),false,true));
+			friends.add(new Friend(player.getx(), player.gety(), 0,0,2));
 		}
 		
 		if(keyCode == KeyEvent.VK_2){

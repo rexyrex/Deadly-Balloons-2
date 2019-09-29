@@ -38,11 +38,19 @@ public class Friend {
 		this.type = type;
 		
 		if(type==1) {
-			color1 = new Color(255,255,255,155);			
+			color1 = new Color(225,225,225,255);			
 			lifeSpan = 7000;
 			fireDelay = 220;
 			firingTimer = System.nanoTime();
 			speed = 3;
+		}
+		
+		if(type==2) {
+			color1 = new Color(225,153,204,255);			
+			lifeSpan = 20000;
+			fireDelay = 220;
+			firingTimer = System.nanoTime();
+			speed = 8;
 		}
 		
 		//double angle = Math.random() * 140 + 20;
@@ -125,7 +133,11 @@ public class Friend {
 			dead = true;
 		}
 		
-		
+		if(type==2 && RandomUtils.runChance(4)){
+				destX = RandomUtils.getRandomDest(GamePanel.WIDTH, GamePanel.HEIGHT)[0];
+				destY = RandomUtils.getRandomDest(GamePanel.WIDTH, GamePanel.HEIGHT)[1];
+				goTowards(destX, destY);				
+		}
 	}
 	
 	public void draw(Graphics2D g) {
@@ -135,5 +147,12 @@ public class Friend {
 		g.setColor(color1.darker());		
 		g.drawOval((int)(x-r),(int)(y-r), 2*r, 2*r);
 		g.setStroke(new BasicStroke(1));
+		
+		//life bar
+		double secSinceBirth = (System.nanoTime() - birthDate)/1000000;
+		double percentage =  secSinceBirth/(double)lifeSpan;
+		System.out.println(percentage);
+		g.drawRect((int)(x-2*r), (int)(y+2*r), (int)(4*r), (int)(r));
+		g.fillRect((int)(x-2*r), (int)(y+2*r), (int)(4*r*(1-percentage)), (int)(r));
 	}
 }

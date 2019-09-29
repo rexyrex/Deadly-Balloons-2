@@ -324,13 +324,29 @@ public class Enemy {
 			}	
 		}
 		
-		if(type ==10){
+		if(type ==100){
 			skillSet.put("boss 1 skill", 3.0);
 			skillSet.put("health bar skill", 1.0);
 			skillSet.put("regen skill", 10000.0);
 			skillSet.put("spawn powerup skill", 0.1);
 			color1 = new Color(255,0,255,128);
 			name = "닥터 양";
+			if(rank == 1){
+				speed = 4;
+				r = 90;
+				health = 1200;
+				maxHealth = 1200;
+				money = 50;
+			}			
+		}
+		
+		if(type ==101){
+			skillSet.put("boss 1 skill", 3.0);
+			skillSet.put("health bar skill", 1.0);
+			skillSet.put("regen skill", 10000.0);
+			skillSet.put("spawn powerup skill", 0.1);
+			color1 = new Color(255,255,255,128);
+			name = "42";
 			if(rank == 1){
 				speed = 4;
 				r = 90;
@@ -373,8 +389,8 @@ public class Enemy {
 	public void chargingEnemyInit() {
 		lastChargeCompleteTime = System.nanoTime();
 		chargeState = ChargeState.STATIONARY;
-		destX = getRandomDest(canvas_width, canvas_height)[0];
-		destY = getRandomDest(canvas_width, canvas_height)[1];
+		destX = RandomUtils.getRandomDest(canvas_width, canvas_height)[0];
+		destY = RandomUtils.getRandomDest(canvas_width, canvas_height)[1];
 		//goTowards(destX,destY);
 		dx=0;
 		dy=0;
@@ -444,13 +460,7 @@ public class Enemy {
 		e.chargingEnemyInit();
 		GamePanel.enemies.add(e);
 	}
-	
-	private int[] getRandomDest(int width, int height) {
-		int[] dest = new int[2];
-		dest[0] = (int) (Math.random() * width);
-		dest[1] = (int) (Math.random() * height);
-		return dest;
-	}
+
 	
 	public void heal(){
 		int healAmount = (int)(Math.random() * 500);
@@ -493,7 +503,7 @@ public class Enemy {
 				case 5: amount = 4; break;
 				case 6: amount = 2; break;
 				case 7: amount = 2; break;
-				default : amount = 2; break;
+				default : amount = 0; break;
 			}
 			
 			
@@ -789,8 +799,8 @@ public class Enemy {
 				chargeState = ChargeState.STATIONARY;
 				this.dx = 0;
 				this.dy=0;
-				destX = getRandomDest(canvas_width, canvas_height)[0];
-				destY = getRandomDest(canvas_width, canvas_height)[1];
+				destX = RandomUtils.getRandomDest(canvas_width, canvas_height)[0];
+				destY = RandomUtils.getRandomDest(canvas_width, canvas_height)[1];
 				lastChargeCompleteTime = System.nanoTime();
 			}	
 			if((System.nanoTime() - lastChargeCompleteTime)/1000000000 > (skillSet.get("charge skill"))) {

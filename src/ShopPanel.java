@@ -59,8 +59,8 @@ public class ShopPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(dropRateBtn);
 				if(gp.player.attemptPurchase(cost)) {
-					//0.07% increase
-					gp.player.incDropRate(0.07);
+					//0.015% increase
+					gp.player.incDropRate(0.015);
 					purchaseProcess(dropRateBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	

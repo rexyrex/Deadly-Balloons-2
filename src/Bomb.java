@@ -51,6 +51,30 @@ public class Bomb {
 		hostile = false;
 	}
 	
+	//instant bombing
+	public Bomb(double x, double y, boolean hostile, boolean isBombing){
+		this.x = x;
+		this.y = y;
+		this.r = 5;
+		this.maxr = 150 * (Math.random()+0.5);
+		
+		triggerTimer = System.nanoTime();
+		triggerDelay = 0;
+		
+		bombLength = 700;
+		bombTimer = System.nanoTime();
+		this.isBombing = isBombing;
+		doneBombing = false;
+		c= new Color(255,255,255,177);
+		cBomb1 = new Color(255,0,7,128);
+		cBomb2 = Color.MAGENTA;
+		
+		bombColorSwitchTime = 20;
+		bombColorSwitchTimer = System.nanoTime();
+		colorSwitchState = false;
+		this.hostile = hostile;
+	}
+	
 	//enemy bomb
 	public Bomb(double x, double y, boolean hostile){
 		this.x = x;

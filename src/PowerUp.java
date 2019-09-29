@@ -120,6 +120,12 @@ public class PowerUp {
 			name = "Turret SuperCharge";
 		}
 		
+		if(type == 16){
+			color1 = Color.GREEN;
+			r = 7;
+			name = "Friends";
+		}
+		
 		
 	}
 	
