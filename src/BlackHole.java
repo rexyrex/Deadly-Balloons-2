@@ -16,7 +16,6 @@ public class BlackHole {
 	private long holeTimer;
 	private boolean isHole;
 	
-	//
 	private long holeDelayTimer;
 	private long holeDelay;
 	
@@ -97,8 +96,6 @@ public class BlackHole {
 	
 	public boolean update(){
 		long beforeElapsed = (System.nanoTime() - beforeHoleTimer)/1000000;
-		System.out.println("elapsed = " + beforeElapsed);
-		System.out.println("delay = " + beforeHoleDelay);
 		if(beforeElapsed > beforeHoleDelay){
 			isHole = true;		
 			beforeHoleTimer = 0;
@@ -117,7 +114,6 @@ public class BlackHole {
 				
 				long holeDelayElapsed = (System.nanoTime() - holeDelayTimer)/1000000;
 				if(holeDelayElapsed > holeDelay ){
-					//System.out.println("hole delay");
 					isPulse = true;
 					pulseTimer = System.nanoTime();
 					holeDelayTimer = System.nanoTime() + pulseLength*1000000;
@@ -127,11 +123,7 @@ public class BlackHole {
 					long pulseElapsed = (System.nanoTime() - pulseTimer)/1000000;
 					if(pulseElapsed < pulseLength){
 						isPulse = true;
-						
-						//System.out.println("eh");
 					} else {
-						//System.out.println("elapsed = " + pulseElapsed);
-						//System.out.println("length = " + pulseLength);
 						isPulse = false;
 						pulseTimer = System.nanoTime();
 						holeDelayTimer = System.nanoTime();

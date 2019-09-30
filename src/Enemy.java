@@ -630,16 +630,12 @@ public class Enemy {
 			
 			// top to bottom
 			if (dy >= 0 && (y + r) >= wy && (y-r ) <= (wy1)) {
-				System.out.println("top to bottom");
-				//y = wy - r;
 				dy = -Math.sin(rad) * speed;
 				
 			}
 
 			// bot to top
 			if (dy <= 0 && (y - r) <= (wy1) && (y+r ) >= wy) {
-				System.out.println("bot to top");
-				//y = wy + wheight + r;
 				dy = Math.sin(rad) * speed;
 				
 			}
@@ -649,16 +645,12 @@ public class Enemy {
 		if ((y <= (wy1) && y >= wy)) {
 			// left to right collide
 			if (dx >= 0 && (x + r) >= wx && (x-r) <= (wx1)) {
-				System.out.println("left to right");
-				// x = wx-r;
 				dx = -Math.cos(rad) * speed;
 				
 			}
 
 			// right to left collide
 			if (dx <= 0 && (x - r) <= (wx1) && (x+r ) >= wx ) {
-				System.out.println("right to left");
-				//x = wx+wwidth+r;
 				dx = Math.cos(rad) * speed;
 				
 			}

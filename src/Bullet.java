@@ -122,7 +122,6 @@ public class Bullet {
 		
 		int angle;
 		if(type.equals("right")){
-			//angle = 330;
 			angle = 35;
 			this.dxa =  -0.2;
 			isRightMissile = true;
@@ -130,12 +129,10 @@ public class Bullet {
 			
 		} else if(type.equals("left")){
 			angle = 145;
-			//angle = 210;
 			this.dxa = 0.2;
 			isLeftMissile = true;
 			this.dya = -0.1;
 		} else if(type.equals("topRight")){
-			//angle = 330;
 			angle = 325;
 			this.dxa =  -0.2;
 			isRightMissile = true;
@@ -178,14 +175,12 @@ public class Bullet {
 				dxa =0;
 				dx=0;
 				isMissileReady = true;
-				//System.out.println("READy "+isMissileReady);
 			} 
 			
 			if(isLeftMissile && dx>0){
 				dxa =0;
 				dx=0;
 				isMissileReady = true;
-				//System.out.println("READy "+isMissileReady);
 			} 		
 			
 			dya -= 0.01;
@@ -200,13 +195,10 @@ public class Bullet {
 	}
 	
 	public void updateEnemyPosition(Enemy e1){
-		
-		
 		if(!missileFoundTarget){
 			
 			missileFoundTarget = true;
-			e=e1;			
-			//System.out.println("missile found target at "+e.getx()+","+e.gety());
+			e=e1;
 		} else if(!e.isDead()){
 			double ex = e.getx();
 			double ey = e.gety();
@@ -217,9 +209,7 @@ public class Bullet {
 				isMissileUpdated = false;
 				missileUpdateTimer = System.nanoTime();
 			}
-			//System.out.println(rofl + "is missile ready "+isMissileReady + "is missile updated "+isMissileUpdated);
 			if(isMissileReady && !isMissileUpdated){
-				//System.out.println("updating");
 				isMissileUpdated = true;
 				double xDiff = ex - x;
 				double yDiff = ey - y;

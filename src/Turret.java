@@ -101,13 +101,7 @@ public class Turret {
 	
 	public boolean update(){
 		//update Angle
-		/*if(targetAngle>angle){
-			angle += angleSpeed;
-			System.out.println("adding");
-		} else if (targetAngle<angle){
-			angle -= angleSpeed;
-			System.out.println("sub");
-		}*/
+
 		angle = targetAngle;
 		
 		if(angle>359){

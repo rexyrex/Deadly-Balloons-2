@@ -427,7 +427,6 @@ public class Player {
 			GamePanel.turrets.add(t);
 			ts[i] = t;
 			tsAvailability[i] = false;
-			//System.out.println(i+" set to " + tsAvailability[i]);
 		}	
 	}
 	
@@ -473,7 +472,6 @@ public class Player {
 	
 	public void tpToTurret(int i){ // removal of turret happens in gamePanel
 		updateTurretAvailability();
-		//System.out.println(i+" is " + tsAvailability[i]);
 		if(tsAvailability[i] == false){
 			Turret t = ts[i];
 			x = (int) t.getx();
