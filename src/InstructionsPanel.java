@@ -80,10 +80,12 @@ public class InstructionsPanel extends JPanel{
 				if(showInstructions) {
 					//InstructionsPanel.this.add(scrollPane);
 					scrollPane.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
+					InstructionsPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
 					scrollPane.setVisible(true);
 				} else {
 					//InstructionsPanel.this.remove(scrollPane);
 					scrollPane.setPreferredSize(new Dimension(10,GamePanel.HEIGHT));
+					InstructionsPanel.this.setPreferredSize(new Dimension(10,GamePanel.HEIGHT));
 					scrollPane.setVisible(false);
 					
 				}
