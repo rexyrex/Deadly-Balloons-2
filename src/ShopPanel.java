@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ public class ShopPanel extends JPanel{
 	public ShopPanel(GamePanel gPanel){
 		super();
 		gp = gPanel;
+		setBackground(Color.BLACK);
 		
 		msgTimerDiff = System.nanoTime();
 		msgDelay = 2000;
@@ -35,6 +37,8 @@ public class ShopPanel extends JPanel{
 		//panel.setPreferredSize(new Dimension ( 200,700));
 		
 		JLabel shopTitleLabel = new JLabel();
+		shopTitleLabel.setForeground(Color.white);
+		shopTitleLabel.setFont(new Font("Gulim", Font.BOLD, 20));
 		shopTitleLabel.setText("Shop");			
         add(shopTitleLabel);
         

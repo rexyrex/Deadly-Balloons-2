@@ -20,6 +20,9 @@ public class Game {
 		ShopPanel sPanel = new ShopPanel(gp);
 		window.add(sPanel, BorderLayout.EAST);
 		
+		InstructionsPanel iPanel = new InstructionsPanel();
+		window.add(iPanel, BorderLayout.WEST);
+		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel container = new JPanel();
