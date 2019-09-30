@@ -1,14 +1,15 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class ShopPanel extends JPanel{
 	/**
@@ -33,10 +34,15 @@ public class ShopPanel extends JPanel{
 		msgDelay = 2000;
 		msgStartTimer = System.nanoTime();
 		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		GridLayout gl = new GridLayout(0,1);
+		gl.setVgap(30);
+		gl.setHgap(20);
+		setLayout(gl);
+		setPreferredSize(new Dimension(300, gPanel.HEIGHT));
 		//panel.setPreferredSize(new Dimension ( 200,700));
 		
-		JLabel shopTitleLabel = new JLabel();
+		JLabel shopTitleLabel = new JLabel("tmp", SwingConstants.CENTER);
 		shopTitleLabel.setForeground(Color.white);
 		shopTitleLabel.setFont(new Font("Gulim", Font.BOLD, 20));
 		shopTitleLabel.setText("Shop");			
@@ -46,11 +52,11 @@ public class ShopPanel extends JPanel{
 		itemBaseCostMap = new HashMap();
 		itemBaseName = new HashMap();
 		
-        final JButton buyLifeBtn = new JButton("Extra Life 1 ( Cost : " + 120 + " )");        
-        final JButton buyPowerBtn = new JButton("Power Up 1 ( Cost : " + 30 + " )");
-        final JButton spazDurationBtn = new JButton("Spaz Longer 1 ( Cost : " + 60 + " )");
-        final JButton missileDurationBtn = new JButton("Missile Longer 1 ( Cost : " + 70 + " )");
-        final JButton dropRateBtn = new JButton("Drop Rate 1 ( Cost : " + 100 + " )");
+        final JButton buyLifeBtn = new JButton("<html>Extra Life 1 <br />( Cost : " + 120 + " )</html>");        
+        final JButton buyPowerBtn = new JButton("<html>Power Up 1 <br />( Cost : " + 30 + " )</html>");
+        final JButton spazDurationBtn = new JButton("<html>Spaz Longer 1 <br />( Cost : " + 60 + " )</html>");
+        final JButton missileDurationBtn = new JButton("<html>Missile Longer 1 <br />( Cost : " + 70 + " )</html>");
+        final JButton dropRateBtn = new JButton("<html>Drop Rate 1 <br />( Cost : " + 100 + " )</html>");
         
         initMaps(buyLifeBtn, "Extra Life", 120);
         initMaps(buyPowerBtn, "Power Up", 30);
@@ -130,6 +136,8 @@ public class ShopPanel extends JPanel{
 		itemBaseName.put(btn, baseName);
 		itemBaseCostMap.put(btn, cost);
 		itemPurchaseMap.put(btn,  0);
+		btn.setBackground(Color.white);
+		btn.setFont(new Font("Gulim", Font.BOLD, 15));
 		add(btn);
 	}
 	
@@ -140,7 +148,7 @@ public class ShopPanel extends JPanel{
 	}
 	
 	public void updateBtnName(JButton btn) {
-		btn.setText(itemBaseName.get(btn) + " "+ (itemPurchaseMap.get(btn)+1)+" ( Cost : " + calcCost(btn) + " )");
+		btn.setText("<html>"+itemBaseName.get(btn) + " "+ (itemPurchaseMap.get(btn)+1)+"<br />( Cost : " + calcCost(btn) + " )</html>");
 	}
 	
 	public int calcCost(JButton btnType) {
