@@ -1,0 +1,277 @@
+	{
+	"levelName" : "양세훈",
+	"levelNumber" : 2,
+	"waves" : [
+		{  
+	        "waveTitle":"손 풀 기 1",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 5
+				},
+								{
+					"type": 2,
+					"rank": 4,
+					"count": 6
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"손 풀 기 2",
+	        "waveEnemies":[  
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 6
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"손 풀 기 3",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"이 건 머 징 ?",
+	        "waveEnemies":[  
+				{
+					"type": 6,
+					"rank": 3,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"다 합 쳐",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 2
+				},
+								{
+					"type": 2,
+					"rank": 4,
+					"count": 2
+				},
+								{
+					"type": 3,
+					"rank": 4,
+					"count": 2
+				},
+								{
+					"type": 6,
+					"rank": 3,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"보안 박사를 뽑아야돼",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 4
+				},
+				{
+					"type": 6,
+					"rank": 4,
+					"count": 3
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"양 세 훈",
+	        "waveEnemies":[  
+				{
+					"type": 100,
+					"rank": 1,
+					"count": 1
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"점심때 머먹지?",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 3
+				},
+				{
+					"type": 4,
+					"rank": 4,
+					"count": 3
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"엥?",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 4
+				},
+				{
+					"type": 5,
+					"rank": 3,
+					"count": 3
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"커 진 다",
+	        "waveEnemies":[  
+				{
+					"type": 7,
+					"rank": 5,
+					"count": 6
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"파 티",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 4,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 7,
+					"rank": 4,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"쉽 다",
+	        "waveEnemies":[  
+				{
+					"type": 6,
+					"rank": 4,
+					"count": 4
+				},
+				{
+					"type": 7,
+					"rank": 4,
+					"count": 4
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"정 신 없 어",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 3
+				},
+				{
+					"type": 5,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 7,
+					"rank": 4,
+					"count": 3
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"거 의 끝",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 5,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 6,
+					"rank": 4,
+					"count": 3
+				},
+				{
+					"type": 7,
+					"rank": 4,
+					"count": 2
+				}
+				
+	        ]
+	    },
+	    {  
+	        "waveTitle":"깰 수 있 나 ?",
+	        "waveEnemies":[  
+				{
+					"type": 5,
+					"rank": 4,
+					"count": 5
+				},
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 3
+				},
+				{
+					"type": 6,
+					"rank": 4,
+					"count": 3
+				},
+				{
+					"type": 7,
+					"rank": 4,
+					"count": 3
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"폭 풍 전 야",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 10
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"42",
+	        "waveEnemies":[  
+				{
+					"type": 101,
+					"rank": 1,
+					"count": 1
+				}
+	        ]
+	    }
+	]	
+	}    

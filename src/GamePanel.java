@@ -1,5 +1,4 @@
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,14 +8,24 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import Audio.AudioPlayer;
 
@@ -35,16 +44,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private Thread thread;
 	private boolean running;
 	
-	private String[] lvlNames = {"손 풀 기", 
-			"손 풀 기 2", "손 풀 기 3", 
-			"이 건 머 징 ?", "다 합 쳐", 
-			"양 세 훈", "보안 박사를 뽑아야돼",
-			"점심때 머먹지?","엥?",
-			"커 진 다","띠 용",
-			"쉽 다","좀 많 네",
-			"거 의 끝","어 려 운 건 끝",
-			"폭 풍 전 야",
-			"42","ㅅㄱㄹ"};
+	private ArrayList<String> waveNames;
+	private ArrayList<HashMap<Enemy, Integer>> waveData;
 	
 	private BufferedImage image;
 	public Graphics2D g;
@@ -81,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private BufferedImage img;
 	
 	public GamePanel(){
-		super();
+		super();		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();	
@@ -126,6 +127,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		bombs = new ArrayList<Bomb>();
 		walls = new ArrayList<Wall>();
 		linewalls = new ArrayList<LineWall>();
+		waveNames= new ArrayList<String>();
+		waveData = new ArrayList<HashMap<Enemy, Integer>>();
+		
 		
 		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
 		//bgmusic.play();
@@ -156,6 +160,52 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		long targetTime = 1000/FPS;
 		
 		long gameStartTime = System.nanoTime();
+		
+		JSONObject waveDataJSONArr = null;
+		//load JSON Data
+		JSONParser parser = new JSONParser();
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
+			waveDataJSONArr = (JSONObject) parser.parse(br);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		JSONObject waveDataObj = (JSONObject) waveDataJSONArr;
+		JSONArray levelData = (JSONArray) waveDataJSONArr.get("waves");
+		
+		for(Object waveObj : levelData) {
+			//JsonObject Cast
+			JSONObject waveJsonObj = (JSONObject) waveObj;
+			
+			//load titles			
+			String waveName = (String) waveJsonObj.get("waveTitle");
+			waveNames.add( waveName );
+			
+			//load enemy info
+			HashMap<Enemy, Integer> enemyToAdd = new HashMap<Enemy, Integer>();
+			JSONArray enemyDataJsonArr = (JSONArray) waveJsonObj.get("waveEnemies");
+			for(Object enemyInfoObj : enemyDataJsonArr) {
+				//JsonObject Cast
+				JSONObject enemyInfoJsonObj = (JSONObject) enemyInfoObj;
+				
+				
+				
+				int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
+				int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
+				int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
+				Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
+				enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
+			}
+			waveData.add(enemyToAdd);
+		}
 
 		
 		//Game Loop
@@ -307,7 +357,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw wave number
 		if(waveStartTimer != 0){
 			g.setFont(new Font("Gulim", Font.PLAIN,40));
-			String s = " W A V E  " + waveNumber + "  :   " + lvlNames[waveNumber-1];
+			String s = " W A V E  " + waveNumber + "  :   " + waveNames.get(waveNumber-1);
 			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 			int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));
 			if(alpha>255) alpha = 255;
@@ -1080,123 +1130,34 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private void createNewEnemies(){
 		enemies.clear();
 
+		HashMap<Enemy, Integer> currWaveData = waveData.get(waveNumber-1);
+		Iterator it = currWaveData.entrySet().iterator();
 		
-		if(waveNumber == 1){
-			for(int i=0; i<5; i++){
-				enemies.add(new Enemy(1,4, 1));
-			}
-		}
+		ArrayList<Integer> enemyCounts = new ArrayList<Integer>();
+		ArrayList<Enemy> tmpEnemies = new ArrayList<Enemy>();
 		
-		if(waveNumber == 2){
-			for(int i=0; i<6; i++){				
-				enemies.add(new Enemy(2,4, 1));
-			}
-		}
+	    while (it.hasNext()) {
+	    	
+	        Map.Entry pair = (Map.Entry)it.next();
+	        System.out.println(pair.getValue());
+	        int tmpAmount = (int) pair.getValue();
+//	        for(int i=0; i<tmpAmount; i++) {
+//	        	System.out.println("creating...");
+//	        	enemies.add( (Enemy) pair.getKey());
+//	        }
+	        
+	        enemyCounts.add((int) pair.getValue());
+	        tmpEnemies.add((Enemy) pair.getKey());
+	        
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
+	    
+	    for(int i=0; i<enemyCounts.size(); i++) {
+	    	for(int j=0; j< enemyCounts.get(i); j++) {
+	    		enemies.add(tmpEnemies.get(i));
+	    	}
+	    }
 		
-		if(waveNumber == 3){			
-			for(int i=0; i<2; i++){
-				enemies.add(new Enemy(3,4,1));
-			}
-		}
-		
-		if(waveNumber == 4){
-			for(int i=0; i<5; i++){
-				enemies.add(new Enemy(6,3,1));
-			}
-		}
-		
-		if(waveNumber == 5){
-			for(int i=0; i<2; i++){
-				enemies.add(new Enemy(1,4,1));	
-				enemies.add(new Enemy(2,4,1));	
-				enemies.add(new Enemy(3,4,1));	
-				enemies.add(new Enemy(6,3,1));	
-			}
-		}
-		
-		if(waveNumber == 6){
-			enemies.add(new Enemy(100,1,1));
-		}
-		
-		if(waveNumber == 7){
-			for(int i=0; i<3; i++){
-				enemies.add(new Enemy(1,4,1));
-				enemies.add(new Enemy(6,4,1));
-			}
-		}
-		
-		if(waveNumber == 8){
-			for(int i=0; i<3; i++){
-				enemies.add(new Enemy(3,4,1));	
-				enemies.add(new Enemy(4,4,1));				
-			}
-		}
-		
-		if(waveNumber == 9){
-			for(int i=0; i<3; i++){
-				enemies.add(new Enemy(1,4,1));
-				enemies.add(new Enemy(5,3,1));
-			}
-		}
-		
-		if(waveNumber == 10){
-			for(int j=0; j<6; j++) {
-				enemies.add(new Enemy(7,4,1));
-			}
-		}
-		
-		if(waveNumber == 11){			
-			enemies.add(new Enemy(1,4,1));
-			enemies.add(new Enemy(2,4,1));
-			enemies.add(new Enemy(3,4,1));
-			enemies.add(new Enemy(4,4,1));
-			enemies.add(new Enemy(7,4,1));
-		}
-		
-		if(waveNumber == 12){
-			for(int j=0; j<3; j++) {
-				enemies.add(new Enemy(6,4,1));
-				enemies.add(new Enemy(7,4,1));
-			}
-		}
-		
-		if(waveNumber == 13){
-			for(int j=0; j<2; j++) {
-				enemies.add(new Enemy(3,4,1));
-				enemies.add(new Enemy(5,4,1));
-				enemies.add(new Enemy(7,4,1));
-			}
-		}
-		
-		if(waveNumber == 14){
-			for(int j=0; j<2; j++) {
-				enemies.add(new Enemy(5,4,1));
-				enemies.add(new Enemy(3,4,1));
-				enemies.add(new Enemy(7,4,1));
-			}
-		}
-		
-		if(waveNumber == 15){
-			enemies.add(new Enemy(6,4,1));
-			enemies.add(new Enemy(1,4,1));
-			enemies.add(new Enemy(2,4,1));
-			enemies.add(new Enemy(3,4,1));
-			enemies.add(new Enemy(4,4,1));
-			enemies.add(new Enemy(7,4,1));
-		}
-		
-		if(waveNumber == 16){			
-			for(int i=0; i<10; i++)
-				enemies.add(new Enemy(1,4,1));
-		}
-		
-		if(waveNumber == 17){			
-			enemies.add(new Enemy(101,1,1));
-		}
-		
-		if(waveNumber == 18){
-			running=false;
-		}
 	}
 
 	@Override
