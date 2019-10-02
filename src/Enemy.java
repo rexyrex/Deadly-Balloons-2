@@ -45,8 +45,8 @@ public class Enemy {
 	private double dxa = 0;
 	private double dya = 0;
 	
-	private String[] fnames = { "양"};
-	private String[] lnames = { "세훈"};
+	private String[] fnames = { "양","장","임","김","안"};
+	private String[] lnames = { "세훈","주환","희주","석주","민형","광천","성호","상준"};
 	
 	private String name;
 
@@ -205,19 +205,19 @@ public class Enemy {
 				speed = 3.47;
 				r=30;
 				health = 7;
-				money = 3;
+				money = 4;
 			}
 			if(rank == 3){
 				speed = 2.97;
 				r=70;
 				health = 17;
-				money = 4;
+				money = 5;
 			}
 			if(rank == 4){
 				speed = 2.77;
 				r=100;
 				health = 27;
-				money = 5;
+				money = 7;
 			}
 		}
 		if(type ==5){
@@ -228,25 +228,25 @@ public class Enemy {
 				speed = 4.7;
 				r=20;
 				health = 7;
-				money = 2;
+				money = 3;
 			}
 			if(rank == 2){
 				speed = 3.9;
 				r=37;
 				health = 12;
-				money = 3;
+				money = 4;
 			}
 			if(rank == 3){
 				speed = 3.4;
 				r=82;
 				health = 20;
-				money = 4;
+				money = 6;
 			}
 			if(rank == 4){
 				speed = 2.9;
 				r=107;
 				health = 75;
-				money = 5;
+				money = 7;
 			}
 		}
 		
@@ -260,7 +260,7 @@ public class Enemy {
 				r = 30;
 				health = 20;
 				maxHealth = 20;
-				money = 3;
+				money = 5;
 			}
 			
 			if(rank == 2){
@@ -268,14 +268,14 @@ public class Enemy {
 				r = 40;
 				health = 30;
 				maxHealth = 30;
-				money = 4;
+				money = 7;
 			}
 			if(rank == 3){
 				speed = 17;
 				r = 50;
 				health = 40;
 				maxHealth = 40;
-				money = 5;
+				money = 10;
 			}
 			
 			if(rank == 4){
@@ -283,7 +283,7 @@ public class Enemy {
 				r = 60;
 				health = 50;
 				maxHealth = 50;
-				money = 7;
+				money = 12;
 			}	
 		}
 		
@@ -297,7 +297,7 @@ public class Enemy {
 				r = 10;
 				health = 30;
 				maxHealth = 30;
-				money = 2;
+				money = 4;
 			}
 			
 			if(rank == 2){
@@ -305,14 +305,14 @@ public class Enemy {
 				r = 20;
 				health = 50;
 				maxHealth = 50;
-				money = 4;
+				money = 6;
 			}
 			if(rank == 3){
 				speed = 4;
 				r = 30;
 				health = 70;
 				maxHealth = 70;
-				money = 5;
+				money = 8;
 			}
 			
 			if(rank == 4){
@@ -320,7 +320,7 @@ public class Enemy {
 				r = 40;
 				health = 90;
 				maxHealth = 90;
-				money = 6;
+				money = 9;
 			}	
 		}
 		
@@ -336,7 +336,7 @@ public class Enemy {
 				r = 90;
 				health = 850;
 				maxHealth = 850;
-				money = 250;
+				money = 500;
 			}			
 		}
 		
@@ -355,7 +355,7 @@ public class Enemy {
 				r = 50;
 				health = 2000;
 				maxHealth = 2000;
-				money = 1000;
+				money = 5000;
 			}
 		}
 		
