@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +26,6 @@ import javax.swing.JPanel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import Audio.AudioPlayer;
 
@@ -173,9 +173,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} catch (ParseException e1) {
+		} catch (org.json.simple.parser.ParseException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		JSONObject waveDataObj = (JSONObject) waveDataJSONArr;
@@ -201,6 +201,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
 				int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
 				int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
+				System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
 				Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
 				enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
 			}
@@ -1133,31 +1134,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		HashMap<Enemy, Integer> currWaveData = waveData.get(waveNumber-1);
 		Iterator it = currWaveData.entrySet().iterator();
 		
-		ArrayList<Integer> enemyCounts = new ArrayList<Integer>();
-		ArrayList<Enemy> tmpEnemies = new ArrayList<Enemy>();
-		
 	    while (it.hasNext()) {
-	    	
 	        Map.Entry pair = (Map.Entry)it.next();
-	        System.out.println(pair.getValue());
 	        int tmpAmount = (int) pair.getValue();
-//	        for(int i=0; i<tmpAmount; i++) {
-//	        	System.out.println("creating...");
-//	        	enemies.add( (Enemy) pair.getKey());
-//	        }
-	        
-	        enemyCounts.add((int) pair.getValue());
-	        tmpEnemies.add((Enemy) pair.getKey());
-	        
+	        for(int i=0; i<tmpAmount; i++) {
+	        	Enemy tmpEnemy = (Enemy) pair.getKey();
+	        	//Cannot instantiate tmpEnemy multiple times as it creates same enemy multiple times
+	        	enemies.add( new Enemy(tmpEnemy.getType(), tmpEnemy.getRank(), 1));
+	        }
 	        it.remove(); // avoids a ConcurrentModificationException
-	    }
-	    
-	    for(int i=0; i<enemyCounts.size(); i++) {
-	    	for(int j=0; j< enemyCounts.get(i); j++) {
-	    		enemies.add(tmpEnemies.get(i));
-	    	}
-	    }
-		
+	    }		
 	}
 
 	@Override
