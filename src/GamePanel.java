@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private Thread thread;
 	private boolean running;
+	private boolean paused;
 	
 	private ArrayList<String> waveNames;
 	private ArrayList<HashMap<Enemy, Integer>> waveData;
@@ -103,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void run() {  
 		
 		running = true;
+		paused = false;
 		
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
@@ -212,6 +214,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//Game Loop
 		while(running){
 			requestFocus();
+			
+			while(!paused) {
 			startTime = System.nanoTime();
 			
 			gameUpdate();
@@ -240,6 +244,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				totalTime = 0;
 			}
 			
+		}
 		}
 		
 		g.setColor(new Color(0,100,255));
@@ -930,6 +935,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(player.isDead()){
 			sfx.get("player die").play();
 			running = false;
+			paused = true;
 		}
 		
 		//check player enemy collision
@@ -1260,6 +1266,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_I){			
 				player.toggleInvincible();			
 		}
+		
+		if(keyCode == KeyEvent.VK_SPACE){			
+			paused = !paused;		
+	}
 		
 	}
 
