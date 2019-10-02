@@ -2,6 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -10,17 +11,17 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.json.simple.JSONArray;
@@ -34,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	/**
 	 * 
 	 */
+	private JFrame jframe;
+	
 	private static final long serialVersionUID = 1L;
 	public static int WIDTH = 700;
 	public static int HEIGHT = 700;
@@ -82,8 +85,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private BufferedImage img;
 	
-	public GamePanel(){
+	public GamePanel(JFrame jframe){
 		super();		
+		this.jframe = jframe;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();	
@@ -112,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
         try {
-            img = ImageIO.read(new File("Resources/img/backImg6.png"));
+            img = ImageIO.read(getClass().getResource("img/backImg6.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -167,7 +171,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//load JSON Data
 		JSONParser parser = new JSONParser();
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
+			InputStream iStream = getClass().getResourceAsStream("/LevelData/Level2.json");
+			//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8"));
 			waveDataJSONArr = (JSONObject) parser.parse(br);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -213,9 +219,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//Game Loop
 		while(running){
+			System.out.println("running");
 			requestFocus();
-			
 			while(!paused) {
+				requestFocus();
 			startTime = System.nanoTime();
 			
 			gameUpdate();
@@ -1269,6 +1276,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		if(keyCode == KeyEvent.VK_SPACE){			
 			paused = !paused;		
+			if(paused) {
+				jframe.setState(Frame.ICONIFIED);
+			}
+			
 	}
 		
 	}

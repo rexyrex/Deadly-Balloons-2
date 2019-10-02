@@ -498,11 +498,11 @@ public class Player {
 	}
 	
 	public void upgradeMissileDuration() {
-		firingSideLength += 100;
+		firingSideLength += 300;
 	}
 	
 	public void upgradeSpazDuration() {
-		spazLength += 100;
+		spazLength += 300;
 	}
 	
 	public void update(){

@@ -303,23 +303,23 @@ public class Enemy {
 			if(rank == 2){
 				speed = 5;
 				r = 20;
-				health = 50;
-				maxHealth = 50;
+				health = 43;
+				maxHealth = 43;
 				money = 6;
 			}
 			if(rank == 3){
 				speed = 4;
 				r = 30;
-				health = 70;
-				maxHealth = 70;
+				health = 60;
+				maxHealth = 60;
 				money = 8;
 			}
 			
 			if(rank == 4){
 				speed = 3;
 				r = 40;
-				health = 90;
-				maxHealth = 90;
+				health = 80;
+				maxHealth = 80;
 				money = 9;
 			}	
 		}

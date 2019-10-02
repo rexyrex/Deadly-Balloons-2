@@ -14,7 +14,7 @@ public class Game {
 		final JFrame window = new JFrame("Shooter Game");
 		window.setLayout(new BorderLayout());
 		
-		GamePanel gp = new GamePanel();
+		GamePanel gp = new GamePanel(window);
 		window.add(gp, BorderLayout.CENTER);
 		
 		ShopPanel sPanel = new ShopPanel(gp);
