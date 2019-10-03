@@ -9,6 +9,8 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 public class ShopPanel extends JPanel{
@@ -36,8 +38,8 @@ public class ShopPanel extends JPanel{
 		
 		//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		GridLayout gl = new GridLayout(0,1);
-		gl.setVgap(30);
-		gl.setHgap(20);
+		gl.setVgap(5);
+		gl.setHgap(5);
 		setLayout(gl);
 		setPreferredSize(new Dimension(300, gPanel.HEIGHT));
 		//panel.setPreferredSize(new Dimension ( 200,700));
@@ -63,6 +65,10 @@ public class ShopPanel extends JPanel{
         initMaps(spazDurationBtn, "Spaz Longer", 60);
         initMaps(missileDurationBtn, "Missile Longer", 70);
         initMaps(dropRateBtn, "Drop Rate", 100);
+        
+        
+        
+        
         
         dropRateBtn.addActionListener(new ActionListener() {
 			@Override
@@ -137,6 +143,7 @@ public class ShopPanel extends JPanel{
 		itemBaseCostMap.put(btn, cost);
 		itemPurchaseMap.put(btn,  0);
 		btn.setBackground(Color.white);
+		//btn.setPreferredSize(new Dimension(10,10));
 		btn.setFont(new Font("Gulim", Font.BOLD, 15));
 		add(btn);
 	}

@@ -116,7 +116,53 @@ public class Player {
 	
 	private double dropRateBonus;
 	
+	//Damage
+	private double bulletDmg;
+	private double sideMissileDmg;
+	private double turretDmg;
+	private double bombDmg;
+	private double addonDmg;
 	
+	public double getAddonDmg() {
+		return addonDmg;
+	}
+
+	public void setAddonDmg(double addonDmg) {
+		this.addonDmg = addonDmg;
+	}
+
+	public double getSideMissileDmg() {
+		return sideMissileDmg;
+	}
+
+	public void setSideMissileDmg(double sideMissileDmg) {
+		this.sideMissileDmg = sideMissileDmg;
+	}
+
+	public double getTurretDmg() {
+		return turretDmg;
+	}
+
+	public void setTurretDmg(double turretDmg) {
+		this.turretDmg = turretDmg;
+	}
+	
+	public double getBombDmg() {
+		return bombDmg;
+	}
+
+	public void setBombDmg(double bombDmg) {
+		this.bombDmg = bombDmg;
+	}
+
+	public double getbulletDmg() {
+		return bulletDmg;
+	}
+
+	public void setbulletDmg(double bulletDmg) {
+		this.bulletDmg = bulletDmg;
+	}
+
 	//Constructor
 	public Player(){
 		x = GamePanel.WIDTH/2;
@@ -124,6 +170,11 @@ public class Player {
 		r = 9;
 		
 		dropRateBonus = 0.0;
+		bulletDmg = 1.0;
+		bombDmg = 1.0;
+		sideMissileDmg = 1.0;
+		turretDmg = 1.0;
+		addonDmg = 1.0;
 		
 		dx = 0;
 		dy= 0;
@@ -576,19 +627,19 @@ public class Player {
 				int cR = (int) (rn.nextDouble()*100);
 				int cG = (int) (rn.nextDouble()*100);
 				int cB = (int) (rn.nextDouble()*255);
-				GamePanel.bullets.add(new Bullet("left",x-r/2,y+r/2,5,Color.cyan));
+				GamePanel.bullets.add(new Bullet("left",x-r/2,y+r/2,5,Color.cyan, sideMissileDmg));
 				cR = (int) (rn.nextDouble()*100);
 				cG = (int) (rn.nextDouble()*255);
 				cB = (int) (rn.nextDouble()*255);
-				GamePanel.bullets.add(new Bullet("right",x+2*r,y+r/2,5,new Color(cR,cR,cR,255)));
+				GamePanel.bullets.add(new Bullet("right",x+2*r,y+r/2,5,new Color(cR,cR,cR,255), sideMissileDmg));
 				cR = (int) (rn.nextDouble()*255);
 				cG = (int) (rn.nextDouble()*100);
 				cB = (int) (rn.nextDouble()*100);
-				GamePanel.bullets.add(new Bullet("topLeft",x-r/2,y+r/2,5,new Color(cR,cR,cR,255)));
+				GamePanel.bullets.add(new Bullet("topLeft",x-r/2,y+r/2,5,new Color(cR,cR,cR,255), sideMissileDmg));
 				cR = (int) (rn.nextDouble()*255);
 				cG = (int) (rn.nextDouble()*100);
 				cB = (int) (rn.nextDouble()*100);
-				GamePanel.bullets.add(new Bullet("topRight",x+2*r,y+r/2,5,new Color(cR,cR,cR,255)));
+				GamePanel.bullets.add(new Bullet("topRight",x+2*r,y+r/2,5,new Color(cR,cR,cR,255), sideMissileDmg));
 			}
 			
 		}
@@ -615,65 +666,65 @@ public class Player {
 					
 					
 					
-					GamePanel.bullets.add(new Bullet(270, x,y));
+					GamePanel.bullets.add(new Bullet(270, x,y, bulletDmg));
 				}
 				else if(powerLevel < 4){
-					GamePanel.bullets.add(new Bullet(270, x+5,y));
-					GamePanel.bullets.add(new Bullet(270, x-5,y));
+					GamePanel.bullets.add(new Bullet(270, x+5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x-5,y, bulletDmg));
 					
 				} else if(powerLevel < 6) {
-					GamePanel.bullets.add(new Bullet(270, x+0,y));
-					GamePanel.bullets.add(new Bullet(265, x-5,y));
-					GamePanel.bullets.add(new Bullet(275, x+5,y));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
 					
 				} else if(powerLevel < 8) {
-					GamePanel.bullets.add(new Bullet(270, x+0,y));
-					GamePanel.bullets.add(new Bullet(265, x-5,y));
-					GamePanel.bullets.add(new Bullet(275, x+5,y));
-					GamePanel.bullets.add(new Bullet(257, x-8,y));
-					GamePanel.bullets.add(new Bullet(283, x+8,y));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
 					
 				} else if(powerLevel < 10){
-					GamePanel.bullets.add(new Bullet(270, x+0,y));
-					GamePanel.bullets.add(new Bullet(265, x-5,y));
-					GamePanel.bullets.add(new Bullet(275, x+5,y));
-					GamePanel.bullets.add(new Bullet(257, x-8,y));
-					GamePanel.bullets.add(new Bullet(283, x+8,y));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
 					//
-					GamePanel.bullets.add(new Bullet(200, x-10, y));
-					GamePanel.bullets.add(new Bullet(340, x+10, y));
-					GamePanel.bullets.add(new Bullet(90, x, y));
+					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
 					
 				} else if(powerLevel < 12){
-					GamePanel.bullets.add(new Bullet(270, x+0,y));
-					GamePanel.bullets.add(new Bullet(265, x-5,y));
-					GamePanel.bullets.add(new Bullet(275, x+5,y));
-					GamePanel.bullets.add(new Bullet(257, x-8,y));
-					GamePanel.bullets.add(new Bullet(283, x+8,y));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
 					
-					GamePanel.bullets.add(new Bullet(200, x-10, y));
-					GamePanel.bullets.add(new Bullet(340, x+10, y));
+					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
 					
-					GamePanel.bullets.add(new Bullet(90, x, y));
-					GamePanel.bullets.add(new Bullet(80, x+7, y));
-					GamePanel.bullets.add(new Bullet(100, x-7, y));
+					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(80, x+7, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(100, x-7, y, bulletDmg));
 					
 				} else {
-					GamePanel.bullets.add(new Bullet(270, x+0,y));
-					GamePanel.bullets.add(new Bullet(265, x-5,y));
-					GamePanel.bullets.add(new Bullet(275, x+5,y));
-					GamePanel.bullets.add(new Bullet(257, x-8,y));
-					GamePanel.bullets.add(new Bullet(283, x+8,y));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
 					
-					GamePanel.bullets.add(new Bullet(200, x-10, y));
-					GamePanel.bullets.add(new Bullet(340, x+10, y));
+					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
 					
-					GamePanel.bullets.add(new Bullet(160, x-10, y));
-					GamePanel.bullets.add(new Bullet(20, x+10, y));
+					GamePanel.bullets.add(new Bullet(160, x-10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(20, x+10, y, bulletDmg));
 					
-					GamePanel.bullets.add(new Bullet(90, x, y));
-					GamePanel.bullets.add(new Bullet(80, x+7, y));
-					GamePanel.bullets.add(new Bullet(100, x-7, y));
+					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(80, x+7, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(100, x-7, y, bulletDmg));
 					
 				}
 			}
@@ -694,21 +745,21 @@ public class Player {
 			if(elapsed>addOnShootDelay){
 				addOnShootTimer = System.nanoTime();
 				
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radA)),(int)(y-r/2+5*r*Math.sin(radA)),4,c1));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radA)),(int)(y-r/2+5*r*Math.sin(radA)),4,c1, addonDmg));
 				if(addOn>1)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radB)),(int)(y-r/2+5*r*Math.sin(radB)),4,c2));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radB)),(int)(y-r/2+5*r*Math.sin(radB)),4,c2, addonDmg));
 				if(addOn>2)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radC)),(int)(y-r/2+5*r*Math.sin(radC)),4,c3));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radC)),(int)(y-r/2+5*r*Math.sin(radC)),4,c3, addonDmg));
 				if(addOn>3)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radD)),(int)(y-r/2+5*r*Math.sin(radD)),4,c4));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+5*r*Math.cos(radD)),(int)(y-r/2+5*r*Math.sin(radD)),4,c4, addonDmg));
 				if(addOn>4)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radA)),(int)(y-r/2+10*r*Math.sin(radA)),6,c1));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radA)),(int)(y-r/2+10*r*Math.sin(radA)),6,c1, addonDmg));
 				if(addOn>5)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radB)),(int)(y-r/2+10*r*Math.sin(radB)),6,c2));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radB)),(int)(y-r/2+10*r*Math.sin(radB)),6,c2, addonDmg));
 				if(addOn>6)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radC)),(int)(y-r/2+10*r*Math.sin(radC)),6,c3));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radC)),(int)(y-r/2+10*r*Math.sin(radC)),6,c3, addonDmg));
 				if(addOn>7)
-					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radD)),(int)(y-r/2+10*r*Math.sin(radD)),6,c4));
+					GamePanel.bullets.add(new Bullet(addOnShootAngle, (int)(x-r/2+10*r*Math.cos(radD)),(int)(y-r/2+10*r*Math.sin(radD)),6,c4, addonDmg));
 				
 				
 				
@@ -761,10 +812,10 @@ public class Player {
 						if(fixedSpazAngle>360){
 							fixedSpazAngle = 1;
 						}
-						GamePanel.bullets.add(new Bullet(fixedSpazAngle, x, y));
-						GamePanel.bullets.add(new Bullet(secondAngle, x, y));
-						GamePanel.bullets.add(new Bullet(thirdAngle, x, y));
-						GamePanel.bullets.add(new Bullet(fourthAngle, x, y));
+						GamePanel.bullets.add(new Bullet(fixedSpazAngle, x, y, bulletDmg));
+						GamePanel.bullets.add(new Bullet(secondAngle, x, y, bulletDmg));
+						GamePanel.bullets.add(new Bullet(thirdAngle, x, y, bulletDmg));
+						GamePanel.bullets.add(new Bullet(fourthAngle, x, y, bulletDmg));
 					}
 				
 				//}

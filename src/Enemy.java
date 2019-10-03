@@ -17,8 +17,8 @@ public class Enemy {
 	private double rad;
 	private double speed;
 	
-	private int maxHealth;
-	private int health;
+	private double maxHealth;
+	private double health;
 	private int type;
 	private int rank;
 	
@@ -288,38 +288,38 @@ public class Enemy {
 		}
 		
 		if(type ==7){
-			skillSet.put("growing skill", 2.2);
+			skillSet.put("growing skill", 2.47);
 			color1 = new Color(102,222,255,128);
 			skillSet.put("health bar skill", 1.0);
 			//name = "haha";
 			if(rank == 1){
 				speed = 6;
 				r = 10;
-				health = 30;
-				maxHealth = 30;
+				health = 25;
+				maxHealth = 25;
 				money = 4;
 			}
 			
 			if(rank == 2){
 				speed = 5;
 				r = 20;
-				health = 43;
-				maxHealth = 43;
+				health = 40;
+				maxHealth = 40;
 				money = 6;
 			}
 			if(rank == 3){
 				speed = 4;
 				r = 30;
-				health = 60;
-				maxHealth = 60;
+				health = 55;
+				maxHealth = 55;
 				money = 8;
 			}
 			
 			if(rank == 4){
 				speed = 3;
 				r = 40;
-				health = 80;
-				maxHealth = 80;
+				health = 70;
+				maxHealth = 70;
 				money = 9;
 			}	
 		}
@@ -720,9 +720,9 @@ public class Enemy {
 			dy = Math.sin(rad) * speed;
 	}
 	
-	public void hit(){
+	public void hit(double dmg){
 		if(!regenMode){
-			health--;
+			health-= dmg;
 			if(health <= 0){
 				dead = true;
 			}
@@ -914,7 +914,7 @@ public class Enemy {
 			long elapsed = (System.nanoTime()-gettingBombedTimer)/1000000;
 			if(elapsed>gettingBombedInterval){
 				gettingBombedTimer = System.nanoTime();
-				hit();
+				hit(GamePanel.player.getBombDmg());
 			}
 		}
 		

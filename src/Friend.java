@@ -126,7 +126,7 @@ public class Friend {
 		long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 		if(elapsed > fireDelay){
 			firingTimer = System.nanoTime();
-			GamePanel.bullets.add(new Bullet(270, (int)x,(int)y));
+			GamePanel.bullets.add(new Bullet(270, (int)x,(int)y, GamePanel.player.getbulletDmg()));
 		}
 		//check age
 		if((System.nanoTime() - birthDate)/1000000 > lifeSpan) {

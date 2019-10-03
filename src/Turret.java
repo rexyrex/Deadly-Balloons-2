@@ -122,7 +122,7 @@ public class Turret {
 		long elapsed = (System.nanoTime() - bulletTimer)/1000000;
 		if(elapsed > bulletDelay){
 			bulletTimer = System.nanoTime();
-			GamePanel.bullets.add(new Bullet(angle,(int)x,(int)y,color1));
+			GamePanel.bullets.add(new Bullet(angle,(int)x,(int)y,color1, GamePanel.player.getTurretDmg()));
 		}
 		
 		//check lifespan

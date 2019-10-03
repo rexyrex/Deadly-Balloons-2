@@ -797,7 +797,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				
 				if(dist < br + er){
 					sfx.get("hit").play();
-					e.hit();
+					e.hit(b.getDmg());
 					bullets.remove(i);
 					i--;
 					break;
@@ -1195,6 +1195,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_1){
 			if(player.useStamina(50)){
 				player.tpToTurret(0);
+				player.startPushing();
 				removeTurret(0);
 			}
 		}
@@ -1207,24 +1208,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_2){
 			if(player.useStamina(50)){
 				player.tpToTurret(1);
+				player.startPushing();
 				removeTurret(1);
 			}
 		}
 		if(keyCode == KeyEvent.VK_3){
 			if(player.useStamina(50)){
 				player.tpToTurret(2);
+				player.startPushing();
 				removeTurret(2);
 			}
 		}
 		if(keyCode == KeyEvent.VK_4){
 			if(player.useStamina(50)){
 				player.tpToTurret(3);
+				player.startPushing();
 				removeTurret(3);
 			}
 		}
 		if(keyCode == KeyEvent.VK_5){
 			if(player.useStamina(50)){
 				player.tpToTurret(4);
+				player.startPushing();
 				removeTurret(4);
 			}
 		}

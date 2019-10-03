@@ -73,6 +73,37 @@ public class InstructionsPanel extends JPanel{
         add(instructionToggleBtn);
         add(scrollPane);
         
+        
+		String statsTitle = 
+				"<html>" +
+				"<b>Stats</b>" + "<br/>" +
+				"</html>";
+		
+		JLabel statsTitleLabel = new JLabel("tmp", SwingConstants.CENTER);
+		statsTitleLabel.setForeground(Color.white);
+		statsTitleLabel.setText(statsTitle);			
+        add(statsTitleLabel);
+        
+        String headers2[] = {"Key", "Value"};
+        String contents2[][] = {
+        		{"Bullet Dmg", "0"},
+
+        };
+        
+        
+        JTable table2 = new JTable(contents2, headers2);        
+        table2.setBackground(Color.black);        
+        Font f2 = new Font("Gulim", Font.BOLD, 15);
+        table2.setFont(f2);
+        table2.setForeground(Color.white);
+        table2.getTableHeader().setOpaque(false);
+        table2.getTableHeader().setBackground(Color.pink);
+        table2.getTableHeader().setForeground(Color.black);
+        final JScrollPane scrollPane2 = new JScrollPane(table2);
+        scrollPane2.getViewport().setBackground(Color.black);
+        add(scrollPane2);
+        
+        
         instructionToggleBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

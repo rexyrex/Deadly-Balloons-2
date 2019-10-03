@@ -43,8 +43,18 @@ public class Bullet {
 	
 	private Color color1;
 	
+	private double dmg;
+	
+	public double getDmg() {
+		return dmg;
+	}
+
+	public void setDmg(double dmg) {
+		this.dmg = dmg;
+	}
+
 	//normal
-	public Bullet(double angle, int x, int y){
+	public Bullet(double angle, int x, int y, double dmg){
 		this.x = x;
 		this.y = y;
 		r = 2;
@@ -60,10 +70,11 @@ public class Bullet {
 		isAddOn = false;
 				
 		color1 = Color.YELLOW;
+		this.dmg = dmg;
 	}
 	
 	//addon
-	public Bullet(double angle, int x, int y, int r, Color c){
+	public Bullet(double angle, int x, int y, int r, Color c, double dmg){
 		this.x = x;
 		this.y = y;
 		this.r = r;
@@ -80,10 +91,11 @@ public class Bullet {
 		dxa = 0;
 		
 		color1 = c;
+		this.dmg = dmg;
 	}
 	
 	//TURRET BULLETS
-		public Bullet(double angle, int x, int y, Color c){
+		public Bullet(double angle, int x, int y, Color c, double dmg){
 			this.x = x;
 			this.y = y;
 			this.r = 3;
@@ -101,14 +113,17 @@ public class Bullet {
 			dxa = 0;
 			
 			color1 = c;
+			this.dmg = dmg;
 		}
 	
 	//side missile
-	public Bullet(String type, int x, int y, int r, Color c){
+	public Bullet(String type, int x, int y, int r, Color c, double dmg){
 		this.x = x;
 		this.y = y;
 		this.r = r;
 		//count++;
+		
+		this.dmg = dmg;
 
 		isSideMissile = true;
 		isAddOn = false;
