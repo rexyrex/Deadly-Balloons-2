@@ -44,7 +44,7 @@ public class InfoPanel extends JPanel{
 		statsContents[6][0] = "Spaz Duration";
 		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration());
 		statsContents[7][0] = "Missile Duration";
-		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration());		
+		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration()/1000l) + "s";		
 		for(int i=0; i<8; i++) {
 			for(int j=0; j<2; j++) {
 				table2.setValueAt(statsContents[i][j], i, j);

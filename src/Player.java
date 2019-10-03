@@ -84,6 +84,10 @@ public class Player {
 	private long pushDrawTimer;
 	private long pushDrawLength;
 	
+	private long puCollectTimer;
+	private long puCollectLength;
+	private boolean isCollectingPu;
+	
 	private double maxStamina;
 	private double currentStamina;
 	private double staminaRegen;
@@ -215,6 +219,10 @@ public class Player {
 		spazingDelay = 7;
 		spazLength = 700;
 		spazActualTimer = 0;
+		
+		isCollectingPu = false;
+		puCollectTimer = 0;
+		puCollectLength = 2000;
 		
 		bombing = false;
 		bombingTimer = System.nanoTime();
@@ -353,9 +361,14 @@ public class Player {
 		dy = (int) (Math.sin(rad) * speed);
 	}
 	
-	public void startPushing(){
+	public void startPushing() {
 		isPushing = true;
 		pushTimer = System.nanoTime();
+	}
+	
+	public void startCollecting() {
+		isCollectingPu = true;
+		puCollectTimer = System.nanoTime();
 	}
 	
 	public void placeBlackHole(){
@@ -788,6 +801,14 @@ public class Player {
 			
 		}
 		
+		if(isCollectingPu) {
+			long puElapsed = (System.nanoTime() - puCollectTimer)/ 1000000;
+			if(puElapsed > puCollectLength) {
+				isCollectingPu = false;
+				puCollectTimer = System.nanoTime();
+			}
+		}
+		
 		if(spazing){
 			
 			long actualElapsed = (System.nanoTime() - spazActualTimer)/1000000;
@@ -899,6 +920,12 @@ public class Player {
 			
 			g.setColor(new Color(255,255,255,128));
 			g.drawOval((int)(x-radius), (int)(y-radius), (int)(2*radius), (int)(2*radius));
+		}
+		
+		if(isCollectingPu) {
+			System.out.println("collecting");
+			g.setColor(new Color(255,215,0,70));
+			g.fillOval((int)(x-pushRadius), (int)(y-pushRadius), (int)(2*pushRadius), (int)(2*pushRadius));
 		}
 		
 		if(addOn>0 && addOnEnable){		

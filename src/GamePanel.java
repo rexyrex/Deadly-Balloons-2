@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private boolean waveStart;
 	private int waveDelay = 4700;
 	
-	private long slowDownTimer;
+	public static long slowDownTimer;
 	private long slowDownTimerDiff;
 	private int slowDownLength = 6000;
 	
@@ -635,6 +635,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
+		// player auto collect powerup update
+		for(int i=0; i<powerups.size(); i++) {
+			if(powerups.get(i).isInRange(player.getx(), player.gety(), player.getPushRadius())) {
+				PowerUp p = powerups.get(i);
+				p.setBeingCollected(true);
+				p.collect();
+				p.showCollectTextAtPowerUp();
+				explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
+				powerups.remove(i);				
+			}
+				
+		}
+		
 		//wall update
 		for(int i=0; i<walls.size(); i++){
 			boolean remove = walls.get(i).update();
@@ -923,7 +936,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 				
 				//DIE Powerup (avoid)
-				if(RandomUtils.runChance(1.2)) {
+				if(RandomUtils.runChance(0)) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(17, e.getx()+offset[0],e.gety()+offset[1]));
 				}
@@ -998,90 +1011,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			if(dist<pr+r){
 				int type = p.getType();
 				sfx.get("collect powerup").play();
-				if(type==1){
-					player.gainLife();
-					texts.add(new Text(player.getx(), player.gety(),2000,"Life +1"));
-				}
-				if(type==2){
-					player.increasePower(1);
-					texts.add(new Text(player.getx(), player.gety(),2000,"Power +1"));
-				}
-				if(type==3){
-					player.increasePower(2);
-					texts.add(new Text(player.getx(), player.gety(),2000,"Power +2"));
-				}
-				if(type==4){
-					slowDownTimer = System.nanoTime();
-					for(int j = 0; j<enemies.size(); j++){
-						enemies.get(j).setSlow(true);
-					}
-					texts.add(new Text(player.getx(), player.gety(),2000,"Speed Up!"));
-				}
-				if(type==5){
-					player.incSpeed();
-					texts.add(new Text(player.getx(), player.gety(),2000,"Speed +1"));
-				}
-				if(type==6){
-					player.incBombs();
-					texts.add(new Text(player.getx(), player.gety(),2000,"BOMB +1"));
-				}
-				if(type==7){
-					player.incFireRate();
-					texts.add(new Text(player.getx(), player.gety(),2000,"RATE OF FIRE +1"));
-				}
-				if(type==8){
-					player.startSpazing();
-					texts.add(new Text(player.getx(), player.gety(),2000,"SPAZ OUT"));
-				}
-				if(type==9){
-					player.gainAddOn();
-					texts.add(new Text(player.getx(), player.gety(),2000,"AddOn Equiped!"));
-				}
-				if(type==10){
-					player.startFiringSide();
-					texts.add(new Text(player.getx(), player.gety(),2000,"Missiles Activated!"));
-				}
-				if(type==11){
-					player.gainStamina(p.getStaminaGain());
-					texts.add(new Text(player.getx(), player.gety(),2000,""+(int)p.getStaminaGain() + " stamina gained!"));
-				}
-				if(type==12){
-					player.increaseMaxStamina(p.getStaminaGain());
-					texts.add(new Text(player.getx(), player.gety(),2000,"Max Stamina increased by "+(int)p.getStaminaGain() + "!"));
-				}
-				if(type==13){
-					int gain = (int) (Math.random() * 10+5);
-					player.gainWalls(gain);
-					texts.add(new Text(player.getx(), player.gety(),2000,"Wall + "+gain + "!"));
-				}
-				
-				if(type==14){					
-					int tmpInterval = HEIGHT / 10;
-					
-					for(int j=0; j<10; j++) {
-						friends.add(new Friend(35 + j*tmpInterval, HEIGHT, 35+ j*tmpInterval, 0, 1));
-					}	
-					texts.add(new Text(player.getx(), player.gety(),2000,"Army of Nerds!"));
-				}
-				
-				if(type==15) {
-					for(int j=0; j<turrets.size(); j++) {
-						turrets.get(j).setSuperCharged(true);
-					}
-				}
-				
-				if(type==16){
-					for(int j=0; j<4; j++) {
-						friends.add(new Friend(player.getx(), player.gety(), 0, 0, 2));
-					}
-					texts.add(new Text(player.getx(), player.gety(),2000,"칭구 칭구"));
-				}
-				
-				if(type==17){
-					player.loseLife();
-					texts.add(new Text(player.getx(), player.gety(),2000,"아프다..."));
-				}
-				
+				p.showCollectText();
+				p.collect();	
 				powerups.remove(i);
 				i--;
 			}
@@ -1214,6 +1145,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_F){
 			//bombs.add(new Bomb(player.getx(),player.gety(),false,true));
 			//friends.add(new Friend(player.getx(), player.gety(), 0,0,2));
+			player.startCollecting();
 		}
 		
 		if(keyCode == KeyEvent.VK_2){
