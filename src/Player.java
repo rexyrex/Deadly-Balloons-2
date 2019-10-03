@@ -162,6 +162,14 @@ public class Player {
 	public void setbulletDmg(double bulletDmg) {
 		this.bulletDmg = bulletDmg;
 	}
+	
+	public long getSpazDuration() {
+		return spazLength;
+	}
+	
+	public long getSideMissileDuration() {
+		return firingSideLength; 
+	}
 
 	//Constructor
 	public Player(){

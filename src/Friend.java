@@ -46,8 +46,8 @@ public class Friend {
 		}
 		
 		if(type==2) {
-			color1 = new Color(225,153,204,255);			
-			lifeSpan = 20000;
+			color1 = new Color(225,225,225,255);			
+			lifeSpan = 15000;
 			fireDelay = 220;
 			firingTimer = System.nanoTime();
 			speed = 8;

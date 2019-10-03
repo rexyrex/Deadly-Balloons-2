@@ -13,15 +13,17 @@ public class Game {
 	public static void main(String args[]){		
 		final JFrame window = new JFrame("Shooter Game");
 		window.setLayout(new BorderLayout());
+		window.setPreferredSize(new Dimension(1500,700));
+
 		
-		GamePanel gp = new GamePanel(window);
-		window.add(gp, BorderLayout.CENTER);
-		
-		ShopPanel sPanel = new ShopPanel(gp);
+		ShopPanel sPanel = new ShopPanel();
 		window.add(sPanel, BorderLayout.EAST);
 		
-		InstructionsPanel iPanel = new InstructionsPanel();
+		InfoPanel iPanel = new InfoPanel();
 		window.add(iPanel, BorderLayout.WEST);
+		
+		GamePanel gp = new GamePanel(window, sPanel, iPanel);
+		window.add(gp, BorderLayout.CENTER);
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

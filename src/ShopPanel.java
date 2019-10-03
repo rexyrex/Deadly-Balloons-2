@@ -18,7 +18,6 @@ public class ShopPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	GamePanel gp;
 	HashMap<JButton, Integer> itemPurchaseMap;
 	HashMap<JButton, Integer> itemBaseCostMap;
 	HashMap<JButton, String> itemBaseName;
@@ -27,9 +26,8 @@ public class ShopPanel extends JPanel{
 	long msgDelay;
 	long msgStartTimer;
 
-	public ShopPanel(GamePanel gPanel){
+	public ShopPanel(){
 		super();
-		gp = gPanel;
 		setBackground(Color.BLACK);
 		
 		msgTimerDiff = System.nanoTime();
@@ -41,7 +39,7 @@ public class ShopPanel extends JPanel{
 		gl.setVgap(5);
 		gl.setHgap(5);
 		setLayout(gl);
-		setPreferredSize(new Dimension(300, gPanel.HEIGHT));
+		setPreferredSize(new Dimension(300, 700));
 		//panel.setPreferredSize(new Dimension ( 200,700));
 		
 		JLabel shopTitleLabel = new JLabel("tmp", SwingConstants.CENTER);
@@ -50,6 +48,10 @@ public class ShopPanel extends JPanel{
 		shopTitleLabel.setText("Shop");			
         add(shopTitleLabel);
         
+		
+	}
+	
+	public void init() {
 		itemPurchaseMap = new HashMap();
 		itemBaseCostMap = new HashMap();
 		itemBaseName = new HashMap();
@@ -74,9 +76,9 @@ public class ShopPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(dropRateBtn);
-				if(gp.player.attemptPurchase(cost)) {
+				if(GamePanel.player.attemptPurchase(cost)) {
 					//0.015% increase
-					gp.player.incDropRate(0.015);
+					GamePanel.player.incDropRate(0.015);
 					purchaseProcess(dropRateBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
@@ -88,8 +90,8 @@ public class ShopPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(spazDurationBtn);
-				if(gp.player.attemptPurchase(cost)) {
-					gp.player.upgradeSpazDuration();
+				if(GamePanel.player.attemptPurchase(cost)) {
+					GamePanel.player.upgradeSpazDuration();
 					purchaseProcess(spazDurationBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
@@ -101,8 +103,8 @@ public class ShopPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(missileDurationBtn);
-				if(gp.player.attemptPurchase(cost)) {
-					gp.player.upgradeMissileDuration();
+				if(GamePanel.player.attemptPurchase(cost)) {
+					GamePanel.player.upgradeMissileDuration();
 					purchaseProcess(missileDurationBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
@@ -115,8 +117,8 @@ public class ShopPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(buyPowerBtn);
-				if(gp.player.attemptPurchase(cost)) {
-					gp.player.increasePower(1);
+				if(GamePanel.player.attemptPurchase(cost)) {
+					GamePanel.player.increasePower(1);
 					purchaseProcess(buyPowerBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
@@ -128,8 +130,8 @@ public class ShopPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(buyLifeBtn);
-				if(gp.player.attemptPurchase(cost)) {
-					gp.player.gainLife();
+				if(GamePanel.player.attemptPurchase(cost)) {
+					GamePanel.player.gainLife();
 					purchaseProcess(buyLifeBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
@@ -170,7 +172,7 @@ public class ShopPanel extends JPanel{
 		} else {
 			c = Color.red;
 		}
-		gp.texts.add(new Text(gp.WIDTH/2 - s.length()/2, gp.HEIGHT/2,2000,s, true, c, Font.BOLD, 30));
+		GamePanel.texts.add(new Text(GamePanel.WIDTH/2 - s.length()/2, GamePanel.HEIGHT/2,2000,s, true, c, Font.BOLD, 30));
 	}
 	
 	

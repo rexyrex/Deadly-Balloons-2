@@ -13,14 +13,46 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-public class InstructionsPanel extends JPanel{
+public class InfoPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private boolean showInstructions;
-	public InstructionsPanel() {
+	String statsContents[][];
+	JTable table2;
+	
+	public InfoPanel() {
 		super();
 		setBackground(Color.BLACK);
 		showInstructions = false;
 		
+		
+	}
+	
+	public void updateStats() {
+		//System.out.println("updating stats");
+		statsContents[0][0] = "Wave";
+		statsContents[0][1] = String.valueOf(GamePanel.waveNumber);
+		statsContents[1][0] = "Bullet Damage";
+		statsContents[1][1] = String.valueOf(GamePanel.player.getbulletDmg());
+		statsContents[2][0] = "Missile Damage";
+		statsContents[2][1] = String.valueOf(GamePanel.player.getSideMissileDmg());
+		statsContents[3][0] = "Turret Damage";
+		statsContents[3][1] = String.valueOf(GamePanel.player.getTurretDmg());
+		statsContents[4][0] = "Bomb Damage";
+		statsContents[4][1] = String.valueOf(GamePanel.player.getBombDmg());
+		statsContents[5][0] = "Add-on Damage";
+		statsContents[5][1] = String.valueOf(GamePanel.player.getAddonDmg());
+		statsContents[6][0] = "Spaz Duration";
+		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration());
+		statsContents[7][0] = "Missile Duration";
+		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration());		
+		for(int i=0; i<8; i++) {
+			for(int j=0; j<2; j++) {
+				table2.setValueAt(statsContents[i][j], i, j);
+			}
+		}
+	}
+	
+	public void init() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		//panel.setPreferredSize(new Dimension ( 200,700));
 		
@@ -84,14 +116,13 @@ public class InstructionsPanel extends JPanel{
 		statsTitleLabel.setText(statsTitle);			
         add(statsTitleLabel);
         
-        String headers2[] = {"Key", "Value"};
-        String contents2[][] = {
-        		{"Bullet Dmg", "0"},
-
-        };
+        String statsHeaders[] = {"Key", "Value"};
+        statsContents = new String[8][2];
+        statsContents[0][0] = "Initializing";
+        statsContents[0][1] = "Please wait...";
         
         
-        JTable table2 = new JTable(contents2, headers2);        
+        table2 = new JTable(statsContents, statsHeaders);        
         table2.setBackground(Color.black);        
         Font f2 = new Font("Gulim", Font.BOLD, 15);
         table2.setFont(f2);
@@ -110,19 +141,21 @@ public class InstructionsPanel extends JPanel{
 				showInstructions = !showInstructions;
 				if(showInstructions) {
 					//InstructionsPanel.this.add(scrollPane);
-					scrollPane.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
-					InstructionsPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
+					scrollPane.setPreferredSize(new Dimension(300,700));
+					InfoPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
 					scrollPane.setVisible(true);
 				} else {
 					//InstructionsPanel.this.remove(scrollPane);
-					scrollPane.setPreferredSize(new Dimension(10,GamePanel.HEIGHT));
-					InstructionsPanel.this.setPreferredSize(new Dimension(10,GamePanel.HEIGHT));
+					scrollPane.setPreferredSize(new Dimension(10,700));
+					InfoPanel.this.setPreferredSize(new Dimension(10,700));
 					scrollPane.setVisible(false);
 					
 				}
 			}
 		});
+		updateStats();
 	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub

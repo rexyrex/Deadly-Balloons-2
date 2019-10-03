@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private long waveStartTimer;
 	private long waveStartTimerDiff;
-	private int waveNumber;
+	public static int waveNumber;
 	private boolean waveStart;
 	private int waveDelay = 4700;
 	
@@ -85,14 +85,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private BufferedImage img;
 	
-	public GamePanel(JFrame jframe){
+	public InfoPanel ip;
+	public ShopPanel sp;
+	
+	public GamePanel(JFrame jframe, ShopPanel sp, InfoPanel ip){
 		super();		
 		this.jframe = jframe;
+		this.ip = ip;
+		this.sp = sp;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();	
-
 	}
+	
 	
 	public void addNotify(){
 		super.addNotify();
@@ -161,7 +166,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		long totalTime = 0;
 		
 		int frameCount = 0;
-		int maxFrameCount = 30;
+		int maxFrameCount = 60;
 		
 		long targetTime = 1000/FPS;
 		
@@ -215,16 +220,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 			waveData.add(enemyToAdd);
 		}
+		
+		//init shop panel and instructions panel
+		sp.init();
+		ip.init();
 
 		
 		//Game Loop
 		while(running){
 			System.out.println("running");
+			
 			requestFocus();
 			while(!paused) {
 				requestFocus();
 			startTime = System.nanoTime();
-			
+			ip.updateStats();
 			gameUpdate();
 			gameRender();
 			gameDraw();
@@ -247,6 +257,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			frameCount++;
 			if(frameCount == maxFrameCount){
 				//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
+				System.out.println(1000.0 / ((totalTime/frameCount)/1000000));
 				frameCount = 0;
 				totalTime = 0;
 			}
