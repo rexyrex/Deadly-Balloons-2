@@ -88,6 +88,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public InfoPanel ip;
 	public ShopPanel sp;
 	
+	private Menu menu;
+	
+	public enum GameState {
+		TUTORIAL, PLAY, MENU
+	}
+	
+	public enum MenuState {
+		MAIN, CREDITS, PLAY_MODES, HELP, DEFAULT_LEVELS, SURVIVAL_LEVELS
+	}
+	
+	public enum GameMode {
+		TUTORIAL, DEFAULT, SURVIVAL
+	}
+	
+	public static GameState gameState;
+	public static MenuState menuState;
+	public static GameMode gameMode;
+	
 	public GamePanel(JFrame jframe, ShopPanel sp, InfoPanel ip){
 		super();		
 		this.jframe = jframe;
@@ -110,6 +128,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			thread.start();
 		}
 		addKeyListener(this);
+		menu = new Menu();
+		addMouseListener(new MouseInput(menu));
 	}
 
 	//RUN METHOD
@@ -146,6 +166,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
 		
+		
 		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
 		//bgmusic.play();
 		
@@ -175,6 +196,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		long targetTime = 1000/FPS;
 		
 		long gameStartTime = System.nanoTime();
+		
+		gameState = GameState.MENU;
+		menuState = MenuState.MAIN;
+		gameMode = GameMode.DEFAULT;
 		
 		JSONObject waveDataJSONArr = null;
 		//load JSON Data
@@ -234,34 +259,42 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			
 			requestFocus();
 			while(!paused) {
-			requestFocus();
-			startTime = System.nanoTime();
-			ip.updateStats2();
-			gameUpdate();
-			gameRender();
-			gameDraw();
-			
-			elapsedTime = (System.nanoTime() - gameStartTime)/1000000;
-			
-			URDTimeMillis = (System.nanoTime() - startTime)/1000000;
-			
-			waitTime = targetTime - URDTimeMillis;
-			
-			if(waitTime>0){//i added this brah!
-				try {
-					Thread.sleep(waitTime);
-				} catch (InterruptedException e) {					
-					e.printStackTrace();
-				}
+				
+			if(gameState == GameState.MENU) {
+				menu.render(g);
+				gameDraw();
 			}
-			
-			totalTime += System.nanoTime() - startTime;
-			frameCount++;
-			if(frameCount == maxFrameCount){
-				//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
-				System.out.println(1000.0 / ((totalTime/frameCount)/1000000));
-				frameCount = 0;
-				totalTime = 0;
+				
+			if(gameState == GameState.PLAY) {
+				requestFocus();
+				startTime = System.nanoTime();
+				ip.updateStats2();
+				gameUpdate();
+				gameRender();
+				gameDraw();
+				
+				elapsedTime = (System.nanoTime() - gameStartTime)/1000000;
+				
+				URDTimeMillis = (System.nanoTime() - startTime)/1000000;
+				
+				waitTime = targetTime - URDTimeMillis;
+				
+				if(waitTime>0){//i added this brah!
+					try {
+						Thread.sleep(waitTime);
+					} catch (InterruptedException e) {					
+						e.printStackTrace();
+					}
+				}
+				
+				totalTime += System.nanoTime() - startTime;
+				frameCount++;
+				if(frameCount == maxFrameCount){
+					//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
+					System.out.println(1000.0 / ((totalTime/frameCount)/1000000));
+					frameCount = 0;
+					totalTime = 0;
+				}
 			}
 			
 		}
