@@ -118,7 +118,7 @@ public class ShopPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(buyPowerBtn);
 				if(GamePanel.player.attemptPurchase(cost)) {
-					GamePanel.player.increasePower(4);
+					GamePanel.player.increasePower(1);
 					purchaseProcess(buyPowerBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
