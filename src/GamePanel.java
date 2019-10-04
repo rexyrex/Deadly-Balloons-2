@@ -1147,7 +1147,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_F){
 			//bombs.add(new Bomb(player.getx(),player.gety(),false,true));
 			//friends.add(new Friend(player.getx(), player.gety(), 0,0,2));
-			player.startCollecting();
+			if(player.useStamina(200)) {
+				player.startCollecting();
+			}			
 		}
 		
 		if(keyCode == KeyEvent.VK_2){
