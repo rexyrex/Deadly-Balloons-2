@@ -23,6 +23,7 @@ public class InfoPanel extends JPanel{
 	public InfoPanel() {
 		super();
 		setBackground(Color.BLACK);
+		setPreferredSize(new Dimension(300, 700));
 		showInstructions = false;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		String instructions = 
@@ -73,7 +74,7 @@ public class InfoPanel extends JPanel{
         
         final JButton instructionToggleBtn = new JButton("Show Controls");
         add(instructionToggleBtn);
-        add(scrollPane);
+        //add(scrollPane);
         
         
         
@@ -112,9 +113,9 @@ public class InfoPanel extends JPanel{
 		statsContents[5][0] = "Add-on Damage";
 		statsContents[5][1] = String.valueOf(GamePanel.player.getAddonDmg());
 		statsContents[6][0] = "Spaz Duration";
-		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration());
+		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration())+ " ms";
 		statsContents[7][0] = "Missile Duration";
-		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration()/1000l) + "s";		
+		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration()) + " ms";		
 		for(int i=0; i<8; i++) {
 			for(int j=0; j<2; j++) {
 				table2.setValueAt(statsContents[i][j], i, j);

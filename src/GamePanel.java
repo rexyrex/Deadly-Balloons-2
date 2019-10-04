@@ -149,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
 		//bgmusic.play();
 		
-		player.addScore(1000);
+		player.addScore(1000000000);
 		
 		sfx = new HashMap<String, AudioPlayer>();
 		

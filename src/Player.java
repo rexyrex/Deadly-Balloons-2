@@ -115,7 +115,7 @@ public class Player {
 	private int power;
 	private int[] requiredPower = {
 			
-			1,2,3,4,6,8,10,12,14,16,18,20,22,24,26,28,30,40,1000
+			1,2,3,4,6,8,10,12,14,16,18,20,22
 	};
 	
 	private double dropRateBonus;
@@ -187,6 +187,8 @@ public class Player {
 		sideMissileDmg = 1.0;
 		turretDmg = 1.0;
 		addonDmg = 1.0;
+		
+		powerLevel = 0;
 		
 		dx = 0;
 		dy= 0;
@@ -414,20 +416,39 @@ public class Player {
 	
 	public void increasePower(int i){
 		power += i;
-		if(powerLevel==16){
-			if(power > requiredPower[powerLevel]){
-				power = requiredPower[powerLevel];
+		
+		if(power > getRequiredPower()) {
+			power -= getRequiredPower();
+			powerLevel++;
+			
+			if(powerLevel>12) {
+				double incDmg = Math.random()/10 + 0.05;
+				double displayIncDmg = (double) Math.round(incDmg * 100) / 100;
+				GamePanel.texts.add(new Text(getx(), gety(),2000,"Dmg inc by " + displayIncDmg));
+				incBulletDmg(incDmg);
 			}
-		}
-		if(power >= requiredPower[powerLevel]){
-			power -= requiredPower[powerLevel];
-			powerLevel++;			
-		}
+		}		
+
+	}
+	
+	public void incBulletDmg(double inc) {
+		bulletDmg += inc;
 	}
 	
 	public int getPowerLevel() {return powerLevel;}
 	public int getPower() { return power; }
-	public int getRequiredPower() { return requiredPower[powerLevel];}
+	public int getRequiredPower() { 
+		if(powerLevel>=requiredPower.length-1){
+			return requiredPower[requiredPower.length-1];
+		}
+		
+		System.out.println("power level is " + powerLevel);
+		System.out.println("length is " + (requiredPower.length-1));
+		
+		
+		return requiredPower[powerLevel];
+		
+	}
 	
 	public void toggleAddOn() { if(addOnEnable){addOnEnable=false;}else{addOnEnable=true;} }
 	
