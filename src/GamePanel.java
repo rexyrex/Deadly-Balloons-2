@@ -96,6 +96,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();	
+		
+		//init shop panel and instructions panel
+		sp.init();
+		ip.init2();
 	}
 	
 	
@@ -221,9 +225,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			waveData.add(enemyToAdd);
 		}
 		
-		//init shop panel and instructions panel
-		sp.init();
-		ip.init();
+
 
 		
 		//Game Loop
@@ -232,9 +234,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			
 			requestFocus();
 			while(!paused) {
-				requestFocus();
+			requestFocus();
 			startTime = System.nanoTime();
-			ip.updateStats();
+			ip.updateStats2();
 			gameUpdate();
 			gameRender();
 			gameDraw();

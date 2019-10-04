@@ -47,11 +47,11 @@ public class ShopPanel extends JPanel{
 		shopTitleLabel.setFont(new Font("Gulim", Font.BOLD, 20));
 		shopTitleLabel.setText("Shop");			
         add(shopTitleLabel);
-        
 		
 	}
 	
 	public void init() {
+		System.out.println("Shop Panel Init");
 		itemPurchaseMap = new HashMap();
 		itemBaseCostMap = new HashMap();
 		itemBaseName = new HashMap();

@@ -11,28 +11,26 @@ import javax.swing.JPanel;
 public class Game {
 
 	public static void main(String args[]){		
-		final JFrame window = new JFrame("Shooter Game");
+		final JFrame window = new JFrame("Rex Shooter");
 		window.setLayout(new BorderLayout());
-		window.setPreferredSize(new Dimension(1500,700));
+		//window.setPreferredSize(new Dimension(1500,700));
 
 		
 		ShopPanel sPanel = new ShopPanel();
-		window.add(sPanel, BorderLayout.EAST);
+		
 		
 		InfoPanel iPanel = new InfoPanel();
-		window.add(iPanel, BorderLayout.WEST);
+		
 		
 		GamePanel gp = new GamePanel(window, sPanel, iPanel);
+		
+		
 		window.add(gp, BorderLayout.CENTER);
+		window.add(iPanel, BorderLayout.WEST);
+		window.add(sPanel, BorderLayout.EAST);
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JPanel container = new JPanel();
-		//window.setContentPane(gp);
-		//gp.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
-		
-		//container.add(shopWindow)
-		
+				
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);

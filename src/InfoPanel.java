@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -23,39 +24,7 @@ public class InfoPanel extends JPanel{
 		super();
 		setBackground(Color.BLACK);
 		showInstructions = false;
-		
-		
-	}
-	
-	public void updateStats() {
-		//System.out.println("updating stats");
-		statsContents[0][0] = "Wave";
-		statsContents[0][1] = String.valueOf(GamePanel.waveNumber);
-		statsContents[1][0] = "Bullet Damage";
-		statsContents[1][1] = String.valueOf(GamePanel.player.getbulletDmg());
-		statsContents[2][0] = "Missile Damage";
-		statsContents[2][1] = String.valueOf(GamePanel.player.getSideMissileDmg());
-		statsContents[3][0] = "Turret Damage";
-		statsContents[3][1] = String.valueOf(GamePanel.player.getTurretDmg());
-		statsContents[4][0] = "Bomb Damage";
-		statsContents[4][1] = String.valueOf(GamePanel.player.getBombDmg());
-		statsContents[5][0] = "Add-on Damage";
-		statsContents[5][1] = String.valueOf(GamePanel.player.getAddonDmg());
-		statsContents[6][0] = "Spaz Duration";
-		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration());
-		statsContents[7][0] = "Missile Duration";
-		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration()/1000l) + "s";		
-		for(int i=0; i<8; i++) {
-			for(int j=0; j<2; j++) {
-				table2.setValueAt(statsContents[i][j], i, j);
-			}
-		}
-	}
-	
-	public void init() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		//panel.setPreferredSize(new Dimension ( 200,700));
-		
 		String instructions = 
 				"<html>" +
 				"Instructions" + "<br/>" +
@@ -67,6 +36,7 @@ public class InfoPanel extends JPanel{
 		shopTitleLabel.setForeground(Color.white);
 		shopTitleLabel.setText(instructions);			
         add(shopTitleLabel);
+        
         
         String headers[] = {"Key", "Function", "Stamina Cost"};
         String contents[][] = {
@@ -106,6 +76,87 @@ public class InfoPanel extends JPanel{
         add(scrollPane);
         
         
+        
+        instructionToggleBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showInstructions = !showInstructions;
+				if(showInstructions) {
+					//InstructionsPanel.this.add(scrollPane);
+					scrollPane.setPreferredSize(new Dimension(300,700));
+					InfoPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
+					scrollPane.setVisible(true);
+				} else {
+					//InstructionsPanel.this.remove(scrollPane);
+					scrollPane.setPreferredSize(new Dimension(10,700));
+					InfoPanel.this.setPreferredSize(new Dimension(10,700));
+					scrollPane.setVisible(false);
+					
+				}
+			}
+		});
+	}
+	
+	public void updateStats() {
+		//System.out.println("updating stats");
+		statsContents[0][0] = "Wave";
+		statsContents[0][1] = String.valueOf(GamePanel.waveNumber);
+		statsContents[1][0] = "Bullet Damage";
+		statsContents[1][1] = String.valueOf(GamePanel.player.getbulletDmg());
+		statsContents[2][0] = "Missile Damage";
+		statsContents[2][1] = String.valueOf(GamePanel.player.getSideMissileDmg());
+		statsContents[3][0] = "Turret Damage";
+		statsContents[3][1] = String.valueOf(GamePanel.player.getTurretDmg());
+		statsContents[4][0] = "Bomb Damage";
+		statsContents[4][1] = String.valueOf(GamePanel.player.getBombDmg());
+		statsContents[5][0] = "Add-on Damage";
+		statsContents[5][1] = String.valueOf(GamePanel.player.getAddonDmg());
+		statsContents[6][0] = "Spaz Duration";
+		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration());
+		statsContents[7][0] = "Missile Duration";
+		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration()/1000l) + "s";		
+		for(int i=0; i<8; i++) {
+			for(int j=0; j<2; j++) {
+				table2.setValueAt(statsContents[i][j], i, j);
+			}
+		}
+	}
+	
+	public void updateStats2() {
+		Runnable runner = new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				updateStats();
+			}			
+		};
+		
+		EventQueue.invokeLater(runner);
+	}
+	
+	public void init2() {
+		Runnable runner = new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				init();
+			}			
+		};
+		
+		EventQueue.invokeLater(runner);
+	}
+	
+	public void init() {
+		
+		//panel.setPreferredSize(new Dimension ( 200,700));
+		
+
+        
+        
+        
+        
 		String statsTitle = 
 				"<html>" +
 				"<b>Stats</b>" + "<br/>" +
@@ -133,27 +184,7 @@ public class InfoPanel extends JPanel{
         final JScrollPane scrollPane2 = new JScrollPane(table2);
         scrollPane2.getViewport().setBackground(Color.black);
         add(scrollPane2);
-        
-        
-        instructionToggleBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showInstructions = !showInstructions;
-				if(showInstructions) {
-					//InstructionsPanel.this.add(scrollPane);
-					scrollPane.setPreferredSize(new Dimension(300,700));
-					InfoPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
-					scrollPane.setVisible(true);
-				} else {
-					//InstructionsPanel.this.remove(scrollPane);
-					scrollPane.setPreferredSize(new Dimension(10,700));
-					InfoPanel.this.setPreferredSize(new Dimension(10,700));
-					scrollPane.setVisible(false);
-					
-				}
-			}
-		});
-		updateStats();
+
 	}
 	
 	@Override
