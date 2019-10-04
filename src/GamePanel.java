@@ -638,16 +638,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		// player auto collect powerup update
-		for(int i=0; i<powerups.size(); i++) {
-			if(powerups.get(i).isInRange(player.getx(), player.gety(), player.getPushRadius())) {
-				PowerUp p = powerups.get(i);
-				p.setBeingCollected(true);
-				p.collect();
-				p.showCollectTextAtPowerUp();
-				explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
-				powerups.remove(i);				
+		if(player.isCollectingPu()) {
+			for(int i=0; i<powerups.size(); i++) {
+				if(powerups.get(i).isInRange(player.getx(), player.gety(), player.getPushRadius())) {
+					PowerUp p = powerups.get(i);
+					p.setBeingCollected(true);
+					p.collect();
+					p.showCollectTextAtPowerUp();
+					explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
+					powerups.remove(i);				
+				}					
 			}
-				
 		}
 		
 		//wall update

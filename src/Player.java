@@ -174,6 +174,10 @@ public class Player {
 	public long getSideMissileDuration() {
 		return firingSideLength; 
 	}
+	
+	public boolean isCollectingPu() {
+		return isCollectingPu;
+	}
 
 	//Constructor
 	public Player(){
