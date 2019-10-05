@@ -126,7 +126,16 @@ public class Player {
 	private double turretDmg;
 	private double bombDmg;
 	private double addonDmg;
+	private double friendDmg;
 	
+	public double getFriendDmg() {
+		return friendDmg;
+	}
+
+	public void setFriendDmg(double friendDmg) {
+		this.friendDmg = friendDmg;
+	}
+
 	public double getAddonDmg() {
 		return addonDmg;
 	}
@@ -191,6 +200,7 @@ public class Player {
 		sideMissileDmg = 1.0;
 		turretDmg = 1.0;
 		addonDmg = 1.0;
+		friendDmg = 1.0;
 		
 		powerLevel = 0;
 		
@@ -297,6 +307,7 @@ public class Player {
 		addonDmg += Math.random()/12 + 0.02;
 		spazLength += Math.random() * 200;
 		firingSideLength += Math.random() * 200;
+		friendDmg += Math.random()/12 + 0.02;
 	}
 	
 	public boolean attemptPurchase(int cost) {
