@@ -78,6 +78,9 @@ public class Enemy {
 	
 	private int money;
 	
+	private int moneyEnemyAlpha;
+	private boolean moneyEnemyAlphaInc;
+	
 	
 	//constructor
 	public Enemy(int type, int rank, double moneyMult){
@@ -322,6 +325,23 @@ public class Enemy {
 				maxHealth = 70;
 				money = 9;
 			}	
+		}
+		
+		//money enemy
+		if(type ==8){
+			skillSet.put("money skill", 2.47);
+			moneyEnemyAlpha = 255;
+			
+			skillSet.put("health bar skill", 1.0);
+			color1 = new Color(255,215,0,moneyEnemyAlpha);
+
+			if(rank == 1){
+				speed = 5;
+				r = 40;
+				health = 1000;
+				maxHealth = 1000;
+				money = 0;
+			}
 		}
 		
 		if(type ==100){
@@ -721,6 +741,11 @@ public class Enemy {
 	}
 	
 	public void hit(double dmg){
+		
+		if(skillSet.containsKey("money skill")) {
+			GamePanel.player.addScore((int) dmg);
+		}
+		
 		if(!regenMode){
 			health-= dmg;
 			if(health <= 0){
@@ -749,6 +774,13 @@ public class Enemy {
 	}
 	
 	public void update(Player player, ArrayList<Text> texts){
+		
+		if(skillSet.containsKey("money skill")) {
+			if(RandomUtils.runChance(20.0)) {
+				health-=5;
+			}
+		}
+		
 		if(skillSet.containsKey("bomb chance skill")) {
 			if(RandomUtils.runChance(skillSet.get("bomb chance skill"))) {
 				placeBomb();
@@ -969,7 +1001,22 @@ public class Enemy {
 			g.drawString(s, (int)(x-(length)/2), (int)(y));
 		}
 		
-		
+		//render enemy circle
+		if(skillSet.containsKey("money skill")) {
+			if(moneyEnemyAlpha<77) {
+				moneyEnemyAlphaInc = true;
+			} else if(moneyEnemyAlpha>250){
+				moneyEnemyAlphaInc = false;
+			}
+			if(moneyEnemyAlphaInc) {
+				moneyEnemyAlpha+=17;
+			} else {
+				moneyEnemyAlpha-=17;
+			}
+			
+			
+			color1 = new Color(255,215, 0, moneyEnemyAlpha);
+		}
 		
 		if(hit){
 			g.setColor(color1.brighter());

@@ -140,7 +140,6 @@ public class MouseInput implements MouseListener{
 		//Game Over Menu
 		if(GamePanel.gameState == GamePanel.GameState.GAME_OVER) {
 			if(mouseIn(mx,my,gp.backFromGameOverBtn)) {
-				System.out.println("back from gg");
 				GamePanel.menuState = GamePanel.MenuState.MAIN;
 				GamePanel.gameState = GamePanel.GameState.MENU;
 				return;

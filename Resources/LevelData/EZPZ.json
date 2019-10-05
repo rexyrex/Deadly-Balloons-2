@@ -6,9 +6,9 @@
 	        "waveTitle":"EZPZ",
 	        "waveEnemies":[  
 				{
-					"type": 1,
-					"rank": 4,
-					"count": 2
+					"type": 8,
+					"rank": 1,
+					"count": 5
 				}
 	        ]
 	    }
