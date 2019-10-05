@@ -744,6 +744,7 @@ public class Enemy {
 		
 		if(skillSet.containsKey("money skill")) {
 			GamePanel.player.addScore((int) dmg);
+			GamePanel.texts.add(new Text(x, y,1000,"+" +(int) dmg, true, Color.GREEN, Font.BOLD));
 		}
 		
 		if(!regenMode){
