@@ -1,0 +1,16 @@
+	{
+	"levelName" : "EZPZ",
+	"levelNumber" : 1,
+	"waves" : [
+		{  
+	        "waveTitle":"EZPZ",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 2
+				}
+	        ]
+	    }
+	]	
+	}    

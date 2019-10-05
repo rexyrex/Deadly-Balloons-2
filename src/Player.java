@@ -257,7 +257,7 @@ public class Player {
 		
 		inviTimer = System.nanoTime();
 		inviDelay = 50;
-		inviStaminaCost = 27;
+		inviStaminaCost = 30;
 		
 		invincible = false;
 		immobalized = false;
@@ -282,7 +282,27 @@ public class Player {
 	public void stopInvincible(){ invincible = false; }
 	public void setImmobalized(boolean b){ immobalized = b; }
 	
+	
+//	private double bulletDmg;
+//	private double sideMissileDmg;
+//	private double turretDmg;
+//	private double bombDmg;
+//	private double addonDmg;
+	public void upgradeAbilities() {
+		//randomly upgrades abilities
+		
+		sideMissileDmg += Math.random()/12 + 0.02;
+		turretDmg += Math.random()/12 + 0.02;
+		bombDmg += Math.random()/12 + 0.02;
+		addonDmg += Math.random()/12 + 0.02;
+		spazLength += Math.random() * 200;
+		firingSideLength += Math.random() * 200;
+	}
+	
 	public boolean attemptPurchase(int cost) {
+		if(GamePanel.gameState != GamePanel.GameState.PLAY) {
+			return false;
+		}
 		if(score >= cost) {
 			score -= cost;
 			return true;
@@ -444,11 +464,7 @@ public class Player {
 	public int getRequiredPower() { 
 		if(powerLevel>=requiredPower.length-1){
 			return requiredPower[requiredPower.length-1];
-		}
-		
-		System.out.println("power level is " + powerLevel);
-		System.out.println("length is " + (requiredPower.length-1));
-		
+		}		
 		
 		return requiredPower[powerLevel];
 		

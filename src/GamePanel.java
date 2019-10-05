@@ -205,7 +205,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//load JSON Data
 		JSONParser parser = new JSONParser();
 		try {
-			InputStream iStream = getClass().getResourceAsStream("/LevelData/Level2.json");
+			InputStream iStream = getClass().getResourceAsStream("/LevelData/LevelEZPZ.json");
 			//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
 			BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8"));
 			waveDataJSONArr = (JSONObject) parser.parse(br);
@@ -243,7 +243,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
 				int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
 				int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
-				System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
+				//System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
 				Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
 				enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
 			}
@@ -258,14 +258,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			System.out.println("running");
 			
 			requestFocus();
-			while(!paused) {
+			if(paused) {
 				
-			if(gameState == GameState.MENU) {
+				gameRender();
+				pauseRender();
+				gameDraw();
+			}
+				
+			if(gameState == GameState.MENU && !paused) {
 				menu.render(g);
 				gameDraw();
 			}
 				
-			if(gameState == GameState.PLAY) {
+			if(gameState == GameState.PLAY && !paused) {
 				requestFocus();
 				startTime = System.nanoTime();
 				ip.updateStats2();
@@ -297,7 +302,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 			}
 			
-		}
+		
 		}
 		
 		g.setColor(new Color(0,100,255));
@@ -319,6 +324,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		gameDraw();
 	}
 
+	private void pauseRender() {
+		g.setColor(Color.RED);
+		g.setFont(new Font("Gulim", Font.BOLD,100));
+		String s = "P A U S E D";
+		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2);
+		
+	}
+	
 	//DRAW TO GAME SCREEN
 	private void gameDraw() {
 		Graphics g2 = this.getGraphics();
@@ -1002,7 +1016,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(player.isDead()){
 			sfx.get("player die").play();
 			running = false;
-			paused = true;
+			paused = false;
 		}
 		
 		//check player enemy collision
@@ -1257,7 +1271,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_I){			
-				player.toggleInvincible();			
+			if(player.useStamina(100)){
+				player.toggleInvincible();		
+			}
 		}
 		
 		if(keyCode == KeyEvent.VK_SPACE){			

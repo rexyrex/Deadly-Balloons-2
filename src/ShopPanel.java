@@ -57,19 +57,14 @@ public class ShopPanel extends JPanel{
 		itemBaseName = new HashMap();
 		
         final JButton buyLifeBtn = new JButton("<html>Extra Life 1 <br />( Cost : " + 120 + " )</html>");        
-        final JButton buyPowerBtn = new JButton("<html>Power Up 1 <br />( Cost : " + 40 + " )</html>");
-        final JButton spazDurationBtn = new JButton("<html>Spaz Longer 1 <br />( Cost : " + 60 + " )</html>");
-        final JButton missileDurationBtn = new JButton("<html>Missile Longer 1 <br />( Cost : " + 70 + " )</html>");
+        final JButton buyPowerBtn = new JButton("<html>Power Up 1 <br />( Cost : " + 50 + " )</html>");
+        final JButton buyAbilityBtn = new JButton("<html>Ability Up 1 <br />( Cost : " + 50 + " )</html>");
         final JButton dropRateBtn = new JButton("<html>Drop Rate 1 <br />( Cost : " + 100 + " )</html>");
         
         initMaps(buyLifeBtn, "Extra Life", 120);
-        initMaps(buyPowerBtn, "Power Up", 40);
-        initMaps(spazDurationBtn, "Spaz Longer", 60);
-        initMaps(missileDurationBtn, "Missile Longer", 70);
+        initMaps(buyPowerBtn, "Power Up", 50);
+        initMaps(buyAbilityBtn, "Ability Up", 50);
         initMaps(dropRateBtn, "Drop Rate", 100);
-        
-        
-        
         
         
         dropRateBtn.addActionListener(new ActionListener() {
@@ -77,8 +72,8 @@ public class ShopPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				int cost = calcCost(dropRateBtn);
 				if(GamePanel.player.attemptPurchase(cost)) {
-					//0.015% increase
-					GamePanel.player.incDropRate(0.015);
+					//0.03% increase
+					GamePanel.player.incDropRate(0.03);
 					purchaseProcess(dropRateBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
@@ -86,33 +81,19 @@ public class ShopPanel extends JPanel{
 			}
 		});
         
-        spazDurationBtn.addActionListener(new ActionListener() {
+        buyAbilityBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int cost = calcCost(spazDurationBtn);
+				int cost = calcCost(buyAbilityBtn);
 				if(GamePanel.player.attemptPurchase(cost)) {
-					GamePanel.player.upgradeSpazDuration();
-					purchaseProcess(spazDurationBtn);
+					GamePanel.player.upgradeAbilities();
+					purchaseProcess(buyAbilityBtn);
 				} else {
 					msgOnGui("돈 부 족",false);	
 				}
 			}
 		});
 
-        missileDurationBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int cost = calcCost(missileDurationBtn);
-				if(GamePanel.player.attemptPurchase(cost)) {
-					GamePanel.player.upgradeMissileDuration();
-					purchaseProcess(missileDurationBtn);
-				} else {
-					msgOnGui("돈 부 족",false);	
-				}
-			}
-		});
-        
-        
         buyPowerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

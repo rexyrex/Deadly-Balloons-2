@@ -151,7 +151,6 @@ public class Friend {
 		//life bar
 		double secSinceBirth = (System.nanoTime() - birthDate)/1000000;
 		double percentage =  secSinceBirth/(double)lifeSpan;
-		System.out.println(percentage);
 		g.drawRect((int)(x-2*r), (int)(y+2*r), (int)(4*r), (int)(r));
 		g.fillRect((int)(x-2*r), (int)(y+2*r), (int)(4*r*(1-percentage)), (int)(r));
 	}

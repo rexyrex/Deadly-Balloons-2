@@ -103,15 +103,15 @@ public class InfoPanel extends JPanel{
 		statsContents[0][0] = "Wave";
 		statsContents[0][1] = String.valueOf(GamePanel.waveNumber);
 		statsContents[1][0] = "Bullet Damage";
-		statsContents[1][1] = String.valueOf(GamePanel.player.getbulletDmg());
+		statsContents[1][1] = String.format("%.2f", GamePanel.player.getbulletDmg());
 		statsContents[2][0] = "Missile Damage";
-		statsContents[2][1] = String.valueOf(GamePanel.player.getSideMissileDmg());
+		statsContents[2][1] = String.format("%.2f", GamePanel.player.getSideMissileDmg());
 		statsContents[3][0] = "Turret Damage";
-		statsContents[3][1] = String.valueOf(GamePanel.player.getTurretDmg());
+		statsContents[3][1] = String.format("%.2f", GamePanel.player.getTurretDmg());
 		statsContents[4][0] = "Bomb Damage";
-		statsContents[4][1] = String.valueOf(GamePanel.player.getBombDmg());
+		statsContents[4][1] = String.format("%.2f", GamePanel.player.getBombDmg());
 		statsContents[5][0] = "Add-on Damage";
-		statsContents[5][1] = String.valueOf(GamePanel.player.getAddonDmg());
+		statsContents[5][1] = String.format("%.2f", GamePanel.player.getAddonDmg());
 		statsContents[6][0] = "Spaz Duration";
 		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration())+ " ms";
 		statsContents[7][0] = "Missile Duration";
@@ -152,11 +152,6 @@ public class InfoPanel extends JPanel{
 	public void init() {
 		
 		//panel.setPreferredSize(new Dimension ( 200,700));
-		
-
-        
-        
-        
         
 		String statsTitle = 
 				"<html>" +
