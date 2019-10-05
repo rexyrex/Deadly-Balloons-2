@@ -112,11 +112,13 @@ public class InfoPanel extends JPanel{
 		statsContents[4][1] = String.format("%.2f", GamePanel.player.getBombDmg());
 		statsContents[5][0] = "Add-on Damage";
 		statsContents[5][1] = String.format("%.2f", GamePanel.player.getAddonDmg());
-		statsContents[6][0] = "Spaz Duration";
-		statsContents[6][1] = String.valueOf(GamePanel.player.getSpazDuration())+ " ms";
-		statsContents[7][0] = "Missile Duration";
-		statsContents[7][1] = String.valueOf(GamePanel.player.getSideMissileDuration()) + " ms";		
-		for(int i=0; i<8; i++) {
+		statsContents[6][0] = "Friends/Army Damage";
+		statsContents[6][1] = String.format("%.2f", GamePanel.player.getFriendDmg());
+		statsContents[7][0] = "Spaz Duration";
+		statsContents[7][1] = String.valueOf(GamePanel.player.getSpazDuration())+ " ms";
+		statsContents[8][0] = "Missile Duration";
+		statsContents[8][1] = String.valueOf(GamePanel.player.getSideMissileDuration()) + " ms";		
+		for(int i=0; i<9; i++) {
 			for(int j=0; j<2; j++) {
 				table2.setValueAt(statsContents[i][j], i, j);
 			}
@@ -164,10 +166,9 @@ public class InfoPanel extends JPanel{
         add(statsTitleLabel);
         
         String statsHeaders[] = {"Key", "Value"};
-        statsContents = new String[8][2];
+        statsContents = new String[9][2];
         statsContents[0][0] = "Initializing";
         statsContents[0][1] = "Please wait...";
-        
         
         table2 = new JTable(statsContents, statsHeaders);        
         table2.setBackground(Color.black);        

@@ -5,9 +5,11 @@ import java.awt.event.MouseListener;
 public class MouseInput implements MouseListener{
 
 	private Menu menu;
+	private GamePanel gp;
 	
-	public MouseInput(Menu menu) {
+	public MouseInput(Menu menu, GamePanel gp) {
 		this.menu = menu;
+		this.gp = gp;
 	}
 	
 	
@@ -87,15 +89,17 @@ public class MouseInput implements MouseListener{
 			if(GamePanel.menuState == GamePanel.MenuState.DEFAULT_LEVELS) {			
 				//ezpz lvl btn
 				if(mouseIn(mx,my,menu.ezpzLvlBtn)) {
-					//GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
-					//GamePanel.gameState = GamePanel.GameState.PLAY;
+					gp.initNewLvl("EZPZ");
+					GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
+					GamePanel.gameState = GamePanel.GameState.PLAY;					
 					return;
 				}
 				
 				//sehoon lvl btn
 				if(mouseIn(mx,my,menu.sehoonLvlBtn)) {
+					gp.initNewLvl("MrYang");
 					GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
-					GamePanel.gameState = GamePanel.GameState.PLAY;
+					GamePanel.gameState = GamePanel.GameState.PLAY;					
 					return;
 				}				
 				
@@ -130,8 +134,17 @@ public class MouseInput implements MouseListener{
 					GamePanel.menuState = GamePanel.MenuState.MAIN;
 					return;
 				}
+			}			
+		}
+		
+		//Game Over Menu
+		if(GamePanel.gameState == GamePanel.GameState.GAME_OVER) {
+			if(mouseIn(mx,my,gp.backFromGameOverBtn)) {
+				System.out.println("back from gg");
+				GamePanel.menuState = GamePanel.MenuState.MAIN;
+				GamePanel.gameState = GamePanel.GameState.MENU;
+				return;
 			}
-			
 		}
 		
 	}

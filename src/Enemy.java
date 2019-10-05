@@ -770,7 +770,7 @@ public class Enemy {
 		
 		if(skillSet.containsKey("growing skill")) {
 			if(RandomUtils.runChance(skillSet.get("growing skill"))) {
-				texts.add(new Text(getx(), gety(), 2000, "자라고있엉"));
+				texts.add(new Text(getx(), gety(), 2000, "Growing!"));
 				r = r +1;
 			}			
 		}

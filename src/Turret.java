@@ -43,8 +43,8 @@ public class Turret {
 		thisCount = index;
 
 		bulletTimer = System.nanoTime();
-		normalBulletDelay = 777;
-		bulletDelay = 777;
+		normalBulletDelay = 700;
+		bulletDelay = 700;
 		
 		lifeSpan = 20000;
 		lifeTimer = System.nanoTime();

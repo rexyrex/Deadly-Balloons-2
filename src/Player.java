@@ -187,9 +187,8 @@ public class Player {
 	public boolean isCollectingPu() {
 		return isCollectingPu;
 	}
-
-	//Constructor
-	public Player(){
+	
+	public void init() {
 		x = GamePanel.WIDTH/2;
 		y = GamePanel.HEIGHT/2;
 		r = 9;
@@ -209,12 +208,6 @@ public class Player {
 		speed = 4;
 		 
 		lives = 3;
-		color1 = Color.WHITE;
-		color2 = Color.RED;
-		
-		sfx = new HashMap<String, AudioPlayer>();
-		sfx.put("laser", new AudioPlayer("/SFX/shoot.mp3"));
-		sfx.put("side", new AudioPlayer("/SFX/side_missile.mp3"));
 		
 		firing = false;
 		firingTimer = System.nanoTime();
@@ -274,7 +267,19 @@ public class Player {
 		
 		nWalls = 0;
 		
-		score = 0;
+		score = 1200;
+	}
+
+	//Constructor
+	public Player(){
+		color1 = Color.WHITE;
+		color2 = Color.RED;
+		
+		sfx = new HashMap<String, AudioPlayer>();
+		sfx.put("laser", new AudioPlayer("/SFX/shoot.mp3"));
+		sfx.put("side", new AudioPlayer("/SFX/side_missile.mp3"));
+		
+		init();
 	}
 	
 	//setters

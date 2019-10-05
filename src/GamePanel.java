@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -46,10 +47,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private Thread thread;
 	private boolean running;
-	private boolean paused;
+	private boolean victorious;
 	
 	private ArrayList<String> waveNames;
 	private ArrayList<HashMap<Enemy, Integer>> waveData;
+	private String levelTitle;
 	
 	private BufferedImage image;
 	public Graphics2D g;
@@ -89,9 +91,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public ShopPanel sp;
 	
 	private Menu menu;
+	public int btnLength = 134;
+	public int btnHeight = 50;
+	public Rectangle backFromGameOverBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 535, btnLength, btnHeight);
 	
 	public enum GameState {
-		TUTORIAL, PLAY, MENU
+		TUTORIAL, PLAY, MENU, GAME_OVER, PAUSED
 	}
 	
 	public enum MenuState {
@@ -129,7 +134,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		addKeyListener(this);
 		menu = new Menu();
-		addMouseListener(new MouseInput(menu));
+		addMouseListener(new MouseInput(menu, this));
 	}
 
 	//RUN METHOD
@@ -137,7 +142,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void run() {  
 		
 		running = true;
-		paused = false;
 		
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
@@ -165,13 +169,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
-		
-		
 		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
 		//bgmusic.play();
-		
-		player.addScore(1200);
-		
+
 		sfx = new HashMap<String, AudioPlayer>();
 		
 		sfx.put("hit", new AudioPlayer("/SFX/enemy_hit.mp3"));
@@ -179,98 +179,41 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("enemy die", new AudioPlayer("/SFX/enemydie.mp3"));
 		sfx.put("place black hole", new AudioPlayer("/SFX/place_black_hole.mp3"));
 		sfx.put("collect powerup", new AudioPlayer("/SFX/powerup_collect.mp3"));
-		waveStartTimer = 0;
-		waveStartTimerDiff = 0;
-		waveStart = true;
-		waveNumber = 0;
 		
-		
-		long startTime;
 
+		long startTime;
 		long waitTime;
 		long totalTime = 0;
-		
 		int frameCount = 0;
 		int maxFrameCount = 60;
-		
 		long targetTime = 1000/FPS;
-		
 		long gameStartTime = System.nanoTime();
 		
 		gameState = GameState.MENU;
 		menuState = MenuState.MAIN;
 		gameMode = GameMode.DEFAULT;
 		
-		JSONObject waveDataJSONArr = null;
-		//load JSON Data
-		JSONParser parser = new JSONParser();
-		try {
-			InputStream iStream = getClass().getResourceAsStream("/LevelData/LevelEZPZ.json");
-			//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
-			BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8"));
-			waveDataJSONArr = (JSONObject) parser.parse(br);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (org.json.simple.parser.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		JSONObject waveDataObj = (JSONObject) waveDataJSONArr;
-		JSONArray levelData = (JSONArray) waveDataJSONArr.get("waves");
-		
-		for(Object waveObj : levelData) {
-			//JsonObject Cast
-			JSONObject waveJsonObj = (JSONObject) waveObj;
-			
-			//load titles			
-			String waveName = (String) waveJsonObj.get("waveTitle");
-			waveNames.add( waveName );
-			
-			//load enemy info
-			HashMap<Enemy, Integer> enemyToAdd = new HashMap<Enemy, Integer>();
-			JSONArray enemyDataJsonArr = (JSONArray) waveJsonObj.get("waveEnemies");
-			for(Object enemyInfoObj : enemyDataJsonArr) {
-				//JsonObject Cast
-				JSONObject enemyInfoJsonObj = (JSONObject) enemyInfoObj;
-				
-				
-				
-				int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
-				int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
-				int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
-				//System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
-				Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
-				enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
-			}
-			waveData.add(enemyToAdd);
-		}
-		
-
-
-		
 		//Game Loop
-		while(running){
-			System.out.println("running");
-			
+		while(running){			
 			requestFocus();
-			if(paused) {
-				
+			
+			if(gameState == GameState.PAUSED) {				
 				gameRender();
 				pauseRender();
 				gameDraw();
 			}
+			
+			if(gameState == GameState.GAME_OVER) {
+				gameOverRender();
+				gameDraw();
+			}
 				
-			if(gameState == GameState.MENU && !paused) {
+			if(gameState == GameState.MENU) {
 				menu.render(g);
 				gameDraw();
 			}
 				
-			if(gameState == GameState.PLAY && !paused) {
+			if(gameState == GameState.PLAY) {
 				requestFocus();
 				startTime = System.nanoTime();
 				ip.updateStats2();
@@ -305,26 +248,119 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		}
 		
-		g.setColor(new Color(0,100,255));
+
+	}
+	
+	public void initNewLvl(String lvlName) {
+		
+		waveNames.clear();
+		waveData.clear();
+		bullets.clear();
+		friends.clear();
+		enemies.clear();
+		powerups.clear();
+		explosions.clear();
+		texts.clear();
+		turrets.clear();
+		blackholes.clear();
+		bombs.clear();
+		walls.clear();
+		linewalls.clear();
+		
+		player.init();
+		waveStartTimer = 0;
+		waveStartTimerDiff = 0;
+		waveStart = true;
+		waveNumber = 0;
+		victorious = false;
+		
+		JSONObject waveDataJSONArr = null;
+		//load JSON Data
+		JSONParser parser = new JSONParser();
+		try {
+			InputStream iStream = getClass().getResourceAsStream("/LevelData/"+ lvlName +".json");
+			//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8"));
+			waveDataJSONArr = (JSONObject) parser.parse(br);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (org.json.simple.parser.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JSONObject waveDataObj = (JSONObject) waveDataJSONArr;
+		JSONArray levelData = (JSONArray) waveDataJSONArr.get("waves");
+		levelTitle = (String) waveDataObj.get("levelName");
+
+		for(Object waveObj : levelData) {
+			//JsonObject Cast
+			JSONObject waveJsonObj = (JSONObject) waveObj;
+			
+			//load titles			
+			String waveName = (String) waveJsonObj.get("waveTitle");
+			waveNames.add( waveName );
+			
+			//load enemy info
+			HashMap<Enemy, Integer> enemyToAdd = new HashMap<Enemy, Integer>();
+			JSONArray enemyDataJsonArr = (JSONArray) waveJsonObj.get("waveEnemies");
+			for(Object enemyInfoObj : enemyDataJsonArr) {
+				//JsonObject Cast
+				JSONObject enemyInfoJsonObj = (JSONObject) enemyInfoObj;
+				
+				
+				
+				int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
+				int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
+				int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
+				//System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
+				Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
+				enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
+			}
+			waveData.add(enemyToAdd);
+		}
+	}
+	
+	private void gameOverRender() {
+		g.setColor(new Color(0,0,0));
 		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,18));
-		String s = "G A M E  O V E R";
+		g.setFont(new Font("Century Gothic",Font.PLAIN,30));
+		String s;
+		if(victorious) {
+			s = "V I C T O R Y";
+		} else {
+			s = "G A M E  O V E R";
+		}		
 		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2);
 		//s = "Final Score: " + player.getScore();
 		
+		g.setFont(new Font("Century Gothic",Font.PLAIN,20));
+		s = "Level : " + levelTitle;
+		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+50);		
+		
 		s = "Max Wave : " + waveNumber;
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+30);
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+100);
 		
 		s = "Time : " + StringUtils.getTime(elapsedTime);
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+60);
-		gameDraw();
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+150);
+		
+		g.drawString("Main Menu", backFromGameOverBtn.x+18, backFromGameOverBtn.y+33);
+		g.draw(backFromGameOverBtn);
+		
 	}
 
 	private void pauseRender() {
+		g.setColor(new Color(255,255,255,120));
+		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.RED);
 		g.setFont(new Font("Gulim", Font.BOLD,100));
 		String s = "P A U S E D";
@@ -428,7 +464,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 			
 		//draw wave number
-		if(waveStartTimer != 0){
+		if(waveStartTimer != 0 && gameState == GameState.PLAY){
 			g.setFont(new Font("Gulim", Font.PLAIN,40));
 			String s = " W A V E  " + waveNumber + "  :   " + waveNames.get(waveNumber-1);
 			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
@@ -532,6 +568,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			waveNumber++;
 			waveStart = false;
 			waveStartTimer = System.nanoTime();
+			
+			if(waveNumber > waveNames.size()) {
+				victorious = true;
+				gameState = GameState.GAME_OVER;
+			}
+			
 		} else {
 			waveStartTimerDiff = (System.nanoTime() - waveStartTimer)/1000000;
 			if(waveStartTimerDiff>waveDelay){
@@ -1015,8 +1057,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//check dead player
 		if(player.isDead()){
 			sfx.get("player die").play();
-			running = false;
-			paused = false;
+			gameState = GameState.GAME_OVER;
 		}
 		
 		//check player enemy collision
@@ -1276,10 +1317,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		if(keyCode == KeyEvent.VK_SPACE){			
-			paused = !paused;		
-			if(paused) {
+		if(keyCode == KeyEvent.VK_SPACE){		
+			if(gameState == GameState.PLAY) {
+				gameState = GameState.PAUSED;	
 				jframe.setState(Frame.ICONIFIED);
+			} else if(gameState == GameState.PAUSED){
+				gameState = GameState.PLAY;
 			}
 			
 	}

@@ -123,7 +123,7 @@ public class Menu {
 			g2d.draw(ezpzLvlBtn);
 			
 			g.setColor(Color.yellow);
-			g.drawString("Sehoon", sehoonLvlBtn.x+20, sehoonLvlBtn.y+35);
+			g.drawString("Mr. Yang", sehoonLvlBtn.x+20, sehoonLvlBtn.y+35);
 			g2d.draw(sehoonLvlBtn);
 			
 			g.setColor(Color.red);
@@ -134,6 +134,7 @@ public class Menu {
 			g.drawString("Back", backFromDefaultLvlsBtn.x+20, backFromDefaultLvlsBtn.y+35);
 			g2d.draw(backFromDefaultLvlsBtn);
 		}
+
 	}
 	
 	private void renderTitle(String title, Graphics g) {
