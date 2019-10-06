@@ -567,10 +567,6 @@ public class Player {
 		
 	}
 	
-	public void placeWall(){
-		GamePanel.walls.add(new Wall(x-r,y-r));
-	}
-	
 	public void placeShelter(){
 		if(nWalls>0){
 			nWalls--;

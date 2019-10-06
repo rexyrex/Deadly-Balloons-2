@@ -119,9 +119,9 @@ public class PowerUp {
 		}
 		if(type == 13){
 			color1 = Color.PINK;
-			r = 8;
-			name = "WALL";
-			collectText = "Wall +1";
+			r = 6;
+			name = "SHELTER";
+			collectText = "Shelter Added!";
 		}
 		
 		if(type == 14){

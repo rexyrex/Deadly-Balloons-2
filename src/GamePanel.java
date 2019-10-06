@@ -70,7 +70,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<Turret> turrets;
 	public static ArrayList<BlackHole> blackholes;
 	public static ArrayList<Bomb> bombs;
-	public static ArrayList<Wall> walls;
 	public static ArrayList<Shelter> shelters;
 	
 	private long URDTimeMillis;
@@ -179,7 +178,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		turrets = new ArrayList<Turret>();
 		blackholes = new ArrayList<BlackHole>();
 		bombs = new ArrayList<Bomb>();
-		walls = new ArrayList<Wall>();
 		shelters = new ArrayList<Shelter>();
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
@@ -291,7 +289,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		turrets.clear();
 		blackholes.clear();
 		bombs.clear();
-		walls.clear();
 		shelters.clear();
 		
 		player.init();
@@ -472,11 +469,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw bomb
 		for(int i=0; i<bombs.size(); i++){
 			bombs.get(i).draw(g);
-		}
-			
-		//draw wall
-		for(int i=0; i<walls.size(); i++){
-			walls.get(i).draw(g);
 		}
 			
 		//draw line wall
@@ -782,25 +774,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		//wall update
-		for(int i=0; i<walls.size(); i++){
-			boolean remove = walls.get(i).update();
-			if(remove){
-				walls.remove(i);
-				i--;
-			}
-		}
-		
-		//wall enemy collision
-		for(int j=0; j<walls.size(); j++){
-			for(int i=0; i<enemies.size(); i++){
-			
-				Wall w = walls.get(j);
-				enemies.get(i).wallCollide(w.getx(), w.gety(), w.getWidth(), w.getHeight());
-			}
-		}
-		
-		//line wall update
+		//Shelter update
 		for(int i=0; i<shelters.size(); i++){
 			boolean remove = shelters.get(i).update();
 			Shelter l = shelters.get(i);
@@ -1339,11 +1313,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				if(player.useStamina(100)){				
 					player.placeShelter();
 				}
-			}
-		}
-		if(keyCode == KeyEvent.VK_O){
-			if(player.useStamina(15)){
-				player.placeWall();
 			}
 		}
 		
