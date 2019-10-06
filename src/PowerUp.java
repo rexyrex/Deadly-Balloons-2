@@ -107,14 +107,14 @@ public class PowerUp {
 			color1 = Color.RED.brighter();
 			r = 5;
 			name = "+ Stamina";
-			staminaGain = Math.random() * 700;
+			staminaGain = Math.random() * 100 + 100;
 			collectText = "Stamina +" + staminaGain;
 		}
 		if(type == 12){
 			color1 = Color.RED.brighter();
 			r = 6;
 			name = "+ Max Stamina";
-			staminaGain = Math.random() * 300;
+			staminaGain = Math.random() * 100 + 100;
 			collectText = "Max Stamina +" + staminaGain;
 		}
 		if(type == 13){

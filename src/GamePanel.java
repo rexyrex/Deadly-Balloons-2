@@ -99,8 +99,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private Menu menu;
 	public int btnLength = 170;
 	public int btnHeight = 50;
+	
+	//Game Over Btns
 	public Rectangle backFromGameOverBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 525, btnLength, btnHeight);
 	public Rectangle retryLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 455, btnLength, btnHeight);
+	
+	//Pause Btns
+	public Rectangle resumeFromPausedBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 455, btnLength, btnHeight);
+	public Rectangle quitFromPauseBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 525, btnLength, btnHeight);
 	
 	public enum GameState {
 		TUTORIAL, PLAY, MENU, GAME_OVER, PAUSED
@@ -388,10 +394,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setColor(new Color(255,255,255,120));
 		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.RED);
-		g.setFont(new Font("Gulim", Font.BOLD,100));
-		String s = "P A U S E D";
+		g.setFont(new Font("Gulim", Font.BOLD,80));
+		String s = "PAUSED";
 		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2);
+		
+		g.setFont(new Font("Gulim", Font.BOLD,30));
+		
+		g.setColor(Color.green);
+		g.drawString("Resume", resumeFromPausedBtn.x+22, resumeFromPausedBtn.y+35);
+		g.draw(resumeFromPausedBtn);
+		
+		g.setColor(Color.RED);
+		g.drawString("Give up", quitFromPauseBtn.x+22, quitFromPauseBtn.y+35);
+		g.draw(quitFromPauseBtn);
 		
 	}
 	

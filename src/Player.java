@@ -201,6 +201,7 @@ public class Player {
 		friendDmg = 1.0;
 		
 		powerLevel = 0;
+		power = 0;
 		
 		dx = 0;
 		dy= 0;
@@ -691,8 +692,6 @@ public class Player {
 		if(firingSide){
 			long elapsedActual = (System.nanoTime() - firingSideActualTimer)/1000000;
 			if(elapsedActual > firingSideLength){
-				//Longer fire side length every time u fire side activate
-				//firingSideLength += 100;
 				firingSide = false;
 				firingSideActualTimer = 0;
 			}
@@ -717,6 +716,15 @@ public class Player {
 				cG = (int) (rn.nextDouble()*100);
 				cB = (int) (rn.nextDouble()*100);
 				GamePanel.bullets.add(new Bullet("topRight",x+2*r,y+r/2,5,new Color(cR,cR,cR,255), sideMissileDmg));
+				
+				//rocket from turrets if supercharged
+				for(int k=0; k< GamePanel.turrets.size(); k++) {
+					if(GamePanel.turrets.get(k).isSuperCharged()) {
+						double turretX = GamePanel.turrets.get(k).getx();
+						double turretY = GamePanel.turrets.get(k).gety();
+						GamePanel.bullets.add(new Bullet("topRight",(int)(turretX+2*r),(int)(turretY+r/2),5,new Color(cR,cR,cR,255), sideMissileDmg));
+					}					
+				}				
 			}
 			
 		}
@@ -898,6 +906,15 @@ public class Player {
 						GamePanel.bullets.add(new Bullet(secondAngle, x, y, bulletDmg));
 						GamePanel.bullets.add(new Bullet(thirdAngle, x, y, bulletDmg));
 						GamePanel.bullets.add(new Bullet(fourthAngle, x, y, bulletDmg));
+						
+						//spaz at turrets
+						for(int k=0; k< GamePanel.turrets.size(); k++) {
+							if(GamePanel.turrets.get(k).isSuperCharged()) {
+								GamePanel.bullets.add(new Bullet(fixedSpazAngle, (int) GamePanel.turrets.get(k).getx(), (int) GamePanel.turrets.get(k).gety(), bulletDmg));
+								GamePanel.bullets.add(new Bullet(thirdAngle, (int) GamePanel.turrets.get(k).getx(), (int) GamePanel.turrets.get(k).gety(), bulletDmg));
+							}
+						}
+						
 					}
 				
 				//}

@@ -37,7 +37,7 @@ public class Turret {
 		angleSpeed = 2;
 		targetAngle = 270;
 		superCharged = false;
-		superChargedDuration = 7000;
+		superChargedDuration = 10000;
 		superChargedStartTime = 0;
 
 		thisCount = index;
@@ -52,7 +52,8 @@ public class Turret {
 		int cR = (int) (rn.nextDouble()*100);
 		int cG = (int) (rn.nextDouble()*100);
 		int cB = (int) (rn.nextDouble()*127);
-		color1 = new Color(cR, cG, cB, 240);
+		//color1 = new Color(cR, cG, cB, 240);
+		color1 = new Color(255,255,255,255);
 		dead = false;
 	}
 	

@@ -151,6 +151,21 @@ public class MouseInput implements MouseListener{
 			}
 		}
 		
+		//Paused Menu
+		if(GamePanel.gameState == GamePanel.GameState.PAUSED) {
+			//quit (back to main menu)
+			if(mouseIn(mx,my,gp.quitFromPauseBtn)) {
+				GamePanel.menuState = GamePanel.MenuState.MAIN;
+				GamePanel.gameState = GamePanel.GameState.MENU;
+				return;
+			}
+			//resume
+			if(mouseIn(mx,my,gp.resumeFromPausedBtn)) {
+				GamePanel.gameState = GamePanel.GameState.PLAY;
+				return;
+			}
+		}
+		
 	}
 	
 	public boolean mouseIn(int mx, int my, Rectangle r) {
