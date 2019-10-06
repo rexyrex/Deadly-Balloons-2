@@ -192,8 +192,8 @@
 				},
 				{
 					"type": 5,
-					"rank": 4,
-					"count": 2
+					"rank": 3,
+					"count": 3
 				},
 				{
 					"type": 7,
@@ -244,7 +244,7 @@
 				{
 					"type": 6,
 					"rank": 4,
-					"count": 2
+					"count": 3
 				},
 				{
 					"type": 7,
@@ -259,7 +259,7 @@
 				{
 					"type": 1,
 					"rank": 4,
-					"count": 10
+					"count": 12
 				}
 	        ]
 	    },

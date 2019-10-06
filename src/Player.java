@@ -114,7 +114,7 @@ public class Player {
 	private int powerLevel;
 	private int power;
 	private int[] requiredPower = {
-			1,2,3,4,6,8,10,12,14,16,18,20,22
+			2,4,6,8,12,15,20
 	};
 	
 	private double dropRateBonus;
@@ -310,8 +310,8 @@ public class Player {
 		turretDmg += Math.random()/12 + 0.02;
 		bombDmg += Math.random()/12 + 0.02;
 		addonDmg += Math.random()/12 + 0.02;
-		spazLength += Math.random() * 200;
-		firingSideLength += Math.random() * 200;
+		spazLength += Math.random() * 100 + 50;
+		firingSideLength += Math.random() * 100 + 50;
 		friendDmg += Math.random()/12 + 0.02;
 	}
 	
@@ -461,7 +461,7 @@ public class Player {
 			power -= getRequiredPower();
 			powerLevel++;
 			
-			if(powerLevel>12) {
+			if(powerLevel>=requiredPower.length-1) {
 				double incDmg = Math.random()/10 + 0.05;
 				double displayIncDmg = (double) Math.round(incDmg * 100) / 100;
 				GamePanel.texts.add(new Text(getx(), gety(),2000,"Dmg inc by " + displayIncDmg));
@@ -911,7 +911,6 @@ public class Player {
 						for(int k=0; k< GamePanel.turrets.size(); k++) {
 							if(GamePanel.turrets.get(k).isSuperCharged()) {
 								GamePanel.bullets.add(new Bullet(fixedSpazAngle, (int) GamePanel.turrets.get(k).getx(), (int) GamePanel.turrets.get(k).gety(), bulletDmg));
-								GamePanel.bullets.add(new Bullet(thirdAngle, (int) GamePanel.turrets.get(k).getx(), (int) GamePanel.turrets.get(k).gety(), bulletDmg));
 							}
 						}
 						

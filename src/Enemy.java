@@ -373,8 +373,8 @@ public class Enemy {
 			if(rank == 1){
 				speed = 4;
 				r = 50;
-				health = 2000;
-				maxHealth = 2000;
+				health = 3000;
+				maxHealth = 3000;
 				money = 5000;
 			}
 		}
