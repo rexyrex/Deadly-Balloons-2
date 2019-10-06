@@ -114,7 +114,6 @@ public class Player {
 	private int powerLevel;
 	private int power;
 	private int[] requiredPower = {
-			
 			1,2,3,4,6,8,10,12,14,16,18,20,22
 	};
 	
@@ -740,29 +739,26 @@ public class Player {
 				sfx.get("laser").play();
 				firingTimer = System.nanoTime();
 				
-				if(powerLevel < 2){
-					
-					
-					
+				if(powerLevel < 1){
 					GamePanel.bullets.add(new Bullet(270, x,y, bulletDmg));
 				}
-				else if(powerLevel < 4){
+				else if(powerLevel < 2){
 					GamePanel.bullets.add(new Bullet(270, x+5,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(270, x-5,y, bulletDmg));
 					
-				} else if(powerLevel < 6) {
+				} else if(powerLevel < 3) {
 					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
 					
-				} else if(powerLevel < 8) {
+				} else if(powerLevel < 4) {
 					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
 					
-				} else if(powerLevel < 10){
+				} else if(powerLevel < 5){
 					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
@@ -773,7 +769,7 @@ public class Player {
 					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
 					
-				} else if(powerLevel < 12){
+				} else if(powerLevel < 6){
 					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
 					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));

@@ -35,7 +35,9 @@ public class Menu {
 	
 	public void clickAnim(Graphics g, int x, int y) {
 		Graphics2D g2d = (Graphics2D) g;
-		explosions.add(new Explosion(x, y, 10, 50));
+		explosions.add(new Explosion(x, y, 10, 50, 5, new Color(255,255,255,255)));
+		explosions.add(new Explosion(x, y, 10, 50, 2.5, new Color(255,255,255,255)));
+		explosions.add(new Explosion(x, y, 10, 50, 3.5, new Color(255,255,255,255)));
 	}
 	
 	public void clearMenuAnims() {
@@ -132,7 +134,7 @@ public class Menu {
 		if(GamePanel.menuState == GamePanel.MenuState.DEFAULT_LEVELS) {
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
-			renderTitle("Modes", g);
+			renderTitle("Default Levels", g);
 
 			g.setFont(menuBtnFont);
 			

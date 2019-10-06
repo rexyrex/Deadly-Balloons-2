@@ -1202,13 +1202,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	//ENEMY WAVES
 	private void createNewEnemies(){
 		enemies.clear();
-
 		HashMap<Enemy, Integer> currWaveData = waveData.get(waveNumber-1);
-	    
 	    for (Map.Entry<Enemy, Integer> entry : currWaveData.entrySet()) {
 	        for(int i=0; i<entry.getValue(); i++) {
 	        	Enemy tmpEnemy = entry.getKey();
-	        	//Cannot instantiate tmpEnemy multiple times as it creates same enemy multiple times
+	        	//Cannot instantiate tmpEnemy multiple times as it creates same enemy
 	        	enemies.add( new Enemy(tmpEnemy.getType(), tmpEnemy.getRank(), 1));
 	        }
 	    }
