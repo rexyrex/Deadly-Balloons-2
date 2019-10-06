@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -129,6 +131,16 @@ public class ShopPanel extends JPanel{
 		//btn.setPreferredSize(new Dimension(10,10));
 		btn.setFont(new Font("Gulim", Font.BOLD, 15));
 		add(btn);
+	}
+	
+	public void resetPurchases() {
+		Iterator it = itemPurchaseMap.entrySet().iterator();
+	    
+	    for (Map.Entry<JButton, Integer> entry : itemPurchaseMap.entrySet()) {
+	        entry.setValue(0);
+	        updateBtnName((JButton) entry.getKey());
+	    }
+	    
 	}
 	
 	public void purchaseProcess(JButton btn) {

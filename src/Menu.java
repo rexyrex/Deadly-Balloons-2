@@ -3,10 +3,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class Menu {
 	
-	public int btnLength = 134;
+	public int btnLength = 160;
 	public int btnHeight = 50;
 	public Rectangle playBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
 	public Rectangle helpBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
@@ -26,24 +27,53 @@ public class Menu {
 	public Rectangle impossibleLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 400, btnLength, btnHeight);
 	public Rectangle backFromDefaultLvlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
 	
+	public static ArrayList<Explosion> explosions;
+	
+	public Menu() {
+		explosions = new ArrayList<Explosion>();
+	}
+	
+	public void clickAnim(Graphics g, int x, int y) {
+		Graphics2D g2d = (Graphics2D) g;
+		explosions.add(new Explosion(x, y, 10, 50));
+	}
+	
+	public void clearMenuAnims() {
+		explosions.clear();
+	}
+	
 	public void render(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		Font menuTitleFont = new Font("Gulim", Font.BOLD, 50);
 		Font menuBtnFont = new Font("Gulim", Font.PLAIN, 30);
+
+		
+		g.setColor(new Color(0,0,0));
+		g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);	
+		
+		//draw explosion
+		for(int i=0; i<explosions.size(); i++){
+			explosions.get(i).draw(g2d);
+		}
+		
+		//explosion update
+		for(int i=0; i<explosions.size(); i++){
+			boolean remove = explosions.get(i).update();
+			if(remove){
+				explosions.remove(i);
+				i--;
+			}
+		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.MAIN) {
-			g.setColor(new Color(0,0,0));
-			g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);	
 			
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			
 			renderTitle("Deadly Balloons 2.0", g);
-			
-			
+						
 			g.setFont(menuBtnFont);
 			
-
 			g.drawString("Play", playBtn.x+20, playBtn.y+35);
 			g2d.draw(playBtn);
 			
@@ -58,9 +88,6 @@ public class Menu {
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.CREDITS) {
-			g.setColor(new Color(0,0,0));
-			g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);
-
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			renderTitle("Credits", g);
@@ -72,9 +99,6 @@ public class Menu {
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.HELP) {
-			g.setColor(new Color(0,0,0));
-			g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);
-
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			renderTitle("Help", g);
@@ -86,9 +110,6 @@ public class Menu {
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.PLAY_MODES) {
-			g.setColor(new Color(0,0,0));
-			g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);
-
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			renderTitle("Modes", g);
@@ -109,9 +130,6 @@ public class Menu {
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.DEFAULT_LEVELS) {
-			g.setColor(new Color(0,0,0));
-			g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);
-
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			renderTitle("Modes", g);

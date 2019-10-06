@@ -23,12 +23,11 @@ public class MouseInput implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 		int mx = e.getX();
 		int my = e.getY();
-		/*	public Rectangle playBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
-	public Rectangle helpBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
-	public Rectangle creditsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 400, btnLength, btnHeight);
-	public Rectangle quitBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);*/
 		
 		if(GamePanel.gameState == GamePanel.GameState.MENU) {
+			//click anim
+			menu.clickAnim(gp.getGraphics(), mx, my);
+			
 			//Main Menu
 			if(GamePanel.menuState == GamePanel.MenuState.MAIN) {			
 				//play btn
@@ -89,15 +88,14 @@ public class MouseInput implements MouseListener{
 			if(GamePanel.menuState == GamePanel.MenuState.DEFAULT_LEVELS) {			
 				//ezpz lvl btn
 				if(mouseIn(mx,my,menu.ezpzLvlBtn)) {
-					gp.initNewLvl("EZPZ");
-					GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
+					gp.initNewLvl("EZPZ", GamePanel.GameMode.DEFAULT, false);
 					GamePanel.gameState = GamePanel.GameState.PLAY;					
 					return;
 				}
 				
 				//sehoon lvl btn
 				if(mouseIn(mx,my,menu.sehoonLvlBtn)) {
-					gp.initNewLvl("MrYang");
+					gp.initNewLvl("MrYang", GamePanel.GameMode.DEFAULT, false);
 					GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
 					GamePanel.gameState = GamePanel.GameState.PLAY;					
 					return;
@@ -139,6 +137,13 @@ public class MouseInput implements MouseListener{
 		
 		//Game Over Menu
 		if(GamePanel.gameState == GamePanel.GameState.GAME_OVER) {
+			//replay
+			if(mouseIn(mx,my,gp.retryLvlBtn)) {
+				gp.initNewLvl("", gp.gameMode,true);
+				GamePanel.gameState = GamePanel.GameState.PLAY;
+				return;
+			}
+			//back to main menu
 			if(mouseIn(mx,my,gp.backFromGameOverBtn)) {
 				GamePanel.menuState = GamePanel.MenuState.MAIN;
 				GamePanel.gameState = GamePanel.GameState.MENU;

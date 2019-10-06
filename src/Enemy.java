@@ -329,10 +329,10 @@ public class Enemy {
 		
 		//money enemy
 		if(type ==8){
-			skillSet.put("money skill", 2.47);
-			moneyEnemyAlpha = 255;
-			
+			skillSet.put("money skill", 1.0);
+			skillSet.put("change direction skill", 2.0);			
 			skillSet.put("health bar skill", 1.0);
+			moneyEnemyAlpha = 255;
 			color1 = new Color(255,215,0,moneyEnemyAlpha);
 
 			if(rank == 1){
@@ -743,7 +743,7 @@ public class Enemy {
 	public void hit(double dmg){
 		
 		if(skillSet.containsKey("money skill")) {
-			GamePanel.player.addScore((int) dmg);
+			GamePanel.player.addScore((int) (dmg * skillSet.get("money skill")));
 			GamePanel.texts.add(new Text(x, y,1000,"+" +(int) dmg, true, Color.GREEN, Font.BOLD));
 		}
 		
@@ -776,9 +776,16 @@ public class Enemy {
 	
 	public void update(Player player, ArrayList<Text> texts){
 		
+		if(skillSet.containsKey("change direction skill")) {
+			if(RandomUtils.runChance(skillSet.get("change direction skill"))) {
+				changeDirectionRandomly();
+			}
+		}
+		
 		if(skillSet.containsKey("money skill")) {
-			if(RandomUtils.runChance(20.0)) {
-				health-=5;
+			if(RandomUtils.runChance(1.0)) {
+				GamePanel.texts.add(new Text(x, y,1000,"-100", true, Color.RED, Font.BOLD));
+				health-=100;
 			}
 		}
 		

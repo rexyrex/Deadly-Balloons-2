@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -81,6 +82,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private boolean waveStart;
 	private int waveDelay = 4700;
 	
+	private String lastPlayedLvl;
+	
+	private long lvlStartTime;
+	private long lvlElapsedTime;
+	
 	public static long slowDownTimer;
 	private long slowDownTimerDiff;
 	private int slowDownLength = 6000;
@@ -91,9 +97,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public ShopPanel sp;
 	
 	private Menu menu;
-	public int btnLength = 134;
+	public int btnLength = 170;
 	public int btnHeight = 50;
-	public Rectangle backFromGameOverBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 535, btnLength, btnHeight);
+	public Rectangle backFromGameOverBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 525, btnLength, btnHeight);
+	public Rectangle retryLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 455, btnLength, btnHeight);
 	
 	public enum GameState {
 		TUTORIAL, PLAY, MENU, GAME_OVER, PAUSED
@@ -110,6 +117,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static GameState gameState;
 	public static MenuState menuState;
 	public static GameMode gameMode;
+	
+	public static GameMode lastGameMode;
 	
 	public GamePanel(JFrame jframe, ShopPanel sp, InfoPanel ip){
 		super();		
@@ -196,7 +205,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//Game Loop
 		while(running){			
 			requestFocus();
-			
+			startTime = System.nanoTime();
 			if(gameState == GameState.PAUSED) {				
 				gameRender();
 				pauseRender();
@@ -214,44 +223,56 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 				
 			if(gameState == GameState.PLAY) {
-				requestFocus();
-				startTime = System.nanoTime();
+				lvlElapsedTime = (System.nanoTime() - lvlStartTime)/1000000;
 				ip.updateStats2();
 				gameUpdate();
 				gameRender();
 				gameDraw();
-				
-				elapsedTime = (System.nanoTime() - gameStartTime)/1000000;
-				
-				URDTimeMillis = (System.nanoTime() - startTime)/1000000;
-				
-				waitTime = targetTime - URDTimeMillis;
-				
-				if(waitTime>0){//i added this brah!
-					try {
-						Thread.sleep(waitTime);
-					} catch (InterruptedException e) {					
-						e.printStackTrace();
-					}
-				}
-				
-				totalTime += System.nanoTime() - startTime;
-				frameCount++;
-				if(frameCount == maxFrameCount){
-					//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
-					System.out.println(1000.0 / ((totalTime/frameCount)/1000000));
-					frameCount = 0;
-					totalTime = 0;
+			}
+			
+			
+			elapsedTime = (System.nanoTime() - gameStartTime)/1000000;
+			
+			URDTimeMillis = (System.nanoTime() - startTime)/1000000;
+			
+			waitTime = targetTime - URDTimeMillis;
+			
+			if(waitTime>0){//i added this brah!
+				try {
+					Thread.sleep(waitTime);
+				} catch (InterruptedException e) {					
+					e.printStackTrace();
 				}
 			}
 			
-		
+			totalTime += System.nanoTime() - startTime;
+			frameCount++;
+			if(frameCount == maxFrameCount){
+				//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
+				System.out.println(1000.0 / ((totalTime/frameCount)/1000000));
+				frameCount = 0;
+				totalTime = 0;
+			}			
 		}
 		
 
 	}
 	
-	public void initNewLvl(String lvlName) {
+	public void initNewLvl(String lvlName, GameMode gm, boolean replayLastLvl) {
+		if(replayLastLvl) {
+			lvlName = lastPlayedLvl;
+			gm = lastGameMode;
+		}
+		
+		lastGameMode = gm;
+		lastPlayedLvl = lvlName;
+		gameMode = gm;
+		
+		//init shop
+		sp.resetPurchases();
+		
+		//clear menu anims
+		menu.clearMenuAnims();
 		
 		waveNames.clear();
 		waveData.clear();
@@ -323,13 +344,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 			waveData.add(enemyToAdd);
 		}
+		
+		lvlStartTime = System.nanoTime();
 	}
 	
 	private void gameOverRender() {
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,30));
+		g.setFont(new Font("Century Gothic",Font.BOLD,40));
 		String s;
 		if(victorious) {
 			s = "V I C T O R Y";
@@ -337,21 +360,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			s = "G A M E  O V E R";
 		}		
 		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2);
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2 - 120);
 		//s = "Final Score: " + player.getScore();
 		
-		g.setFont(new Font("Century Gothic",Font.PLAIN,20));
+		g.setFont(new Font("Century Gothic",Font.PLAIN,25));
 		s = "Level : " + levelTitle;
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+50);		
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2-50);		
 		
-		s = "Max Wave : " + waveNumber;
+		s = "Completed Waves : " + (waveNumber-1);
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+100);
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+0);
 		
-		s = "Time : " + StringUtils.getTime(elapsedTime);
+		s = "Time : " + StringUtils.getTime(lvlElapsedTime);
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+150);
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+50);
+		
+		g.drawString("Retry", retryLvlBtn.x+18, retryLvlBtn.y+33);
+		g.draw(retryLvlBtn);
 		
 		g.drawString("Main Menu", backFromGameOverBtn.x+18, backFromGameOverBtn.y+33);
 		g.draw(backFromGameOverBtn);
@@ -1178,18 +1204,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		enemies.clear();
 
 		HashMap<Enemy, Integer> currWaveData = waveData.get(waveNumber-1);
-		Iterator it = currWaveData.entrySet().iterator();
-		
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        int tmpAmount = (int) pair.getValue();
-	        for(int i=0; i<tmpAmount; i++) {
-	        	Enemy tmpEnemy = (Enemy) pair.getKey();
+	    
+	    for (Map.Entry<Enemy, Integer> entry : currWaveData.entrySet()) {
+	        for(int i=0; i<entry.getValue(); i++) {
+	        	Enemy tmpEnemy = entry.getKey();
 	        	//Cannot instantiate tmpEnemy multiple times as it creates same enemy multiple times
 	        	enemies.add( new Enemy(tmpEnemy.getType(), tmpEnemy.getRank(), 1));
 	        }
-	        it.remove(); // avoids a ConcurrentModificationException
-	    }		
+	    }
 	}
 
 	@Override
