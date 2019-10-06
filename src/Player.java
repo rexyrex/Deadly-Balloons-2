@@ -117,7 +117,7 @@ public class Player {
 			2,4,6,8,12,15,20
 	};
 	
-	private double dropRateBonus;
+	private double dropRateMultiplier;
 	
 	//Damage
 	private double bulletDmg;
@@ -126,7 +126,26 @@ public class Player {
 	private double bombDmg;
 	private double addonDmg;
 	private double friendDmg;
+	private double lightningDmg;
 	
+	private long lightningStunLength;
+	
+	public long getLightningStunLength() {
+		return lightningStunLength;
+	}
+
+	public void setLightningStunLength(long lightningStunLength) {
+		this.lightningStunLength = lightningStunLength;
+	}
+
+	public double getLightningDmg() {
+		return lightningDmg;
+	}
+
+	public void setLightningDmg(double lightningDmg) {
+		this.lightningDmg = lightningDmg;
+	}
+
 	public double getFriendDmg() {
 		return friendDmg;
 	}
@@ -192,13 +211,16 @@ public class Player {
 		y = GamePanel.HEIGHT/2;
 		r = 9;
 		
-		dropRateBonus = 0.0;
+		dropRateMultiplier = 1.0;
 		bulletDmg = 1.0;
 		bombDmg = 1.0;
 		sideMissileDmg = 1.0;
 		turretDmg = 1.0;
 		addonDmg = 1.0;
 		friendDmg = 1.0;
+		lightningDmg = 7.0;
+		
+		lightningStunLength = 1500;
 		
 		powerLevel = 0;
 		power = 0;
@@ -313,6 +335,8 @@ public class Player {
 		spazLength += Math.random() * 100 + 50;
 		firingSideLength += Math.random() * 100 + 50;
 		friendDmg += Math.random()/12 + 0.02;
+		lightningDmg += Math.random()/5;
+		lightningStunLength += Math.random() * 200 + 50;
 	}
 	
 	public boolean attemptPurchase(int cost) {
@@ -327,11 +351,11 @@ public class Player {
 	}
 	
 	public void incDropRate(double amount) {
-		dropRateBonus += amount;
+		dropRateMultiplier += amount;
 	}
 	
-	public double getDropRateBonus() {
-		return dropRateBonus;
+	public double getDropRateMultiplier() {
+		return dropRateMultiplier;
 	}
 	
 	public void toggleInvincible(){
@@ -468,7 +492,6 @@ public class Player {
 				incBulletDmg(incDmg);
 			}
 		}		
-
 	}
 	
 	public void incBulletDmg(double inc) {
@@ -570,7 +593,7 @@ public class Player {
 	public void placeShelter(){
 		if(nWalls>0){
 			nWalls--;
-			GamePanel.shelters.add(new Shelter(x,y,30));
+			GamePanel.shelters.add(new Shelter(x,y,40));
 		}
 		
 	}

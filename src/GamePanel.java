@@ -71,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<BlackHole> blackholes;
 	public static ArrayList<Bomb> bombs;
 	public static ArrayList<Shelter> shelters;
+	public static ArrayList<Lightning> lightnings;
 	
 	private long URDTimeMillis;
 	private long elapsedTime;
@@ -179,6 +180,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		blackholes = new ArrayList<BlackHole>();
 		bombs = new ArrayList<Bomb>();
 		shelters = new ArrayList<Shelter>();
+		lightnings = new ArrayList<Lightning>();
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
@@ -470,6 +472,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		for(int i=0; i<bombs.size(); i++){
 			bombs.get(i).draw(g);
 		}
+		
+		//draw lightning
+		for(int i=0; i<lightnings.size(); i++){
+			lightnings.get(i).draw(g);
+		}	
 			
 		//draw line wall
 		for(int i=0; i<shelters.size(); i++){
@@ -530,8 +537,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			g.drawRect(20+8*i, 40, 8, 8);
 		}
 		
-		g.setStroke(new BasicStroke(1));
-		
+		g.setStroke(new BasicStroke(1));		
 		
 		
 		//draw player score
@@ -644,23 +650,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//enemy update
 		for(int i=0; i< enemies.size(); i++){
 			Enemy e = enemies.get(i);
-			e.update(player, texts);
-			
-			
-			
-			
-			//enemy special : place bomb
-//			if(e.getType() >= 3 && Math.random() < 0.002){
-//				texts.add(new Text(e.getx(), e.gety(), 2000, "Hostile Bomb!"));
-//				e.placeBomb();
-//			}
-			
-			//enemy special : place black hole
-//			if(e.getType() >= 2 && Math.random()<0.002){
-//				texts.add(new Text(e.getx(), e.gety(), 2000, "Hostile Hole!"));
-//				e.placeBlackHole();
-//			}
-			
+			e.update(player, texts);			
+		}
+		
+		//lightning update
+		for(int i=0; i< lightnings.size(); i++){
+			Lightning l = lightnings.get(i);
+			l.update();
+		}
+		
+		//lightning remove update
+		for(int i=0; i< lightnings.size(); i++){
+			Lightning l = lightnings.get(i);
+			if(l.isOver()) {
+				lightnings.remove(i);
+				i--;
+			}
 		}
 		
 		//time bomb update
@@ -693,11 +698,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			if(inRangeOfAtLeastOneBomb == false){
 				enemies.get(j).setGettingBombed(false);	
 			}
-			
 		}
-		
-		
-		
 		
 		//hostile time bomb update
 		for(int i=0; i<bombs.size(); i++){
@@ -948,19 +949,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				//power up drop
 				
 				//Extra life
-				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(1, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Power + 1
-				if(RandomUtils.runChance(1.4 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(1.4 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(3, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Power + 2
-				if(RandomUtils.runChance(0.7 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.7 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(2, e.getx()+offset[0],e.gety()+offset[1]));
 				}
@@ -972,79 +973,85 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 				
 				//Player Speed Increase
-				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(5, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Bomb +1
-				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(6, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Att Speed +1
-				if(RandomUtils.runChance(0.3 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(7, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Spaz
-				if(RandomUtils.runChance(1.2 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(1.2 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(8, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Seeker missile
-				if(RandomUtils.runChance(1.0 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(1.0 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(10, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Add on
-				if(RandomUtils.runChance(0.2 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.2 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(9, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Stamina
-				if(RandomUtils.runChance(0.7 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.7 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(11, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Max Stamina
-				if(RandomUtils.runChance(0.15 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.15 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(12, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Wall
-				if(RandomUtils.runChance(0.1 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.1 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(13, e.getx()+offset[0],e.gety()+offset[1]));
 				}	
 				
 				//Army
-				if(RandomUtils.runChance(0.5 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.5 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(14, e.getx()+offset[0],e.gety()+offset[1]));
 				}	
 				
 				//Friends
-				if(RandomUtils.runChance(0.5 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.5 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(16, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//Turret supercharge
-				if(RandomUtils.runChance(0.8 + player.getDropRateBonus())) {
+				if(RandomUtils.runChance(0.8 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(15, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 				
 				//DIE Powerup (avoid)
 				if(RandomUtils.runChance(0)) {
+					double[] offset = RandomUtils.getRandomOffset(5, 5);
+					powerups.add(new PowerUp(17, e.getx()+offset[0],e.gety()+offset[1]));
+				}
+				
+				//Lightning Powerup
+				if(RandomUtils.runChance(1.5 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(17, e.getx()+offset[0],e.gety()+offset[1]));
 				}
@@ -1278,6 +1285,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				player.startPushing();
 				removeTurret(4);
 			}
+		}
+		
+		if(keyCode == KeyEvent.VK_6){
+			
 		}
 		if(keyCode == KeyEvent.VK_A){
 			player.toggleAddOn();

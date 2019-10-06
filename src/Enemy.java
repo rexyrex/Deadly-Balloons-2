@@ -52,6 +52,10 @@ public class Enemy {
 
 	
 	private boolean slow;
+	private boolean stunned;
+	private long stunnedElapsed;
+	private long stunnedLength;
+	private long stunnedStart;
 	
 	private boolean regenMode;
 	private long regenTimer;
@@ -90,6 +94,11 @@ public class Enemy {
 		regenLength = 2000;
 		regenDelay = 10000;
 		lastRegenTime = System.nanoTime();
+		
+		stunned =false;
+		stunnedElapsed = 0;
+		stunnedStart = System.nanoTime();
+		stunnedLength = 0;
 
 		
 		this.canvas_height = GamePanel.HEIGHT;
@@ -439,6 +448,12 @@ public class Enemy {
 	
 	public void changeRadius(int r) {this.r = r;}
 	public int getRadius() {return r;}
+	
+	public void stun(long stunLength) {
+		stunned = true;
+		stunnedStart = System.nanoTime();
+		stunnedLength = stunLength;
+	}
 	
 	public void produceRandomEnemy(){
 		int typeChance = (int)(Math.random() * 100);
@@ -921,17 +936,26 @@ public class Enemy {
 			}
 		}
 		
+		if(stunned) {
+			stunnedElapsed = (System.nanoTime() - stunnedStart)/1000000;
+			if(stunnedElapsed > stunnedLength) {
+				stunned = false;
+			}
+		}
 		
-		if(slow){
-			x+= dx*1.5;
-			y+= dy *1.5;
-		} else {
-			x += dx;
-			y += dy;
-		}		
+		if(!stunned) {
+			if(slow){
+				x+= dx*1.5;
+				y+= dy *1.5;
+			} else {
+				x += dx;
+				y += dy;
+			}		
+			
+			x+= dxa;
+			y+= dya;
+		}
 		
-		x+= dxa;
-		y+= dya;
 		
 		if(!ready){
 			if(x>r&&x<GamePanel.WIDTH-r
@@ -981,9 +1005,10 @@ public class Enemy {
 	public void draw(Graphics2D g){
 		
 		if(skillSet.containsKey("charge skill")) {
-			g.setColor(new Color(255,255,255));
+			g.setColor(color1);
+			g.setStroke(new BasicStroke(5));
 			g.draw(new Line2D.Double(getx(), gety(), destX, destY));
-			
+			g.setStroke(new BasicStroke(1));
 			double percentTillNextCharge = ((System.nanoTime() - lastChargeCompleteTime)/1000000000)/ skillSet.get("charge skill");
 			
 			int newAlpha = (int) (150 * percentTillNextCharge)+90;
@@ -1037,7 +1062,10 @@ public class Enemy {
 		} else {
 			if(isPulled){
 				g.setColor(color1.darker());
-			} else {
+			} else if(stunned){
+				g.setColor(color1.brighter());
+			}else
+			{
 				g.setColor(color1);
 			}
 			g.fillOval((int)(x-r),(int)(y-r), 2*r, 2*r);

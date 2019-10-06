@@ -152,6 +152,13 @@ public class PowerUp {
 			collectText = "Ouch...";
 		}
 		
+		if(type == 18){
+			color1 = Color.yellow;
+			r = 7;
+			name = "Lightning";
+			collectText = "Zap!";
+		}
+		
 		
 	}
 	
@@ -250,6 +257,10 @@ public class PowerUp {
 		
 		if(type==17){
 			GamePanel.player.loseLife();
+		}
+		
+		if(type==18) {
+			GamePanel.lightnings.add(new Lightning(GamePanel.enemies, 1, GamePanel.player.getLightningStunLength()));
 		}
 	}
 	
