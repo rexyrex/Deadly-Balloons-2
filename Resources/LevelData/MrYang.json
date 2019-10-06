@@ -224,8 +224,12 @@
 					"type": 7,
 					"rank": 4,
 					"count": 2
+				},
+				{
+					"type": 8,
+					"rank": 1,
+					"count": 1
 				}
-				
 	        ]
 	    },
 	    {  
@@ -260,6 +264,11 @@
 					"type": 1,
 					"rank": 4,
 					"count": 12
+				},
+				{
+					"type": 8,
+					"rank": 1,
+					"count": 4
 				}
 	        ]
 	    },

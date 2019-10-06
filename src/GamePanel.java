@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<BlackHole> blackholes;
 	public static ArrayList<Bomb> bombs;
 	public static ArrayList<Wall> walls;
-	public static ArrayList<LineWall> linewalls;
+	public static ArrayList<Shelter> shelters;
 	
 	private long URDTimeMillis;
 	private long elapsedTime;
@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		blackholes = new ArrayList<BlackHole>();
 		bombs = new ArrayList<Bomb>();
 		walls = new ArrayList<Wall>();
-		linewalls = new ArrayList<LineWall>();
+		shelters = new ArrayList<Shelter>();
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
@@ -292,7 +292,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		blackholes.clear();
 		bombs.clear();
 		walls.clear();
-		linewalls.clear();
+		shelters.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -480,8 +480,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 			
 		//draw line wall
-		for(int i=0; i<linewalls.size(); i++){
-			linewalls.get(i).draw(g);
+		for(int i=0; i<shelters.size(); i++){
+			shelters.get(i).draw(g);
 		}		
 			
 			
@@ -801,26 +801,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//line wall update
-		for(int i=0; i<linewalls.size(); i++){
-			boolean remove = linewalls.get(i).update();
-			LineWall l = linewalls.get(i);
-			//collision
+		for(int i=0; i<shelters.size(); i++){
+			boolean remove = shelters.get(i).update();
+			Shelter l = shelters.get(i);
+			//enemy collision
 			for(int j=0; j<enemies.size(); j++){
-				if(enemies.get(j).pointCollide(linewalls.get(i).getx(), linewalls.get(i).gety(), linewalls.get(i).getr())){
-					linewalls.get(i).hit();
+				if(enemies.get(j).pointCollide(shelters.get(i).getx(), shelters.get(i).gety(), shelters.get(i).getr())){
+					shelters.get(i).hit();
 				}
 			}
 			
 			//player collision
-			if(player.isInRange(l.getx(), l.gety(), l.getr())){
-				player.moveAwayFrom(l.getx(), l.gety());
-				if(l.getx() == player.getx() && l.gety() == player.gety()){
-					player.changeDirectionRandomly();
-				}
-			}
+//			if(player.isInRange(l.getx(), l.gety(), l.getr())){
+//				player.moveAwayFrom(l.getx(), l.gety());
+//				if(l.getx() == player.getx() && l.gety() == player.gety()){
+//					player.changeDirectionRandomly();
+//				}
+//			}
 			
 			if(remove){
-				linewalls.remove(i);
+				shelters.remove(i);
 				i--;
 			}
 		}
@@ -1337,14 +1337,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_E){
 			if(player.getWalls()>0){
 				if(player.useStamina(100)){				
-					player.placeLineWall();
+					player.placeShelter();
 				}
 			}
 		}
 		if(keyCode == KeyEvent.VK_O){
-			//if(player.useStamina(15)){
-				//player.placeWall();
-			//}
+			if(player.useStamina(15)){
+				player.placeWall();
+			}
 		}
 		
 		if(keyCode == KeyEvent.VK_I){			

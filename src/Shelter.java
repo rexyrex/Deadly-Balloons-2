@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 
-public class LineWall {
+public class Shelter {
 	private double x;
 	private double y;
 	private double r;
@@ -22,7 +22,7 @@ public class LineWall {
 	
 	private boolean hit;
 	
-	public LineWall(double x, double y, double r){
+	public Shelter(double x, double y, double r){
 		this.x = x;
 		this.y = y;
 		this.r = r;
@@ -71,7 +71,7 @@ public class LineWall {
 		} else {
 			circleLength = 700;
 			circleC = new Color(102,0,204, 255);
-			c = new Color ( 51,51,247, (int)(255-255*((double)elapsed/lifeTime)));
+			c = new Color ( 240,248,255, (int)(200-200*((double)elapsed/lifeTime)));
 		}
 		
 		

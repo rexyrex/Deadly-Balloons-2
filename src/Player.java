@@ -265,7 +265,7 @@ public class Player {
 		invincible = false;
 		immobalized = false;
 		
-		nWalls = 0;
+		nWalls = 1;
 		
 		score = 1200;
 	}
@@ -571,10 +571,10 @@ public class Player {
 		GamePanel.walls.add(new Wall(x-r,y-r));
 	}
 	
-	public void placeLineWall(){
+	public void placeShelter(){
 		if(nWalls>0){
 			nWalls--;
-			GamePanel.linewalls.add(new LineWall(x,y,17));
+			GamePanel.shelters.add(new Shelter(x,y,30));
 		}
 		
 	}
