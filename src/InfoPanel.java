@@ -122,6 +122,9 @@ public class InfoPanel extends JPanel{
 		statsContents[9][1] = String.valueOf(GamePanel.player.getLightningStunLength()) + " ms";
 		statsContents[10][0] = "Lightning Dmg";
 		statsContents[10][1] = String.format("%.2f", GamePanel.player.getLightningDmg());
+		statsContents[11][0] = "Drop Rate";
+		statsContents[11][1] = String.format("%.2f", GamePanel.player.getDropRateMultiplier()*100) + "%";
+		
 		for(int i=0; i<statsContents.length; i++) {
 			for(int j=0; j<statsContents[i].length; j++) {
 				table2.setValueAt(statsContents[i][j], i, j);
@@ -170,7 +173,7 @@ public class InfoPanel extends JPanel{
         add(statsTitleLabel);
         
         String statsHeaders[] = {"Key", "Value"};
-        statsContents = new String[11][2];
+        statsContents = new String[12][2];
         statsContents[0][0] = "Initializing";
         statsContents[0][1] = "Please wait...";
         

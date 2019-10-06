@@ -153,7 +153,7 @@ public class PowerUp {
 		}
 		
 		if(type == 18){
-			color1 = Color.yellow;
+			color1 = new Color(255,255,204);
 			r = 7;
 			name = "Lightning";
 			collectText = "Zap!";

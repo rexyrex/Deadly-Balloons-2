@@ -430,7 +430,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//draw slowdown screen
 		if(slowDownTimer !=0){
-			g.setColor(new Color(255,255,255,64));
+			g.setColor(new Color(255,0,0,25));
 			g.fillRect(0, 0, WIDTH, HEIGHT);
 		}
 		
@@ -446,7 +446,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw player
 		player.draw(g);
 
-		
 		//draw bullets
 		for(int i=0; i<bullets.size(); i++){
 			bullets.get(i).draw(g);
@@ -1051,9 +1050,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 				
 				//Lightning Powerup
-				if(RandomUtils.runChance(1.5 * player.getDropRateMultiplier())) {
+				if(RandomUtils.runChance(1.2 * player.getDropRateMultiplier())) {
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(17, e.getx()+offset[0],e.gety()+offset[1]));
+					powerups.add(new PowerUp(18, e.getx()+offset[0],e.gety()+offset[1]));
 				}
 
 				player.addScore(e.getMoney());
@@ -1251,9 +1250,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_F){
-			//bombs.add(new Bomb(player.getx(),player.gety(),false,true));
-			//friends.add(new Friend(player.getx(), player.gety(), 0,0,2));
-			if(player.useStamina(400)) {
+			if(player.useStamina(750)) {
 				player.startCollecting();
 			}			
 		}
