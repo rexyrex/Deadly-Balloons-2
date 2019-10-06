@@ -220,7 +220,7 @@ public class Player {
 		friendDmg = 1.0;
 		lightningDmg = 7.0;
 		
-		lightningStunLength = 1500;
+		lightningStunLength = 2000;
 		
 		powerLevel = 0;
 		power = 0;

@@ -159,6 +159,13 @@ public class PowerUp {
 			collectText = "Zap!";
 		}
 		
+		if(type == 19){
+			color1 = Color.BLACK;
+			r = 7;
+			name = "Torpedos";
+			collectText = "Go Get Em!";
+		}
+		
 		
 	}
 	
@@ -261,6 +268,42 @@ public class PowerUp {
 		
 		if(type==18) {
 			GamePanel.lightnings.add(new Lightning(GamePanel.enemies, 1, GamePanel.player.getLightningStunLength()));
+		}
+		
+		if(type==19) {
+			double tDestX;
+			double tDestY;
+			for(int t=0; t< 3; t++) {
+				int enemyIndex = (int) (Math.random() * GamePanel.enemies.size());
+				if(GamePanel.enemies.size() == 0) {
+					tDestX = Math.random() * GamePanel.WIDTH;
+					tDestY = Math.random() * GamePanel.HEIGHT;
+				} else {
+					tDestX = GamePanel.enemies.get(enemyIndex).getx();
+					tDestY = GamePanel.enemies.get(enemyIndex).gety();
+				}
+				double[] offset = RandomUtils.getRandomOffset(5, 5);
+				tDestX = tDestX + offset[0];
+				tDestY = tDestY + offset[1];
+				
+				if(tDestX < 0) {
+					tDestX = 0;
+				}
+				
+				if(tDestY < 0) {
+					tDestY = 0;
+				}
+				
+				if(tDestX >= GamePanel.WIDTH) {
+					tDestX = GamePanel.WIDTH;
+				}
+				
+				if(tDestY >= GamePanel.HEIGHT) {
+					tDestY = GamePanel.HEIGHT;
+				}
+				
+				GamePanel.torpedos.add(new Torpedo(GamePanel.player.getx(), GamePanel.player.gety(), tDestX, tDestY));
+			}
 		}
 	}
 	

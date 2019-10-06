@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -18,7 +19,7 @@ public class Lightning {
 	ArrayList<Enemy> enemies;
 	
 	public Lightning(ArrayList<Enemy> enemies, double dmg, long stunDuration) {
-		this.duration = 1000;
+		this.duration = 1200;
 		startTime = System.nanoTime();
 		elapsed = 0;
 		alpha = 0;
@@ -72,11 +73,13 @@ public class Lightning {
 
 		//get darker
 		long timeLeftDarker = duration - elapsed ;
-		alpha = (int)(160 * (timeLeftDarker)/(duration));
+		alpha = (int)(150 * (timeLeftDarker)/(duration));
 		
 		g.setColor(new Color(255,255,255,alpha));
 		g.fillRect(0,0,GamePanel.WIDTH,GamePanel.HEIGHT);
 		
+		g.setColor(new Color(255,255,51,alpha));
+		g.setStroke(new BasicStroke(5));
 		if(enemies.size()>0) {
 			g.draw(new Line2D.Double(GamePanel.player.getx(), GamePanel.player.gety(), enemies.get(0).getx(), enemies.get(0).gety()));
 		}
@@ -86,8 +89,9 @@ public class Lightning {
 			Enemy e1 = enemies.get(i);
 			Enemy e2 = enemies.get(i+1);
 			
-			g.setColor(new Color(255,255,255,alpha+60));
+			g.setColor(new Color(255,255,51,alpha+60));
 			g.draw(new Line2D.Double(e1.getx(), e1.gety(), e2.getx(), e2.gety()));
 		}
+		g.setStroke(new BasicStroke(1));
 	}
 }

@@ -72,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<Bomb> bombs;
 	public static ArrayList<Shelter> shelters;
 	public static ArrayList<Lightning> lightnings;
+	public static ArrayList<Torpedo> torpedos;
 	
 	private long URDTimeMillis;
 	private long elapsedTime;
@@ -181,6 +182,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		bombs = new ArrayList<Bomb>();
 		shelters = new ArrayList<Shelter>();
 		lightnings = new ArrayList<Lightning>();
+		torpedos = new ArrayList<Torpedo>();
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
@@ -292,6 +294,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		blackholes.clear();
 		bombs.clear();
 		shelters.clear();
+		lightnings.clear();
+		torpedos.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -476,6 +480,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		for(int i=0; i<lightnings.size(); i++){
 			lightnings.get(i).draw(g);
 		}	
+		
+		//draw torpedos
+		for(int i=0; i<torpedos.size(); i++){
+			torpedos.get(i).draw(g);
+		}
 			
 		//draw line wall
 		for(int i=0; i<shelters.size(); i++){
@@ -663,6 +672,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			Lightning l = lightnings.get(i);
 			if(l.isOver()) {
 				lightnings.remove(i);
+				i--;
+			}
+		}
+		
+		//torpedo update
+		for(int i=0; i< torpedos.size(); i++){
+			Torpedo t = torpedos.get(i);
+			boolean torpedoDead = t.update();
+			if(torpedoDead) {
+				t.explode();
+				torpedos.remove(i);
 				i--;
 			}
 		}
@@ -1054,6 +1074,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					double[] offset = RandomUtils.getRandomOffset(5, 5);
 					powerups.add(new PowerUp(18, e.getx()+offset[0],e.gety()+offset[1]));
 				}
+				
+				//Torpedo Powerup
+				if(RandomUtils.runChance(0.7 * player.getDropRateMultiplier())) {
+					double[] offset = RandomUtils.getRandomOffset(5, 5);
+					powerups.add(new PowerUp(19, e.getx()+offset[0],e.gety()+offset[1]));
+				}
 
 				player.addScore(e.getMoney());
 				texts.add(new Text(e.getx(), e.gety(),1000,"+" +e.getMoney(), true, Color.GREEN, Font.BOLD));
@@ -1285,7 +1311,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_6){
-			
+
 		}
 		if(keyCode == KeyEvent.VK_A){
 			player.toggleAddOn();

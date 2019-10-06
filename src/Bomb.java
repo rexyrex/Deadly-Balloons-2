@@ -59,7 +59,7 @@ public class Bomb {
 		this.maxr = 150 * (Math.random()+0.5);
 		
 		triggerTimer = System.nanoTime();
-		triggerDelay = 0;
+		triggerDelay = 100;
 		
 		bombLength = 700;
 		bombTimer = System.nanoTime();
@@ -139,9 +139,7 @@ public class Bomb {
 					doneBombing = true;
 				}
 			}
-			
-			
-			
+
 			return false;
 		}
 	}

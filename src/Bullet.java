@@ -35,6 +35,8 @@ public class Bullet {
 	
 	private boolean isTurret;
 	
+	private String type;
+	
 	//spin bullet test
 	private double spinAngle;
 	
@@ -90,6 +92,27 @@ public class Bullet {
 		isAddOn = false;
 				
 		color1 = c;
+		this.dmg = dmg;
+	}
+	
+	//customizable
+	public Bullet(String type, double angle, int x, int y, double dmg){
+		this.x = x;
+		this.y = y;
+		r = 2;
+		
+		rad = Math.toRadians(angle);
+		speed = 10;
+		dx = Math.cos(rad) * speed;
+		dy = Math.sin(rad) * speed;
+		dya = 0;
+		dxa = 0;
+		
+		isSideMissile = false;
+		isAddOn = false;
+		this.type = type;
+				
+		color1 = Color.BLACK;
 		this.dmg = dmg;
 	}
 	
