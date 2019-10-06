@@ -73,6 +73,26 @@ public class Bullet {
 		this.dmg = dmg;
 	}
 	
+	//colored normal bullet
+	public Bullet(double angle, int x, int y, double dmg, Color c){
+		this.x = x;
+		this.y = y;
+		r = 2;
+		
+		rad = Math.toRadians(angle);
+		speed = 10;
+		dx = Math.cos(rad) * speed;
+		dy = Math.sin(rad) * speed;
+		dya = 0;
+		dxa = 0;
+		
+		isSideMissile = false;
+		isAddOn = false;
+				
+		color1 = c;
+		this.dmg = dmg;
+	}
+	
 	//addon
 	public Bullet(double angle, int x, int y, int r, Color c, double dmg){
 		this.x = x;
@@ -95,26 +115,26 @@ public class Bullet {
 	}
 	
 	//TURRET BULLETS
-		public Bullet(double angle, int x, int y, Color c, double dmg){
-			this.x = x;
-			this.y = y;
-			this.r = 3;
-			
-			isSideMissile = false;
-			isAddOn = false;
-			isTurret = true;
-			isMissileReady = true;
-					
-			rad = Math.toRadians(angle);
-			speed = 10;
-			dx = Math.cos(rad) * speed;
-			dy = Math.sin(rad) * speed;
-			dya = 0;
-			dxa = 0;
-			
-			color1 = c;
-			this.dmg = dmg;
-		}
+	public Bullet(double angle, int x, int y, Color c, double dmg){
+		this.x = x;
+		this.y = y;
+		this.r = 3;
+		
+		isSideMissile = false;
+		isAddOn = false;
+		isTurret = true;
+		isMissileReady = true;
+				
+		rad = Math.toRadians(angle);
+		speed = 10;
+		dx = Math.cos(rad) * speed;
+		dy = Math.sin(rad) * speed;
+		dya = 0;
+		dxa = 0;
+		
+		color1 = c;
+		this.dmg = dmg;
+	}
 	
 	//side missile
 	public Bullet(String type, int x, int y, int r, Color c, double dmg){

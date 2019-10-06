@@ -87,6 +87,7 @@ public class Player {
 	private long puCollectTimer;
 	private long puCollectLength;
 	private boolean isCollectingPu;
+	private double puCollectRadius;
 	
 	private double maxStamina;
 	private double currentStamina;
@@ -108,13 +109,12 @@ public class Player {
 	
 	private boolean immobalized;
 	
-	private int nWalls;
-	
+	private int nWalls;	
 	
 	private int powerLevel;
 	private int power;
 	private int[] requiredPower = {
-			2,4,6,8,12,15,20
+			3,6,9,10,12,14,17
 	};
 	
 	private double dropRateMultiplier;
@@ -254,6 +254,7 @@ public class Player {
 		isCollectingPu = false;
 		puCollectTimer = 0;
 		puCollectLength = 2000;
+		puCollectRadius = 130;
 		
 		bombing = false;
 		bombingTimer = System.nanoTime();
@@ -593,7 +594,7 @@ public class Player {
 	public void placeShelter(){
 		if(nWalls>0){
 			nWalls--;
-			GamePanel.shelters.add(new Shelter(x,y,40));
+			GamePanel.shelters.add(new Shelter(x,y,70));
 		}
 		
 	}
@@ -602,7 +603,7 @@ public class Player {
 		nWalls += gain;
 	}
 	
-	public int getWalls(){
+	public int getShelterCount(){
 		return nWalls;
 	}
 	
@@ -921,15 +922,20 @@ public class Player {
 						if(fixedSpazAngle>360){
 							fixedSpazAngle = 1;
 						}
-						GamePanel.bullets.add(new Bullet(fixedSpazAngle, x, y, bulletDmg));
-						GamePanel.bullets.add(new Bullet(secondAngle, x, y, bulletDmg));
-						GamePanel.bullets.add(new Bullet(thirdAngle, x, y, bulletDmg));
-						GamePanel.bullets.add(new Bullet(fourthAngle, x, y, bulletDmg));
+						GamePanel.bullets.add(new Bullet(fixedSpazAngle, x, y, bulletDmg, new Color(137, 207,240)));
+						GamePanel.bullets.add(new Bullet(secondAngle, x, y, bulletDmg, new Color(137, 207,240)));
+						GamePanel.bullets.add(new Bullet(thirdAngle, x, y, bulletDmg, new Color(137, 207,240)));
+						GamePanel.bullets.add(new Bullet(fourthAngle, x, y, bulletDmg, new Color(137, 207,240)));
 						
 						//spaz at turrets
 						for(int k=0; k< GamePanel.turrets.size(); k++) {
 							if(GamePanel.turrets.get(k).isSuperCharged()) {
-								GamePanel.bullets.add(new Bullet(fixedSpazAngle, (int) GamePanel.turrets.get(k).getx(), (int) GamePanel.turrets.get(k).gety(), bulletDmg));
+								GamePanel.bullets.add(
+										new Bullet(fixedSpazAngle, 
+												(int) GamePanel.turrets.get(k).getx(), 
+												(int) GamePanel.turrets.get(k).gety(), 
+												bulletDmg,
+												new Color(137, 207,240)));
 							}
 						}
 						
@@ -1011,9 +1017,11 @@ public class Player {
 		}
 		
 		if(isCollectingPu) {
-			System.out.println("collecting");
 			g.setColor(new Color(255,215,0,70));
-			g.fillOval((int)(x-pushRadius), (int)(y-pushRadius), (int)(2*pushRadius), (int)(2*pushRadius));
+			g.fillOval((int)(x-puCollectRadius), (int)(y-puCollectRadius), (int)(2*puCollectRadius), (int)(2*puCollectRadius));
+		} else {
+			g.setColor(new Color(255,215,0,32));
+			g.drawOval((int)(x-puCollectRadius), (int)(y-puCollectRadius), (int)(2*puCollectRadius), (int)(2*puCollectRadius));
 		}
 		
 		if(addOn>0 && addOnEnable){		

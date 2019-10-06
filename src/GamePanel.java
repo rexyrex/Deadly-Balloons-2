@@ -559,10 +559,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
 		g.drawString("BOMBS : " + player.getBombs(), WIDTH-130, 90);
 		
-		//draw player walls
-		g.setColor(Color.RED.darker());
+		//draw player shelter count
+		g.setColor(Color.WHITE);
 		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
-		g.drawString("Walls : " + player.getWalls(), WIDTH-130, 110);
+		g.drawString("Shelters : " + player.getShelterCount(), WIDTH-130, 110);
 		
 		//draw player turrets
 		g.setColor(Color.RED);
@@ -1317,10 +1317,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		if(keyCode == KeyEvent.VK_E){
-			if(player.getWalls()>0){
-				if(player.useStamina(100)){				
-					player.placeShelter();
-				}
+			if(player.getShelterCount()>0){
+				player.placeShelter();
 			}
 		}
 		
