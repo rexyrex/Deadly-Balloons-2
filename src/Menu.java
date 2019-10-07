@@ -27,10 +27,13 @@ public class Menu {
 	public Rectangle impossibleLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 400, btnLength, btnHeight);
 	public Rectangle backFromDefaultLvlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
 	
+	public boolean loadedHighScores;
+	
 	public static ArrayList<Explosion> explosions;
 	
 	public Menu() {
 		explosions = new ArrayList<Explosion>();
+		loadedHighScores = false;
 	}
 	
 	public void clickAnim(Graphics g, int x, int y) {
@@ -94,10 +97,15 @@ public class Menu {
 			g.setColor(Color.white);
 			renderTitle("Credits", g);
 			
-
 			g.setFont(menuBtnFont);
 			g.drawString("Back", backFromCreditsBtn.x+20, backFromCreditsBtn.y+35);
 			g2d.draw(backFromCreditsBtn);
+			
+			if(!loadedHighScores) {
+				RestUtils.get("https://deadly-balloons-2.firebaseio.com/DefaultLevels/MrYang.json");
+			}
+			
+			loadedHighScores = true;
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.HELP) {
