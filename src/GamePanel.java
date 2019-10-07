@@ -688,17 +688,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//time bomb update
-		for(int j=0; j< enemies.size(); j++){
-			for(int i=0; i<bombs.size(); i++){
-				boolean remove = bombs.get(i).update();
+		
+		for(int i=0; i<bombs.size(); i++){
+			boolean remove = bombs.get(i).update();
+
+			for(int j=0; j< enemies.size(); j++){
 				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile() && enemies.get(j).isInRange(bombs.get(i).getx(), bombs.get(i).gety(), bombs.get(i).getmaxr())){
 					enemies.get(j).setGettingBombed(true);							
 				}
-				
-				if(remove){
-					bombs.remove(i);
-					i--;
-				}
+			}
+			
+			if(remove){
+				bombs.remove(i);
+				i--;
 			}
 		}
 		
