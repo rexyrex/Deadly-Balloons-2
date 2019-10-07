@@ -59,8 +59,8 @@ public class MouseInput implements MouseListener{
 			if(GamePanel.menuState == GamePanel.MenuState.PLAY_MODES) {			
 				//tutorial btn
 				if(mouseIn(mx,my,menu.tutorialModeBtn)) {
-					//GamePanel.gameMode = GamePanel.GameMode.TUTORIAL;
-					//GamePanel.gameState = GamePanel.GameState.PLAY;
+					gp.initNewLvl("Tutorial", GamePanel.GameMode.TUTORIAL, false);
+					GamePanel.gameState = GamePanel.GameState.PLAY;
 					return;
 				}
 				

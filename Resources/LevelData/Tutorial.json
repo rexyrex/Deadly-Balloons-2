@@ -1,0 +1,16 @@
+	{
+	"levelName" : "Tutorial",
+	"levelNumber" : 1,
+	"waves" : [
+		{  
+	        "waveTitle":"Tutorial",
+	        "waveEnemies":[  
+				{
+					"type": 1000,
+					"rank": 1,
+					"count": 1
+				}
+	        ]
+	    }
+	]	
+	}    

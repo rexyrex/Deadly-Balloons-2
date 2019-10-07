@@ -98,8 +98,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public ShopPanel sp;
 	
 	private Menu menu;
+	private Tutorial tutorial;
 	public int btnLength = 170;
 	public int btnHeight = 50;
+	
+	//Tutorial Related
+	int totalTutorialPauses;
+	int currentTutorialStage;
+	long tutStartTime;
+	long[] tutPauseIntervals = {5000,10000};
+	String[] tutPauseContent = {"<html>Move with the Arrow Keys, <br>Shoot with Z</html>", "Lel"};
+	ArrayList<ArrayList<Integer>> allowedKeysPerTutStage;
 	
 	//Game Over Btns
 	public Rectangle backFromGameOverBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 525, btnLength, btnHeight);
@@ -150,6 +159,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		addKeyListener(this);
 		menu = new Menu();
+		tutorial = new Tutorial();
 		addMouseListener(new MouseInput(menu, this));
 	}
 
@@ -233,8 +243,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			if(gameState == GameState.PLAY) {
 				lvlElapsedTime = (System.nanoTime() - lvlStartTime)/1000000;
 				ip.updateStats2();
-				gameUpdate();
-				gameRender();
+				
+				long tutElapsed = (System.nanoTime() - tutStartTime)/1000000;
+				if(gameMode == GameMode.TUTORIAL && tutElapsed > tutPauseIntervals[currentTutorialStage]) {
+					gameRender();
+					tutorial.render(g, this, currentTutorialStage);					
+				} else {
+					gameUpdate();	
+					gameRender();
+				}	
 				gameDraw();
 			}
 			
@@ -262,14 +279,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				totalTime = 0;
 			}			
 		}
-		
-
 	}
 	
 	public void initNewLvl(String lvlName, GameMode gm, boolean replayLastLvl) {
 		if(replayLastLvl) {
 			lvlName = lastPlayedLvl;
 			gm = lastGameMode;
+		}
+		
+		if(gm == GameMode.TUTORIAL) {
+			currentTutorialStage = 0;
+			tutStartTime = System.nanoTime();
 		}
 		
 		lastGameMode = gm;
@@ -356,6 +376,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		lvlStartTime = System.nanoTime();
 	}
+
 	
 	private void gameOverRender() {
 		g.setColor(new Color(0,0,0));

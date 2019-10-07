@@ -353,6 +353,18 @@ public class Enemy {
 			}
 		}
 		
+		//tutorial enemy
+		if(type ==1000){
+			color1 = new Color(255,200,200,241);
+			if(rank == 1){
+				speed = 0.7;
+				r = 60;
+				health = 100000;
+				maxHealth = 100000;
+				money = 0;
+			}
+		}
+		
 		if(type ==100){
 			skillSet.put("boss 1 skill", 3.0);
 			skillSet.put("health bar skill", 1.0);
