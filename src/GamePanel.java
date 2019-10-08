@@ -103,11 +103,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public int btnHeight = 50;
 	
 	//Tutorial Related
-	int totalTutorialPauses;
 	int currentTutorialStage;
-	long tutStartTime;
-	long[] tutPauseIntervals = {5000,10000};
-	String[] tutPauseContent = {"<html>Move with the Arrow Keys, <br>Shoot with Z</html>", "Lel"};
+
 	ArrayList<ArrayList<Integer>> allowedKeysPerTutStage;
 	
 	//Game Over Btns
@@ -159,7 +156,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		addKeyListener(this);
 		menu = new Menu();
-		tutorial = new Tutorial();
+		tutorial = new Tutorial(this);
 		addMouseListener(new MouseInput(menu, this));
 	}
 
@@ -244,17 +241,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				lvlElapsedTime = (System.nanoTime() - lvlStartTime)/1000000;
 				ip.updateStats2();
 				
-				long tutElapsed = (System.nanoTime() - tutStartTime)/1000000;
-				if(gameMode == GameMode.TUTORIAL && tutElapsed > tutPauseIntervals[currentTutorialStage]) {
-					gameRender();
-					tutorial.render(g, this, currentTutorialStage);					
-				} else {
-					gameUpdate();	
-					gameRender();
-				}	
+				gameUpdate();	
+				gameRender();
+				if(gameMode == GameMode.TUTORIAL) {
+					tutorial.update(currentTutorialStage);
+					tutorial.render(currentTutorialStage);					
+				}			
 				gameDraw();
-			}
-			
+			}			
 			
 			elapsedTime = (System.nanoTime() - gameStartTime)/1000000;
 			
@@ -289,7 +283,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		if(gm == GameMode.TUTORIAL) {
 			currentTutorialStage = 0;
-			tutStartTime = System.nanoTime();
 		}
 		
 		lastGameMode = gm;
@@ -1261,6 +1254,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void keyPressed(KeyEvent key) {
 		// TODO Auto-generated method stub
 		int keyCode = key.getKeyCode();
+		
+		if(gameMode==GameMode.TUTORIAL) {
+			tutorial.updateKeyPressedCount(keyCode);
+		}
+		
 		if(keyCode == KeyEvent.VK_LEFT){
 			player.setLeft(true);
 		}
