@@ -316,6 +316,7 @@ public class Player {
 	public int getScore() { return score; }
 	public boolean isPushing() { return isPushing; }
 	public double getPushRadius(){ return pushRadius; }
+	public double getCollectRadius() { return puCollectRadius; }
 	public void startInvincible(){ invincible = true; inviTimer = System.nanoTime();}
 	public void stopInvincible(){ invincible = false; }
 	public void setImmobalized(boolean b){ immobalized = b; }

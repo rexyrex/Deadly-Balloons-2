@@ -625,25 +625,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 	//GAME UPDATE
 	private void gameUpdate() {
-		//new wave
-		if(waveStartTimer == 0 && enemies.size() ==0){
-			waveNumber++;
-			waveStart = false;
-			waveStartTimer = System.nanoTime();
-			
-			if(waveNumber > waveNames.size()) {
-				victorious = true;
-				gameState = GameState.GAME_OVER;
-			}
-			
-		} else {
-			waveStartTimerDiff = (System.nanoTime() - waveStartTimer)/1000000;
-			if(waveStartTimerDiff>waveDelay){
+		if(gameMode == GameMode.TUTORIAL) {
+			if(enemies.size() == 0) {
+				waveNumber++;
 				waveStart = true;
 				waveStartTimer = 0;
 				waveStartTimerDiff = 0;
 			}
+
+		} else {
+			//new wave
+			if(waveStartTimer == 0 && enemies.size() ==0){
+				waveNumber++;
+				waveStart = false;
+				waveStartTimer = System.nanoTime();
+				
+				if(waveNumber > waveNames.size()) {
+					victorious = true;
+					gameState = GameState.GAME_OVER;
+				}
+				
+			} else {
+				waveStartTimerDiff = (System.nanoTime() - waveStartTimer)/1000000;
+				if(waveStartTimerDiff>waveDelay){
+					waveStart = true;
+					waveStartTimer = 0;
+					waveStartTimerDiff = 0;
+				}
+			}
 		}
+		
+		
 		
 		//create Enemies
 		
@@ -799,14 +811,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		// player auto collect powerup update
 		if(player.isCollectingPu()) {
 			for(int i=0; i<powerups.size(); i++) {
-				if(powerups.get(i).isInRange(player.getx(), player.gety(), player.getPushRadius())) {
-					PowerUp p = powerups.get(i);
-					p.setBeingCollected(true);
-					p.collect();
-					p.showCollectTextAtPowerUp();
-					explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
-					powerups.remove(i);				
-				}					
+				PowerUp p = powerups.get(i);
+				if(powerups.get(i).isInRange(player.getx(), player.gety(), player.getCollectRadius())) {
+					
+					//p.setBeingCollected(true);
+					//p.collect();
+					//p.showCollectTextAtPowerUp();
+					
+					//explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
+					//powerups.remove(i);		
+					p.goTowards(player.getx(), player.gety(), 3);
+				} else {
+					p.recoverMovement();
+				}
 			}
 		}
 		

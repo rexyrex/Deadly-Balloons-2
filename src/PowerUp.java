@@ -7,6 +7,10 @@ import java.awt.Graphics2D;
 public class PowerUp {
 	private double x;
 	private double y;
+	private double dx;
+	private double dy;
+
+
 	private int r;
 	private int type;
 	private String name;
@@ -38,6 +42,8 @@ public class PowerUp {
 		this.type = type;
 		this.x = x;
 		this.y = y;
+		this.dx = 0;
+		this.dy = 2;
 		timer = System.nanoTime();
 		lifeTime = 10000;
 		
@@ -179,6 +185,21 @@ public class PowerUp {
 	
 	public double getx(){ return x; }
 	public double gety(){ return y; }
+	public double getDx() {
+		return dx;
+	}
+
+	public void setDx(double dx) {
+		this.dx = dx;
+	}
+
+	public double getDy() {
+		return dy;
+	}
+
+	public void setDy(double dy) {
+		this.dy = dy;
+	}
 	public int getr(){ return r; }
 	public int getType(){ return type; }
 	public double getStaminaGain() { return staminaGain; }
@@ -196,6 +217,11 @@ public class PowerUp {
 	
 	public void setBeingCollected(boolean beingCollected) {
 		this.beingCollected = beingCollected;
+	}
+	
+	public void recoverMovement() {
+		dx = 0;
+		dy = 2;
 	}
 	
 	public void collect() {
@@ -307,9 +333,26 @@ public class PowerUp {
 		}
 	}
 	
+	public void goTowards(double px, double py, double speed){
+		double xDiff = px-x;
+		double yDiff = py-y;
+			double rad;
+			//double angle = Math.atan((y-py)/(x-px));
+			if(xDiff<0)
+				rad = Math.atan((yDiff)/(xDiff))+Math.toRadians(180);
+			else if(yDiff<0)
+				rad = Math.atan((yDiff)/(xDiff))+Math.toRadians(360);
+			else
+				rad = Math.atan((yDiff)/(xDiff));			
+			
+			dx = Math.cos(rad) * speed;
+			dy = Math.sin(rad) * speed;
+	}
+	
 	public boolean update(){
 		
-		y += 2;
+		y+= dy;
+		x+= dx;
 		
 		long elapsed = (System.nanoTime() - timer)/1000000;
 		if(elapsed > lifeTime){

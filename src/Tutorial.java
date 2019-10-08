@@ -52,15 +52,20 @@ public class Tutorial {
 		for(int i=0; i<totalStages; i++) {
 			stageEntered[i] = false;
 			stageStartTime[i] = 0;
-			stageStartDelay[i] = 5000;
+			//time between 
+			stageStartDelay[i] = 0000;
 			textFadeTime[i] = 2000;
 			textFadeStartTime[i] = 0;
 			textRenderStarted[i] = false;
 			
 			stageReqMet[i] = false;
-			nextStageDelay[i] = 3000;
+			//fade out during this time
+			nextStageDelay[i] = 2000;
 			nextStageQueuedTime[i] = 0;
 		}
+		
+		//override defaults
+	
 	}
 	
 	public int getKeyPressedCount(int keyCode) {
@@ -141,13 +146,18 @@ public class Tutorial {
 		if(alpha > 255) alpha = 255;
 		//System.out.println("Alpha: " + alpha);
 		
+		if(stageReqMet[stage]) {
+			long fadeOutElapsed = (System.nanoTime() -nextStageQueuedTime[stage])/1000000;
+			alpha = (int) (255 - 255 * fadeOutElapsed / nextStageDelay[stage]);
+			if(alpha < 0) alpha = 0;
+		}
+		
 		Color c;
 		Font f;
 		String s;		
 		
 		switch(stage) {
 			case 0:				
-				
 				//g.setColor(new Color(255,255,255,120));
 				//g.fillRect(0,0,gp.WIDTH,gp.HEIGHT);
 				c = new Color(255,255,0,alpha);
