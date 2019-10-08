@@ -254,7 +254,7 @@ public class Player {
 		isCollectingPu = false;
 		puCollectTimer = 0;
 		puCollectLength = 2000;
-		puCollectRadius = 130;
+		puCollectRadius = 150;
 		
 		bombing = false;
 		bombingTimer = System.nanoTime();
