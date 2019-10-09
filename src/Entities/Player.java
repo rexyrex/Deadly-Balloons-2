@@ -120,7 +120,8 @@ public class Player {
 	};
 	
 	private double dropRateMultiplier;
-	
+	private double spawnTimeMultiplier;
+
 	//Damage
 	private double bulletDmg;
 	private double sideMissileDmg;
@@ -131,6 +132,14 @@ public class Player {
 	private double lightningDmg;
 	
 	private long lightningStunLength;
+	
+	public double getSpawnTimeMultiplier() {
+		return spawnTimeMultiplier;
+	}
+
+	public void setSpawnTimeMultiplier(double spawnTimeMultiplier) {
+		this.spawnTimeMultiplier = spawnTimeMultiplier;
+	}
 	
 	public long getLightningStunLength() {
 		return lightningStunLength;
@@ -214,6 +223,7 @@ public class Player {
 		r = 9;
 		
 		dropRateMultiplier = 1.0;
+		spawnTimeMultiplier = 1.0;
 		bulletDmg = 1.0;
 		bombDmg = 1.0;
 		sideMissileDmg = 1.0;
@@ -332,15 +342,15 @@ public class Player {
 	public void upgradeAbilities() {
 		//randomly upgrades abilities
 		
-		sideMissileDmg += Math.random()/12 + 0.02;
-		turretDmg += Math.random()/12 + 0.02;
-		bombDmg += Math.random()/12 + 0.02;
-		addonDmg += Math.random()/12 + 0.02;
-		spazLength += Math.random() * 100 + 50;
-		firingSideLength += Math.random() * 100 + 50;
-		friendDmg += Math.random()/12 + 0.02;
-		lightningDmg += Math.random()/5;
-		lightningStunLength += Math.random() * 200 + 50;
+		sideMissileDmg += Math.random()/20 + 0.01;
+		turretDmg += Math.random()/20 + 0.01;
+		bombDmg += Math.random()/20 + 0.01;
+		addonDmg += Math.random()/20 + 0.01;
+		spazLength += Math.random() * 50 + 20;
+		firingSideLength += Math.random() * 50 + 20;
+		friendDmg += Math.random()/20 + 0.01;
+		lightningDmg += Math.random()/8;
+		lightningStunLength += Math.random() * 100 + 30;
 	}
 	
 	public boolean attemptPurchase(int cost) {
@@ -352,6 +362,10 @@ public class Player {
 			return true;
 		}
 		return false;
+	}
+	
+	public void incSpawnRate(double amount) {
+		spawnTimeMultiplier -= amount;
 	}
 	
 	public void incDropRate(double amount) {

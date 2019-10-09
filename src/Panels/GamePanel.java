@@ -102,28 +102,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static HashMap<Integer, Integer> puCountMap;
 	
 	private double puDropRates[] = {
-			0.3, // 1. extra life
-			0.7, // 2. power +1
-			1.4, // 3. power +2
-			2.0, // 4. faster enemies
-			0.3, // 5. inc speed
-			0.3, // 6. bomb
-			0.3, // 7. firerate
-			0.2, // 8. addon
-			0.7, // 9. stamina
-			0.15, // 10. max stamina
-			0.1, // 11. shelter
+			0.22, // 1. extra life
+			0.5, // 2. power +1
+			1.1, // 3. power +2
+			1.5, // 4. faster enemies
+			0.2, // 5. inc speed
+			0.4, // 6. bomb
+			0.2, // 7. firerate
+			0.15, // 8. addon
+			0.5, // 9. stamina
+			0.12, // 10. max stamina
+			0.07, // 11. shelter
 			0 // 12. die
 	};
 	
 	private long puDropTimes[] = {
-			11200, // 101. spaz
-			10700, // 102. side missile
-			30300, // 103. army
-			19400, // 104. supercharge
-			35500, // 105. friends
-			12600, // 106. lightning
-			17700 // 107. torpedo
+			12200, // 101. spaz
+			15700, // 102. side missile
+			35300, // 103. army
+			22400, // 104. supercharge
+			45500, // 105. friends
+			14100, // 106. lightning
+			20300 // 107. torpedo
 	};
 	
 	private long URDTimeMillis;
@@ -993,7 +993,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	    	int powerUpType = puDropRateEntry.getKey();
 	    	long powerUpLastDropTime = puDropRateEntry.getValue();
 	    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
-			if(puElapsed > puDropTimeMap.get(powerUpType)) {
+			if(puElapsed > (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier())) {
 				puLastDropTimeMap.put(powerUpType, System.nanoTime());
 				int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
 				PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);

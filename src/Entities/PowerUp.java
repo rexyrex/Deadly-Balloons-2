@@ -74,7 +74,7 @@ public class PowerUp {
 				collectText = "Power +2";
 				break;
 			case 4:
-				color1 = Color.white;
+				color1 = Color.orange;
 				r = 22;
 				name="SPEED UP ENEMIES";
 				collectText = "Speed Up!";
