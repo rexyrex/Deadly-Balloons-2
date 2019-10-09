@@ -28,4 +28,16 @@ public class RandomUtils {
 		return dest;
 	}
 	
+	public static double getPlusMinus(double original, double plus, double minus) {
+		if(Math.random() > 0.5) {
+			return original + Math.random() * plus;
+		} else {
+			return original - Math.random() * minus;
+		}
+	}
+	
+	public static double getPlusMinusPercentage(double original, double percentage) {
+		return getPlusMinus(original, original*percentage, original*percentage);
+	}
+	
 }

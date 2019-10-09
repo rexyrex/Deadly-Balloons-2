@@ -995,7 +995,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	    	int powerUpType = puDropRateEntry.getKey();
 	    	long powerUpLastDropTime = puDropRateEntry.getValue();
 	    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
-			if(puElapsed > (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier())) {
+	    	double dropTime = (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier());
+			if(puElapsed > RandomUtils.getPlusMinusPercentage(dropTime, 0.2)) {
 				puLastDropTimeMap.put(powerUpType, System.nanoTime());
 				int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
 				PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);
@@ -1255,7 +1256,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_DOWN){
 			player.setDown(true);
 		}
-		if(keyCode == KeyEvent.VK_Z){
+		if(keyCode == KeyEvent.VK_SPACE){
 			player.setFiring(true);
 			//sfx.get("laser").play();
 		}
@@ -1272,13 +1273,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			//waveNumber++;
 			//createNewEnemies();
 		}
-		if(keyCode == KeyEvent.VK_1){
-			if(player.useStamina(50)){
-				player.tpToTurret(0);
-				player.startPushing();
-				removeTurret(0);
-			}
-		}
 		
 		if(keyCode == KeyEvent.VK_F){
 			if(player.useStamina(750)) {
@@ -1286,31 +1280,34 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}			
 		}
 		
+		if(keyCode == KeyEvent.VK_1){
+			if(player.useStamina(50)){
+				player.tpToTurret(0);
+				removeTurret(0);
+			}
+		}
+		
 		if(keyCode == KeyEvent.VK_2){
 			if(player.useStamina(50)){
 				player.tpToTurret(1);
-				player.startPushing();
 				removeTurret(1);
 			}
 		}
 		if(keyCode == KeyEvent.VK_3){
 			if(player.useStamina(50)){
 				player.tpToTurret(2);
-				player.startPushing();
 				removeTurret(2);
 			}
 		}
 		if(keyCode == KeyEvent.VK_4){
 			if(player.useStamina(50)){
 				player.tpToTurret(3);
-				player.startPushing();
 				removeTurret(3);
 			}
 		}
 		if(keyCode == KeyEvent.VK_5){
 			if(player.useStamina(50)){
 				player.tpToTurret(4);
-				player.startPushing();
 				removeTurret(4);
 			}
 		}

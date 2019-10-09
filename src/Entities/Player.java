@@ -642,6 +642,7 @@ public class Player {
 			Turret t = ts[i];
 			x = (int) t.getx();
 			y = (int) t.gety();
+			startPushing();
 			t.setDead(true);			
 			tsAvailability[i] = true;		
 			GamePanel.explosions.add(new Explosion(x,y,r,r+20,1));

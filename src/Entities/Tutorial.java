@@ -165,7 +165,7 @@ public class Tutorial {
 				//g.fillRect(0,0,gp.WIDTH,gp.HEIGHT);
 				c = new Color(255,255,0,alpha);
 				f = new Font("Gulim", Font.BOLD,40);
-				s = "FIRST \nHINT \nplz work plz";
+				s = "Arrow Keys to move\nSpace Bar to Shoot";
 				renderText(c,f,s);
 				break;
 			case 1: 
