@@ -93,6 +93,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<Lightning> lightnings;
 	public static ArrayList<Torpedo> torpedos;
 	
+	//Drop related
+	public static HashMap<Integer, Long> puDropTimeMap;
+	public static HashMap<Integer, Double> puDropRateMap;
+	
 	private long URDTimeMillis;
 	private long elapsedTime;
 	
@@ -211,6 +215,43 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		torpedos = new ArrayList<Torpedo>();
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
+		
+		puDropTimeMap = new HashMap<Integer, Long>();
+		puDropRateMap = new HashMap<Integer, Double>();
+		double puDropRates[] = {
+				0.3, // 1. extra life
+				0.7, // 2. power +1
+				1.4, // 3. power +2
+				2.0, // 4. faster enemies
+				0.3, // 5. inc speed
+				0.3, // 6. bomb
+				0.3, // 7. firerate
+				0.2, // 8. addon
+				0.7, // 9. stamina
+				0.15, // 10. max stamina
+				0.1, // 11. shelter
+				0 // 12. die
+		};
+		
+		//Populate dropRateMap
+		for(int i=0; i<puDropRates.length; i++) {
+			puDropRateMap.put(i+1, puDropRates[i]);
+		}
+		
+		long puDropTimes[] = {
+				4000, // 101. spaz
+				5000, // 102. side missile
+				6000, // 103. army
+				2000, // 104. supercharge
+				10000, // 105. friends
+				3000, // 106. lightning
+				7000 // 107. torpedo
+		};
+		
+		//Populate dropTimeMap
+		for(int i=0; i<puDropTimes.length; i++) {
+			puDropTimeMap.put(i+101, puDropTimes[i]);
+		}
 		
 		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
 		//bgmusic.play();
@@ -1013,124 +1054,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			if(enemies.get(i).isDead()){
 				sfx.get("enemy die").play();
 				Enemy e= enemies.get(i);
-				
-				int randNum = (int)(Math.random() * 1000);
-				int randNum2 = (int)(Math.random() * 1000);
+
 				//power up drop
-				
-				//Extra life
-				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(1, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Power + 1
-				if(RandomUtils.runChance(1.4 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(3, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Power + 2
-				if(RandomUtils.runChance(0.7 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(2, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Faster Enemies
-				if(RandomUtils.runChance(2)) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(4, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Player Speed Increase
-				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(5, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Bomb +1
-				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(6, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Att Speed +1
-				if(RandomUtils.runChance(0.3 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(7, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Spaz
-				if(RandomUtils.runChance(1.2 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(8, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Seeker missile
-				if(RandomUtils.runChance(1.0 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(10, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Add on
-				if(RandomUtils.runChance(0.2 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(9, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Stamina
-				if(RandomUtils.runChance(0.7 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(11, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Max Stamina
-				if(RandomUtils.runChance(0.15 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(12, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Wall
-				if(RandomUtils.runChance(0.1 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(13, e.getx()+offset[0],e.gety()+offset[1]));
-				}	
-				
-				//Army
-				if(RandomUtils.runChance(0.5 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(14, e.getx()+offset[0],e.gety()+offset[1]));
-				}	
-				
-				//Friends
-				if(RandomUtils.runChance(0.5 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(16, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Turret supercharge
-				if(RandomUtils.runChance(0.8 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(15, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//DIE Powerup (avoid)
-				if(RandomUtils.runChance(0)) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(17, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Lightning Powerup
-				if(RandomUtils.runChance(1.2 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(18, e.getx()+offset[0],e.gety()+offset[1]));
-				}
-				
-				//Torpedo Powerup
-				if(RandomUtils.runChance(0.7 * player.getDropRateMultiplier())) {
-					double[] offset = RandomUtils.getRandomOffset(5, 5);
-					powerups.add(new PowerUp(19, e.getx()+offset[0],e.gety()+offset[1]));
-				}
+			    for (Map.Entry<Integer, Double> puDropRateEntry : puDropRateMap.entrySet()) {
+			    	int powerUpType = puDropRateEntry.getKey();
+			    	double powerUpDropRate = puDropRateEntry.getValue();
+					if(RandomUtils.runChance(powerUpDropRate * player.getDropRateMultiplier())) {
+						double[] offset = RandomUtils.getRandomOffset(5, 5);
+						powerups.add(new PowerUp(powerUpType, e.getx()+offset[0],e.gety()+offset[1]));
+					}
+			    }
 
 				player.addScore(e.getMoney());
 				texts.add(new Text(e.getx(), e.gety(),1000,"+" +e.getMoney(), true, Color.GREEN, Font.BOLD));
@@ -1138,9 +1071,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				enemies.remove(i);
 				i--;
 				
-				e.explode();
-				explosions.add(new Explosion(e.getx(), e.gety(),e.getr(), e.getr()+30));
-				
+				e.split();
+				explosions.add(new Explosion(e.getx(), e.gety(),e.getr(), e.getr()+30));				
 			}
 		}
 		

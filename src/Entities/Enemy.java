@@ -547,7 +547,7 @@ public class Enemy {
 		color1 = new Color(r,g,b,a);
 	}
 	
-	public void explode(){
+	public void split(){
 		if(rank > 1){
 			int amount = 0;
 			switch(type) {
