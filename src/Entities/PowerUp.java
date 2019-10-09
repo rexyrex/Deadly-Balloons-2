@@ -289,9 +289,9 @@ public class PowerUp {
 				GamePanel.player.startFiringSide();
 				break;
 			case 103:
-				int tmpInterval = GamePanel.HEIGHT / 10;
+				int tmpInterval = GamePanel.HEIGHT / 6;
 				
-				for(int j=0; j<10; j++) {
+				for(int j=0; j<6; j++) {
 					GamePanel.friends.add(new Friend(35 + j*tmpInterval, GamePanel.HEIGHT, 35+ j*tmpInterval, 0, 1));
 				}
 				break;

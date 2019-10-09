@@ -44,7 +44,7 @@ public class Friend {
 		
 		if(type==1) {
 			color1 = new Color(169,169,169,255);		
-			outlineColor = new Color(0,0,0,255);
+			outlineColor = new Color(0,100,0,255);
 			lifeSpan = 7000;
 			fireDelay = 220;
 			firingTimer = System.nanoTime();
@@ -53,7 +53,7 @@ public class Friend {
 		
 		if(type==2) {
 			color1 = new Color(169,169,169,255);	
-			outlineColor = new Color(0,0,0,255);
+			outlineColor = new Color(0,100,0,255);
 			lifeSpan = 15000;
 			fireDelay = 220;
 			firingTimer = System.nanoTime();
@@ -138,6 +138,11 @@ public class Friend {
 		//check age
 		if((System.nanoTime() - birthDate)/1000000 > lifeSpan) {
 			dead = true;
+		}
+		
+		if(type==1) {
+			dx = 2 * -speed;
+			dy = -speed;
 		}
 		
 		if(type==2 && RandomUtils.runChance(4)){

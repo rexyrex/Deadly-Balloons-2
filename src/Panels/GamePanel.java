@@ -1359,7 +1359,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		if(keyCode == KeyEvent.VK_SPACE){		
+		if(keyCode == KeyEvent.VK_NUMPAD0){		
 			if(gameState == GameState.PLAY) {
 				gameState = GameState.PAUSED;	
 				jframe.setState(Frame.ICONIFIED);
