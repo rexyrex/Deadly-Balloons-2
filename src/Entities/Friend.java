@@ -17,6 +17,7 @@ public class Friend {
 	private double speed;
 	
 	private Color color1;
+	private Color outlineColor;
 	
 	private double destX;
 	private double destY;
@@ -42,7 +43,8 @@ public class Friend {
 		this.type = type;
 		
 		if(type==1) {
-			color1 = new Color(225,225,225,255);			
+			color1 = new Color(169,169,169,255);		
+			outlineColor = new Color(0,0,0,255);
 			lifeSpan = 7000;
 			fireDelay = 220;
 			firingTimer = System.nanoTime();
@@ -50,7 +52,8 @@ public class Friend {
 		}
 		
 		if(type==2) {
-			color1 = new Color(225,225,225,255);			
+			color1 = new Color(169,169,169,255);	
+			outlineColor = new Color(0,0,0,255);
 			lifeSpan = 15000;
 			fireDelay = 220;
 			firingTimer = System.nanoTime();
@@ -148,7 +151,7 @@ public class Friend {
 		g.setColor(color1);		
 		g.fillOval((int)(x-r),(int)(y-r), 2*r, 2*r);		
 		g.setStroke(new BasicStroke(3));
-		g.setColor(color1.darker());		
+		g.setColor(outlineColor);		
 		g.drawOval((int)(x-r),(int)(y-r), 2*r, 2*r);
 		g.setStroke(new BasicStroke(1));
 		

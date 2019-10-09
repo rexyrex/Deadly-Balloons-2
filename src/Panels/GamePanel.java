@@ -12,18 +12,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -94,6 +93,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<Lightning> lightnings;
 	public static ArrayList<Torpedo> torpedos;
 	public static ArrayList<SpawnIndicator> spawnIndicators;
+	
+	//key presses
+	private Set<Integer> keysPressed = new HashSet<Integer>();
 	
 	//Drop related
 	public static HashMap<Integer, Long> puLastDropTimeMap;
@@ -1231,6 +1233,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		// TODO Auto-generated method stub
 		int keyCode = key.getKeyCode();
 		
+		keysPressed.add(key.getKeyCode());
+		
+		if(keysPressed.contains(KeyEvent.VK_CONTROL) && keysPressed.contains(KeyEvent.VK_T)) {
+			//super turret?
+		}
+		
 		if(gameMode==GameMode.TUTORIAL) {
 			tutorial.updateKeyPressedCount(keyCode);
 		}
@@ -1319,7 +1327,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_Q){
 			//player.gainAddOn();
 		}
-		if(keyCode == KeyEvent.VK_T){
+		if(!keysPressed.contains(KeyEvent.VK_CONTROL) && keyCode == KeyEvent.VK_T){
 			if(turrets.size()<5){
 				if(player.useStamina(420)){
 					player.placeTurret();
@@ -1367,6 +1375,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void keyReleased(KeyEvent key) {
 		// TODO Auto-generated method stub
 		int keyCode = key.getKeyCode();
+		
+		keysPressed.remove(keyCode);
+		
 		if(keyCode == KeyEvent.VK_LEFT){
 			player.setLeft(false);
 		}
