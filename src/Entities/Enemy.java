@@ -853,15 +853,7 @@ public class Enemy {
 		}
 		
 		if(skillSet.containsKey("spawn powerup skill")) {
-			if(RandomUtils.runChance(skillSet.get("spawn powerup skill"))) {
-				//Spaz
-				GamePanel.powerups.add(new PowerUp(8, getx(),gety()));
-			}		
-			
-			if(RandomUtils.runChance(skillSet.get("spawn powerup skill"))) {
-				//Seeker missile
-				GamePanel.powerups.add(new PowerUp(10, getx(),gety()));
-			}	
+
 		}
 		
 		if(skillSet.containsKey("charge skill")) {

@@ -42,6 +42,7 @@ import Entities.Lightning;
 import Entities.Player;
 import Entities.PowerUp;
 import Entities.Shelter;
+import Entities.SpawnIndicator;
 import Entities.Text;
 import Entities.Torpedo;
 import Entities.Turret;
@@ -92,10 +93,38 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<Shelter> shelters;
 	public static ArrayList<Lightning> lightnings;
 	public static ArrayList<Torpedo> torpedos;
+	public static ArrayList<SpawnIndicator> spawnIndicators;
 	
 	//Drop related
+	public static HashMap<Integer, Long> puLastDropTimeMap;
 	public static HashMap<Integer, Long> puDropTimeMap;
 	public static HashMap<Integer, Double> puDropRateMap;
+	public static HashMap<Integer, Integer> puCountMap;
+	
+	private double puDropRates[] = {
+			0.3, // 1. extra life
+			0.7, // 2. power +1
+			1.4, // 3. power +2
+			2.0, // 4. faster enemies
+			0.3, // 5. inc speed
+			0.3, // 6. bomb
+			0.3, // 7. firerate
+			0.2, // 8. addon
+			0.7, // 9. stamina
+			0.15, // 10. max stamina
+			0.1, // 11. shelter
+			0 // 12. die
+	};
+	
+	private long puDropTimes[] = {
+			11200, // 101. spaz
+			10700, // 102. side missile
+			30300, // 103. army
+			19400, // 104. supercharge
+			35500, // 105. friends
+			12600, // 106. lightning
+			17700 // 107. torpedo
+	};
 	
 	private long URDTimeMillis;
 	private long elapsedTime;
@@ -213,41 +242,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		shelters = new ArrayList<Shelter>();
 		lightnings = new ArrayList<Lightning>();
 		torpedos = new ArrayList<Torpedo>();
+		spawnIndicators = new ArrayList<SpawnIndicator>();
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
+		puLastDropTimeMap = new HashMap<Integer, Long>();
 		puDropTimeMap = new HashMap<Integer, Long>();
 		puDropRateMap = new HashMap<Integer, Double>();
-		double puDropRates[] = {
-				0.3, // 1. extra life
-				0.7, // 2. power +1
-				1.4, // 3. power +2
-				2.0, // 4. faster enemies
-				0.3, // 5. inc speed
-				0.3, // 6. bomb
-				0.3, // 7. firerate
-				0.2, // 8. addon
-				0.7, // 9. stamina
-				0.15, // 10. max stamina
-				0.1, // 11. shelter
-				0 // 12. die
-		};
+		puCountMap = new HashMap<Integer, Integer>();
+
 		
 		//Populate dropRateMap
 		for(int i=0; i<puDropRates.length; i++) {
 			puDropRateMap.put(i+1, puDropRates[i]);
 		}
-		
-		long puDropTimes[] = {
-				4000, // 101. spaz
-				5000, // 102. side missile
-				6000, // 103. army
-				2000, // 104. supercharge
-				10000, // 105. friends
-				3000, // 106. lightning
-				7000 // 107. torpedo
-		};
-		
+
 		//Populate dropTimeMap
 		for(int i=0; i<puDropTimes.length; i++) {
 			puDropTimeMap.put(i+101, puDropTimes[i]);
@@ -264,7 +273,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("place black hole", new AudioPlayer("/SFX/place_black_hole.mp3"));
 		sfx.put("collect powerup", new AudioPlayer("/SFX/powerup_collect.mp3"));
 		
-
 		long startTime;
 		long waitTime;
 		long totalTime = 0;
@@ -376,6 +384,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveStart = true;
 		waveNumber = 0;
 		victorious = false;
+		
+		//Init last pu drop times
+		for(int i=0; i<puDropTimes.length; i++) {
+			puLastDropTimeMap.put(i+101, System.nanoTime());
+		}
+		
+		//Init pu count map
+	    for(int i=0; i<puDropTimes.length; i++) {
+	    	puCountMap.put(i+101, 0);
+	    }
 		
 		JSONObject waveDataJSONArr = null;
 		//load JSON Data
@@ -565,6 +583,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			shelters.get(i).draw(g);
 		}		
 			
+		//draw spawn indicators
+		for(int i=0; i< spawnIndicators.size(); i++) {
+			spawnIndicators.get(i).draw(g);
+		}
 			
 		//draw powerups
 		for(int i = 0; i < powerups.size(); i++){
@@ -692,7 +714,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				waveStartTimer = 0;
 				waveStartTimerDiff = 0;
 			}
-
 		} else {
 			//new wave
 			if(waveStartTimer == 0 && enemies.size() ==0){
@@ -714,11 +735,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 			}
 		}
-		
-		
-		
+
 		//create Enemies
-		
 		if(waveStart && enemies.size()==0){
 			createNewEnemies();
 		}
@@ -774,24 +792,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//time bomb update
-		
 		for(int i=0; i<bombs.size(); i++){
 			boolean remove = bombs.get(i).update();
-
 			for(int j=0; j< enemies.size(); j++){
 				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile() && enemies.get(j).isInRange(bombs.get(i).getx(), bombs.get(i).gety(), bombs.get(i).getmaxr())){
 					enemies.get(j).setGettingBombed(true);							
 				}
 			}
-			
 			if(remove){
 				bombs.remove(i);
 				i--;
 			}
 		}
 		
-		boolean inRangeOfAtLeastOneBomb = false;
-		
+		boolean inRangeOfAtLeastOneBomb = false;		
 		for(int j=0; j<enemies.size(); j++){
 			for(int i=0; i<bombs.size(); i++){
 				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile()){
@@ -868,19 +882,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		// player auto collect powerup update
-
+		//Player auto collect powerup update
 		for(int i=0; i<powerups.size(); i++) {
 			PowerUp p = powerups.get(i);
 			if(powerups.get(i).isInRange(player.getx(), player.gety(), player.getCollectRadius()) && player.isCollectingPu()) {
-				
 				//p.setBeingCollected(true);
 				//p.collect();
 				//p.showCollectTextAtPowerUp();
-				
 				//explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
 				//powerups.remove(i);		
-				p.goTowards(player.getx(), player.gety(), 1.72);
+				p.goTowards(player.getx(), player.gety(), 2.22);
 			} else {
 				p.recoverMovement();
 			}
@@ -896,15 +907,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					shelters.get(i).hit();
 				}
 			}
-			
-			//player collision
-//			if(player.isInRange(l.getx(), l.gety(), l.getr())){
-//				player.moveAwayFrom(l.getx(), l.gety());
-//				if(l.getx() == player.getx() && l.gety() == player.gety()){
-//					player.changeDirectionRandomly();
-//				}
-//			}
-			
+						
 			if(remove){
 				shelters.remove(i);
 				i--;
@@ -913,12 +916,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//enemy position update
 		double[] distances = new double[enemies.size()];
-		//double[] distances2 = new double[enemies.size()];
 		for(int i=0; i< enemies.size(); i++){
 			double ex = enemies.get(i).getx();
 			double ey = enemies.get(i).gety();
 			distances[i] = Math.sqrt((ex-player.getx())*(ex-player.getx()) + (ey-player.gety())*(ey-player.gety()))-enemies.get(i).getr();
-			
 		}
 		if(waveStart && enemies.size()!=0){
 			int index = (int)smallestDistance(distances)[1];
@@ -956,12 +957,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				}
 				int index3 = (int)smallestDistance(distances)[1];
 				Enemy eR3 = enemies.get(index3);
-				
-				
 					t.updateEnemyPosition(eR3);			
-				
-			}
-		
+			}		
 			//mark target enemy
 			for(int i=0; i< enemies.size(); i++){				
 				if(i!=index){
@@ -991,6 +988,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
+		//spawn indicators create
+	    for (Map.Entry<Integer, Long> puDropRateEntry : puLastDropTimeMap.entrySet()) {
+	    	int powerUpType = puDropRateEntry.getKey();
+	    	long powerUpLastDropTime = puDropRateEntry.getValue();
+	    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
+			if(puElapsed > puDropTimeMap.get(powerUpType)) {
+				puLastDropTimeMap.put(powerUpType, System.nanoTime());
+				int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
+				PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);
+				spawnIndicators.add(new SpawnIndicator("PowerUp", newPu));
+			}
+	    }
+	    
+	    //spawn indicators update
+		for(int i=0; i<spawnIndicators.size(); i++){
+			boolean remove = spawnIndicators.get(i).update();
+			if(remove){
+				spawnIndicators.get(i).spawn();
+				spawnIndicators.remove(i);
+				i--;
+			}
+		}
+	    
+	    
 		//explosion update
 		for(int i=0; i<explosions.size(); i++){
 			boolean remove = explosions.get(i).update();
@@ -1008,18 +1029,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				i--;
 			}
 		}
-		
-		//is player bombing detect update
-		/*if(player.isBombing()){
-			for(int i=0; i<enemies.size(); i++){
-				enemies.get(i).setGettingBombed(true);
-			}
-		} else {
-			for(int i=0; i<enemies.size(); i++){
-				enemies.get(i).setGettingBombed(false);
-			}
-		}*/
-		
 		
 		//Bullet-enemy collision
 		for(int i=0; i<bullets.size(); i++){
@@ -1381,5 +1390,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void updatePuCount(PowerUp pu, boolean remove) {
+		if(puCountMap.containsKey(pu.getType())) {
+			if(remove) {
+				puCountMap.put(pu.getType(), puCountMap.get(pu.getType())-1);
+			} else {
+				puCountMap.put(pu.getType(), puCountMap.get(pu.getType())+1);
+			}
+		}
 	}
 }

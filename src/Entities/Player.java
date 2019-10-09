@@ -116,7 +116,7 @@ public class Player {
 	private int powerLevel;
 	private int power;
 	private int[] requiredPower = {
-			3,6,9,10,12,14,17
+			3,6,9,10,12,14,15
 	};
 	
 	private double dropRateMultiplier;

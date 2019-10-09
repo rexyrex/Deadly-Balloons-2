@@ -21,7 +21,8 @@ public class PowerUp {
 	private String collectText;
 	
 	private Color color1;
-	
+
+
 	private long timer;
 	private long lifeTime;
 	
@@ -179,6 +180,10 @@ public class PowerUp {
 		}		
 	}
 	
+	public void resetTimer() {
+		timer = System.nanoTime();
+	}
+	
 	public void showCollectText() {
 		GamePanel.texts.add(new Text(GamePanel.player.getx(), GamePanel.player.gety(), 2000, collectText));
 	}
@@ -203,6 +208,14 @@ public class PowerUp {
 
 	public void setDy(double dy) {
 		this.dy = dy;
+	}
+	
+	public Color getColor() {
+		return color1;
+	}
+
+	public void setColor(Color color1) {
+		this.color1 = color1;
 	}
 	public int getr(){ return r; }
 	public int getType(){ return type; }
@@ -288,7 +301,7 @@ public class PowerUp {
 				}
 				break;
 			case 105:
-				for(int j=0; j<4; j++) {
+				for(int j=0; j<3; j++) {
 					GamePanel.friends.add(new Friend(GamePanel.player.getx(), GamePanel.player.gety(), 0, 0, 2));
 				}
 				break;
