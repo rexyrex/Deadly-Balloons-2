@@ -1,3 +1,4 @@
+package Utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,7 +18,7 @@ public class RestUtils {
 			
 			StringBuilder sb = new StringBuilder();
 			if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				//Stream을 처리해줘야 하는 귀찮음이 있음. 
+				//Stream�?� 처리해줘야 하는 귀찮�?��?� 있�?�. 
 				BufferedReader br = new BufferedReader(
 						new InputStreamReader(con.getInputStream(), "utf-8"));
 				String line;
@@ -31,9 +32,9 @@ public class RestUtils {
 			}
 
 
-			System.out.println("응답코드 : " + con.getResponseCode());
+			System.out.println("�?�답코드 : " + con.getResponseCode());
 
-			System.out.println("응답메세지 : " + con.getResponseMessage());
+			System.out.println("�?�답메세지 : " + con.getResponseMessage());
 
 		} catch (MalformedURLException e) {
 

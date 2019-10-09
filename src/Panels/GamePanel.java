@@ -1,3 +1,4 @@
+package Panels;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,6 +32,24 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import Audio.AudioPlayer;
+import Entities.BlackHole;
+import Entities.Bomb;
+import Entities.Bullet;
+import Entities.Enemy;
+import Entities.Explosion;
+import Entities.Friend;
+import Entities.Lightning;
+import Entities.Player;
+import Entities.PowerUp;
+import Entities.Shelter;
+import Entities.Text;
+import Entities.Torpedo;
+import Entities.Turret;
+import Entities.Tutorial;
+import Menu.Menu;
+import Menu.MouseInput;
+import Utils.RandomUtils;
+import Utils.StringUtils;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
@@ -103,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public int btnHeight = 50;
 	
 	//Tutorial Related
-	int currentTutorialStage;
+	public int currentTutorialStage;
 
 	ArrayList<ArrayList<Integer>> allowedKeysPerTutStage;
 	
@@ -172,7 +191,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
         try {
-            img = ImageIO.read(getClass().getResource("img/backImg6.png"));
+            img = ImageIO.read(getClass().getResource("../img/backImg6.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

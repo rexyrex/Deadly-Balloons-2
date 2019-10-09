@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 encoding//Resources/LevelData/MrYang.json=UTF-8
-encoding//src/Enemy.java=UTF-8
-encoding//src/GamePanel.java=UTF-8
-encoding//src/ShopPanel.java=UTF-8
+encoding//src/Entities/Enemy.java=UTF-8
+encoding//src/Panels/GamePanel.java=UTF-8
+encoding//src/Panels/ShopPanel.java=UTF-8

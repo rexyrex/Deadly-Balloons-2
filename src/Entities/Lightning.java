@@ -1,8 +1,12 @@
+package Entities;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+
+import Panels.GamePanel;
+import Utils.RandomUtils;
 
 public class Lightning {
 	

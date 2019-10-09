@@ -1,6 +1,9 @@
+package Menu;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import Panels.GamePanel;
 
 public class MouseInput implements MouseListener{
 

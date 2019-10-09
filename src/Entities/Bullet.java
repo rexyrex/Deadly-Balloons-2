@@ -1,5 +1,8 @@
+package Entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import Panels.GamePanel;
 
 
 public class Bullet {

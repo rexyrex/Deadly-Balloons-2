@@ -1,3 +1,4 @@
+package Entities;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -5,6 +6,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import Audio.AudioPlayer;
+import Panels.GamePanel;
 
 public class Player {
 

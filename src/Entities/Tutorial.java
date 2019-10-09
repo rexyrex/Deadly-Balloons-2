@@ -1,8 +1,11 @@
+package Entities;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+
+import Panels.GamePanel;
 
 public class Tutorial {
 	
@@ -162,7 +165,7 @@ public class Tutorial {
 				//g.fillRect(0,0,gp.WIDTH,gp.HEIGHT);
 				c = new Color(255,255,0,alpha);
 				f = new Font("Gulim", Font.BOLD,40);
-				s = "FIRST HINT";
+				s = "FIRST \nHINT \nplz work plz";
 				renderText(c,f,s);
 				break;
 			case 1: 
@@ -179,8 +182,17 @@ public class Tutorial {
 	public void renderText(Color c, Font f, String s) {
 		Graphics2D g = gp.g;
 		g.setColor(c);
-		g.setFont(f);
-		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (gp.WIDTH-length)/2, gp.HEIGHT/2);
+		g.setFont(f);		
+		drawMultipleStrings(s);
+	}
+	
+	public void drawMultipleStrings(String text) {
+		Graphics2D g = gp.g;
+		
+		int y = gp.HEIGHT/2;
+		for (String line : text.split("\n")) {
+			int length = (int) g.getFontMetrics().getStringBounds(line, g).getWidth();
+            g.drawString(line, (gp.WIDTH-length)/2,  y += g.getFontMetrics().getHeight());
+		}
 	}
 }

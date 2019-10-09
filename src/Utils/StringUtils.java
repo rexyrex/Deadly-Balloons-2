@@ -1,3 +1,4 @@
+package Utils;
 import java.time.LocalTime;
 
 public class StringUtils {

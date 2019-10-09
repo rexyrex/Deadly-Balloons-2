@@ -1,7 +1,11 @@
+package Entities;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+
+import Panels.GamePanel;
+import Utils.MathUtils;
 
 public class Torpedo {
 	private double x;
