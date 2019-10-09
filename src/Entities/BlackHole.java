@@ -36,7 +36,7 @@ public class BlackHole {
 		pullRadius = 200;
 		
 		beforeHoleTimer = System.nanoTime();
-		beforeHoleDelay = 5000;
+		beforeHoleDelay = 1000;
 		
 		holeLength = 5000;
 		holeTimer = System.nanoTime();

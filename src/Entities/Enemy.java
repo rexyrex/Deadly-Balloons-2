@@ -380,8 +380,8 @@ public class Enemy {
 			if(rank == 1){
 				speed = 4;
 				r = 90;
-				health = 850;
-				maxHealth = 850;
+				health = 1000;
+				maxHealth = 1000;
 				money = 500;
 			}			
 		}
@@ -397,10 +397,10 @@ public class Enemy {
 			color1 = new Color(255,255,255,128);
 			name = "42";
 			if(rank == 1){
-				speed = 4;
+				speed = 6;
 				r = 50;
-				health = 3000;
-				maxHealth = 3000;
+				health = 5000;
+				maxHealth = 5000;
 				money = 5000;
 			}
 		}
@@ -1088,6 +1088,18 @@ public class Enemy {
 			g.setColor(color1.darker());		
 			g.drawOval((int)(x-r),(int)(y-r), 2*r, 2*r);
 			g.setStroke(new BasicStroke(1));
+		}
+		
+		if(stunned) {
+			int stunBarLength = (int) r;
+			g.setColor(Color.BLUE.darker());
+			long timeSinceStun = (System.nanoTime() - stunnedStart)/1000000;
+			double stunProgress = (double)timeSinceStun/(double)stunnedLength;
+			if(stunProgress > 1) {
+				stunProgress = 1;
+			}			
+			g.drawRect((int)(x-stunBarLength/2), (int)(y+stunBarLength/2), stunBarLength, stunBarLength/5);
+			g.fillRect((int)(x-stunBarLength/2), (int)(y+stunBarLength/2), (int)(stunBarLength*stunProgress), stunBarLength/5);
 		}
 		
 		if(targeted){

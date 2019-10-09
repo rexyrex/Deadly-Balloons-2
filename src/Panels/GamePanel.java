@@ -146,6 +146,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private long slowDownTimerDiff;
 	private int slowDownLength = 6000;
 	
+	
 	private BufferedImage img;
 	
 	public InfoPanel ip;
@@ -1260,25 +1261,71 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			player.setFiring(true);
 			//sfx.get("laser").play();
 		}
-		if(keyCode == KeyEvent.VK_S){
-			//player.startSpazing();
-		}
 		if(keyCode == KeyEvent.VK_X){		
 				player.placeBomb();			
+		}	
+
+		
+		
+		if(keyCode == KeyEvent.VK_A){
+			player.toggleAddOn();
 		}
-		if(keyCode == KeyEvent.VK_C){
-			//startbombing?
+		if(!keysPressed.contains(KeyEvent.VK_CONTROL) && keyCode == KeyEvent.VK_T){
+			if(turrets.size()<5){
+				if(player.useStamina(400)){
+					player.placeTurret();
+				}
+			} else {
+				texts.add(new Text(player.getx(), player.gety(),2000,"Max 5 Turrets"));
+			}
 		}
-		if(keyCode == KeyEvent.VK_SLASH){////////////////////
-			//waveNumber++;
-			//createNewEnemies();
+		if(keyCode == KeyEvent.VK_B){
+			if(player.useStamina(700)){
+				sfx.get("place black hole").play();
+				player.placeBlackHole();
+			}
+		}		
+		
+		if(keyCode == KeyEvent.VK_S){
+			if(player.getShelterCount()>0){
+				player.placeShelter();
+			}
+		}
+		
+		if(keyCode == KeyEvent.VK_Q){
+			if(player.useStamina(500)){
+				player.startPushing();
+			}
+		}
+		
+		if(keyCode == KeyEvent.VK_W){
+			if(player.useStamina(1000)){
+				player.freezeAOE(5000);
+			}
+		}
+		
+		if(keyCode == KeyEvent.VK_E){
+			if(player.useStamina(150)) {
+				player.startSuperSpeed();
+			}			
+		}
+		
+		if(keyCode == KeyEvent.VK_R){			
+			if(!player.isInvincible()) {
+				player.toggleInvincible();
+			} else {
+				if(player.useStamina(200)){
+					player.toggleInvincible();		
+				}
+			}			
 		}
 		
 		if(keyCode == KeyEvent.VK_F){
-			if(player.useStamina(750)) {
+			if(player.useStamina(500)) {
 				player.startCollecting();
 			}			
 		}
+
 		
 		if(keyCode == KeyEvent.VK_1){
 			if(player.useStamina(50)){
@@ -1286,7 +1333,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				removeTurret(0);
 			}
 		}
-		
 		if(keyCode == KeyEvent.VK_2){
 			if(player.useStamina(50)){
 				player.tpToTurret(1);
@@ -1310,61 +1356,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				player.tpToTurret(4);
 				removeTurret(4);
 			}
-		}
-		
-		if(keyCode == KeyEvent.VK_6){
-
-		}
-		if(keyCode == KeyEvent.VK_A){
-			player.toggleAddOn();
-		}
-		if(keyCode == KeyEvent.VK_D){
-			//player.startFiringSide();
-		}
-		if(keyCode == KeyEvent.VK_Q){
-			//player.gainAddOn();
-		}
-		if(!keysPressed.contains(KeyEvent.VK_CONTROL) && keyCode == KeyEvent.VK_T){
-			if(turrets.size()<5){
-				if(player.useStamina(420)){
-					player.placeTurret();
-				}
-			} else {
-				texts.add(new Text(player.getx(), player.gety(),2000,"Max 5 Turrets at once!"));
-			}
-		}
-		if(keyCode == KeyEvent.VK_B){
-			if(player.useStamina(700)){
-				sfx.get("place black hole").play();
-				player.placeBlackHole();
-			}
-		}
-		if(keyCode == KeyEvent.VK_C){
-			if(player.useStamina(600)){
-				player.startPushing();
-			}
-		}
-		if(keyCode == KeyEvent.VK_E){
-			if(player.getShelterCount()>0){
-				player.placeShelter();
-			}
-		}
-		
-		if(keyCode == KeyEvent.VK_I){			
-			if(player.useStamina(100)){
-				player.toggleInvincible();		
-			}
-		}
-		
+		}		
+		//Pause
 		if(keyCode == KeyEvent.VK_NUMPAD0){		
 			if(gameState == GameState.PLAY) {
 				gameState = GameState.PAUSED;	
 				jframe.setState(Frame.ICONIFIED);
 			} else if(gameState == GameState.PAUSED){
 				gameState = GameState.PLAY;
-			}
-			
-	}
+			}	
+		}
 		
 	}
 
@@ -1387,7 +1388,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_DOWN){
 			player.setDown(false);
 		}
-		if(keyCode == KeyEvent.VK_Z){
+		if(keyCode == KeyEvent.VK_SPACE){
 			player.setFiring(false);
 		}
 		

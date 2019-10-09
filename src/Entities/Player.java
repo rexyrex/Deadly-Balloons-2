@@ -104,6 +104,12 @@ public class Player {
 	private long inviDelay;
 	private double inviStaminaCost;
 	
+	private boolean isSuperSpeed;
+	private int superSpeed;
+	private long superSpeedLength;
+	private long superSpeedStartTime;
+	private int speedBeforeSuperSpeed;
+	
 	private Turret[] ts = new Turret[5];
 	private boolean[] tsAvailability = new boolean[5];
 	
@@ -268,6 +274,11 @@ public class Player {
 		puCollectLength = 2000;
 		puCollectRadius = 150;
 		
+		isSuperSpeed = false;
+		superSpeedStartTime = 0;
+		superSpeedLength = 150;
+		superSpeed = 15;
+		
 		bombing = false;
 		bombingTimer = System.nanoTime();
 		bombingLength = 700;
@@ -302,7 +313,7 @@ public class Player {
 		
 		nWalls = 1;
 		
-		score = 1200;
+		score = 500;
 	}
 
 	//Constructor
@@ -332,6 +343,18 @@ public class Player {
 	public void startInvincible(){ invincible = true; inviTimer = System.nanoTime();}
 	public void stopInvincible(){ invincible = false; }
 	public void setImmobalized(boolean b){ immobalized = b; }
+	
+	public void startSuperSpeed() {
+		superSpeedStartTime = System.nanoTime();
+		isSuperSpeed = true;
+		speedBeforeSuperSpeed = speed;
+		speed = superSpeed;
+	}
+	
+	public void stopSuperSpeed() {
+		isSuperSpeed = false;
+		speed = speedBeforeSuperSpeed;
+	}
 	
 	
 //	private double bulletDmg;
@@ -401,8 +424,14 @@ public class Player {
 			spinAngle2=180;
 			spinAngle3=90;
 			spinAngle4=270;
-		}
+		}	
+	}
 	
+	public void freezeAOE(long duration) {
+		for(int i=0; i<GamePanel.enemies.size(); i++){
+			if(GamePanel.enemies.get(i).isInRange(getx(), gety(), getPushRadius()))
+				GamePanel.enemies.get(i).stun(duration);
+		}
 	}
 	
 	public void moveToward(double px, double py){
@@ -711,6 +740,13 @@ public class Player {
 					invincible = false;
 					
 				}
+			}
+		}
+		
+		if(isSuperSpeed) {
+			long superSpeedElapsed = (System.nanoTime() - superSpeedStartTime) / 1000000;
+			if(superSpeedElapsed > superSpeedLength) {
+				stopSuperSpeed();
 			}
 		}
 		

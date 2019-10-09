@@ -1,0 +1,25 @@
+﻿Todo:
+1. Add an acceleration to superspeed (dash)
+
+4. Tutorial
+
+5. HighScore
+
+6. Key Combos (Change key registration to key array + on release)
+
+ctrl + t = super turret
+ctrl + c = 
+
+Addon 9 =>8
+stamina 11 => 9
+max stamina 12 => 10
+shelter 13 => 11
+die 17 => 12
+
+spaz 8 => 100
+missile 10 => 101
+army 14 => 102
+turretCharge 15 => 103
+friends 16 => 104
+lightning 18 => 105
+Torpedos 19 => 106
