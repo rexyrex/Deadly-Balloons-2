@@ -131,11 +131,20 @@ public class MouseInput implements MouseListener{
 			//Help Menu
 			if(GamePanel.menuState == GamePanel.MenuState.HELP) {
 				//back btn
-				if(mouseIn(mx,my,menu.backFromHelpBtn)) {
+				if(mouseIn(mx,my,menu.goToControlsBtn)) {
+					GamePanel.menuState = GamePanel.MenuState.CONTROLS;
+					return;
+				}
+			}		
+			
+			//Controls Menu
+			if(GamePanel.menuState == GamePanel.MenuState.CONTROLS) {
+				//back btn
+				if(mouseIn(mx,my,menu.controlsToMainBtn)) {
 					GamePanel.menuState = GamePanel.MenuState.MAIN;
 					return;
 				}
-			}			
+			}		
 		}
 		
 		//Game Over Menu

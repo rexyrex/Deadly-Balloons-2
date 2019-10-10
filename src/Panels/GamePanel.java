@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public enum MenuState {
-		MAIN, CREDITS, PLAY_MODES, HELP, DEFAULT_LEVELS, SURVIVAL_LEVELS
+		MAIN, CREDITS, PLAY_MODES, HELP, CONTROLS, DEFAULT_LEVELS, SURVIVAL_LEVELS
 	}
 	
 	public enum GameMode {
@@ -215,7 +215,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			thread.start();
 		}
 		addKeyListener(this);
-		menu = new Menu();
+		menu = new Menu(this);
 		tutorial = new Tutorial(this);
 		addMouseListener(new MouseInput(menu, this));
 	}
@@ -930,7 +930,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				//p.showCollectTextAtPowerUp();
 				//explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
 				//powerups.remove(i);		
-				p.goTowards(player.getx(), player.gety(), 2.22);
+				p.goTowards(player.getx(), player.gety(), 7.22);
 			} else {
 				p.recoverMovement();
 			}
@@ -1335,7 +1335,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_W){
-			if(player.useStamina(1000)){
+			if(player.useStamina(800)){
 				player.freezeAOE(5000);
 			}
 		}
@@ -1358,7 +1358,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_F){
-			if(player.useStamina(500)) {
+			if(player.useStamina(700)) {
 				player.startCollecting();
 			}			
 		}

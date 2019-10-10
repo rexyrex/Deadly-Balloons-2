@@ -20,7 +20,8 @@ public class Menu {
 	public Rectangle quitBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
 	
 	public Rectangle backFromCreditsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
-	public Rectangle backFromHelpBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
+	public Rectangle goToControlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
+	public Rectangle controlsToMainBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	
 	public Rectangle tutorialModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
 	public Rectangle defaultModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
@@ -36,9 +37,12 @@ public class Menu {
 	
 	public static ArrayList<Explosion> explosions;
 	
-	public Menu() {
+	private GamePanel gp;
+	
+	public Menu(GamePanel gp) {
 		explosions = new ArrayList<Explosion>();
 		loadedHighScores = false;
+		this.gp = gp;
 	}
 	
 	public void clickAnim(Graphics g, int x, int y) {
@@ -118,11 +122,62 @@ public class Menu {
 			g.setColor(Color.white);
 			renderTitle("Help", g);
 			
+			Color c = new Color(255,255,255,255);
+			Font f = new Font("TimesRoman", Font.PLAIN,20);
+			String s = 
+						"Welcome to Deadly Balloons 2.0\n" + 
+						"The objective is to pop all the balloons without dying!\n" +
+						"\n" +
+						"Remember to spend your money on upgrades\n"+
+						"from the shop on the right\n" +
+						"Check out your upgraded stats on the left panel\n"+
+						"\n"+
+						"You have a plethora of abilities in your arsenal\n"+
+						"Make good use of every ability to defeat the final boss!\n"+
+						"\n"+
+						"If you are new, check out the tutorial\n"+
+						"and practice on the Easy Levels first!\n"+
+						"\n"+
+						"Tis a high skill-cap game :) Good Luck!"
+						;
+			renderText(c,f,s, 50, 120);
+			
 
 			g.setFont(menuBtnFont);
-			g.drawString("Back", backFromHelpBtn.x+20, backFromHelpBtn.y+35);
-			g2d.draw(backFromHelpBtn);
+			g.drawString("Controls", goToControlsBtn.x+20, goToControlsBtn.y+35);
+			g2d.draw(goToControlsBtn);
 		}
+		
+		if(GamePanel.menuState == GamePanel.MenuState.HELP) {
+			g.setFont(menuTitleFont);
+			g.setColor(Color.white);
+			renderTitle("Help", g);
+			
+			Color c = new Color(255,255,255,255);
+			Font f = new Font("TimesRoman", Font.PLAIN,20);
+			String s = 
+						"Key / Ability / Stamina Cost / Other Requirements\n" + 
+						"SPACE / Fire / 0 / None\n" +
+						"Q / Push Enemies Away / 500 / None\n" +
+						"W / Freeze Enemies in AOE / 800 / None\n"+
+						"E / Place Black Hole / 700 / None\n" +
+						"R / Invincibility Toggle / 200 + 30 per tick / None\n"+
+						"D / Dash (Temp speed boost) / 200 / None\n"+
+						"X / Bomb / 0 / 1 Bomb (dropped by enemies)\n"+
+						"A / Toggle Addon / 0 / At least 1 Addon (dropped)\n"+
+						"T / Place Turret / 400 / Max 5 Turrets\n"+
+						"S / Place Shelter / 0 / 1 Shelter (dropped)\n"+
+						"F / Collect / 700 / None\n"+
+						"NUMPAD 0 / Pause / 0 / None\n"+
+						""
+						;
+			renderText(c,f,s, 50, 120);
+			
+
+			g.setFont(menuBtnFont);
+			g.drawString("Main Menu", controlsToMainBtn.x+20, controlsToMainBtn.y+35);
+			g2d.draw(controlsToMainBtn);
+		}		
 		
 		if(GamePanel.menuState == GamePanel.MenuState.PLAY_MODES) {
 			g.setFont(menuTitleFont);
@@ -173,5 +228,19 @@ public class Menu {
 	private void renderTitle(String title, Graphics g) {
 		int length = (int) g.getFontMetrics().getStringBounds(title, g).getWidth();
 		g.drawString(title, (GamePanel.WIDTH-length)/2, 100);
+	}
+	
+	public void renderText(Color c, Font f, String s, int x, int y) {
+		Graphics2D g = gp.g;
+		g.setColor(c);
+		g.setFont(f);		
+		drawMultipleStrings(s,x,y);
+	}
+	
+	public void drawMultipleStrings(String text, int x, int y) {
+		Graphics2D g = gp.g;
+		for (String line : text.split("\n")) {
+            g.drawString(line, x,  y += g.getFontMetrics().getHeight());
+		}
 	}
 }
