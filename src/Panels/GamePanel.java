@@ -1299,8 +1299,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_X){		
 				player.placeBomb();			
 		}	
-
-		
 		
 		if(keyCode == KeyEvent.VK_A){
 			player.toggleAddOn();
@@ -1314,17 +1312,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				texts.add(new Text(player.getx(), player.gety(),2000,"Max 5 Turrets"));
 			}
 		}
-		if(keyCode == KeyEvent.VK_B){
-			if(player.useStamina(700)){
-				sfx.get("place black hole").play();
-				player.placeBlackHole();
-			}
-		}		
+	
 		
 		if(keyCode == KeyEvent.VK_S){
 			if(player.getShelterCount()>0){
 				player.placeShelter();
 			}
+		}
+		
+		
+		if(keyCode == KeyEvent.VK_D){
+			if(player.useStamina(150)) {
+				player.startSuperSpeed();
+			}			
 		}
 		
 		if(keyCode == KeyEvent.VK_Q){
@@ -1339,11 +1339,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		if(keyCode == KeyEvent.VK_D){
-			if(player.useStamina(150)) {
-				player.startSuperSpeed();
-			}			
-		}
+		if(keyCode == KeyEvent.VK_E){
+			if(player.useStamina(700)){
+				sfx.get("place black hole").play();
+				player.placeBlackHole();
+			}
+		}	
 		
 		if(keyCode == KeyEvent.VK_R){			
 			if(!player.isInvincible()) {

@@ -109,14 +109,14 @@ public class PowerUp {
 				r = 5;
 				name = "+ Stamina";
 				staminaGain = Math.random() * 100 + 100;
-				collectText = "Stamina +" + staminaGain;
+				collectText = "Stamina +" + String.format("%.2f", staminaGain);
 				break;
 			case 10:
 				color1 = Color.RED.brighter();
 				r = 6;
 				name = "+ Max Stamina";
 				staminaGain = Math.random() * 100 + 100;
-				collectText = "Max Stamina +" + staminaGain;
+				collectText = "Max Stamina +" + String.format("%.2f", staminaGain);
 				break;
 			case 11:
 				color1 = Color.PINK;

@@ -1,5 +1,6 @@
 package VFX;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -24,7 +25,7 @@ public class ParticleEffect {
 	
 	//dash particle effect
 	public ParticleEffect(double x, double y, double r, int numParticles) {
-		this.duration = 300;
+		this.duration = 1000;
 		this.startTime = System.nanoTime();
 		
 		this.maxSpeed = 10;
@@ -38,6 +39,8 @@ public class ParticleEffect {
 		
 		speeds = new double[numParticles];
 		
+		c = new Color(255,255,255,255);
+		
 		for(int i=0; i<numParticles; i++) {
 			xs[i] = x;
 			ys[i] = y;
@@ -45,6 +48,8 @@ public class ParticleEffect {
 			speeds[i] = Math.random() * maxSpeed;
 			updateDxDyRandom(i);
 		}
+		
+		System.out.println("particle start");
 	}
 	
 	public void updateDxDyTowards(double goX, double goY, int index){
@@ -78,12 +83,13 @@ public class ParticleEffect {
 		}
 		
 		//damping
-		for(int i=0; i<numParticles; i++) {
-			dxs[i] *= 0.8;
-			dys[i] *= 0.8;
-		}
+//		for(int i=0; i<numParticles; i++) {
+//			dxs[i] *= 0.8;
+//			dys[i] *= 0.8;
+//		}
 		
 		if((System.nanoTime() - startTime)/1000000 > duration) {
+			System.out.println("particle end");
 			return true;
 		}		
 		return false;
@@ -91,8 +97,10 @@ public class ParticleEffect {
 	
 	public void draw(Graphics2D g) {
 		for(int i=0; i<numParticles; i++) {
+			g.setStroke(new BasicStroke(2));
 			g.setColor(c);
 			g.fillOval((int)(xs[i]-rs[i]),(int)(ys[i]-rs[i]),(int)(2*rs[i]),(int)(2*rs[i]));
+			g.setStroke(new BasicStroke(1));
 		}
 	}
 	
