@@ -1,0 +1,13 @@
+space - Shoot
+q - push / 500
+w - freezeAOE / 1000
+e - blackhole / 700
+r - invincible / 200 + 30(tick)
+d - Dash / 200
+x - bomb / 0
+a - toggle addon / 0
+t - turret / 400
+s - shelter / 0
+f - collect / 500
+
+NUMPAD 0 - Pause
