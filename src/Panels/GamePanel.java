@@ -360,9 +360,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			gm = lastGameMode;
 		}
 		
-		if(gm == GameMode.TUTORIAL) {
-			currentTutorialStage = 0;
-		}
+
 		
 		lastGameMode = gm;
 		lastPlayedLvl = lvlName;
@@ -395,6 +393,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveStart = true;
 		waveNumber = 0;
 		victorious = false;
+		
+		if(gm == GameMode.TUTORIAL) {
+			currentTutorialStage = 0;
+			tutorial.init();
+		}
 		
 		//Init last pu drop times
 		for(int i=0; i<puDropTimes.length; i++) {
@@ -464,7 +467,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic",Font.BOLD,40));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,40));
 		String s;
 		if(victorious) {
 			s = "V I C T O R Y";
@@ -475,7 +478,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2 - 120);
 		//s = "Final Score: " + player.getScore();
 		
-		g.setFont(new Font("Century Gothic",Font.PLAIN,25));
+		g.setFont(new Font("Comic Sans MS",Font.PLAIN,25));
 		s = "Level : " + levelTitle;
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2-50);		
@@ -667,37 +670,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//draw player score
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic", Font.BOLD, 14));
+		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		g.drawString("Time : " + StringUtils.getTime(elapsedTime), WIDTH-130, 30);
 		
 		//draw player speed
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Move Speed : " + player.getSpeed()+"/8", WIDTH-130, 50);
 		
 		//draw player speed
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Att Speed : " + (int)player.getAttSpeed()+"/50", WIDTH-130, 70);
 		
 		//draw player bombs
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("BOMBS : " + player.getBombs(), WIDTH-130, 90);
 		
 		//draw player shelter count
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Shelters : " + player.getShelterCount(), WIDTH-130, 110);
 		
 		//draw player turrets
 		g.setColor(Color.RED);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Turrets : " + (5-turrets.size()) + "/5", WIDTH-130, 130);
 		
 		//draw player money
 		g.setColor(Color.GREEN);
-		g.setFont(new Font("Century Gothic",Font.PLAIN,14));
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Money : " + player.getScore(), WIDTH-130, 150);
 		
 		//draw slowdown meter
@@ -718,11 +721,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		} else if(ratio < 70){
 			g.setColor(new Color(255,128,0,222));
 		} else {
-			g.setColor(new Color(0,255,0,222));
+			g.setColor(new Color(34,139,34,222));
 		}
 		g.fillRect(200, 640, (int)(300*(player.getCurrentStamina()/player.getMaxStamina())), 8);
-		g.setColor(new Color(255,0,0,255));
-		g.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+		g.setColor(new Color(34,139,34,255));
+		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		g.drawString("Stamina : " + (int)player.getCurrentStamina() + " / " + (int)player.getMaxStamina(), 200, 660);
 	}
 
@@ -730,7 +733,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private void gameUpdate() {
 		if(gameMode == GameMode.TUTORIAL) {
 			if(enemies.size() == 0) {
-				waveNumber++;
+				//waveNumber++;
+				waveNumber = 1;
 				waveStart = true;
 				waveStartTimer = 0;
 				waveStartTimerDiff = 0;
@@ -1028,26 +1032,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//spawn indicators create
-	    for (Map.Entry<Integer, Long> puDropRateEntry : puLastDropTimeMap.entrySet()) {
-	    	int powerUpType = puDropRateEntry.getKey();
-	    	long powerUpLastDropTime = puDropRateEntry.getValue();
-	    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
-	    	double dropTime = (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier());
-			if(puElapsed > RandomUtils.getPlusMinusPercentage(dropTime, 0.2)) {
-				puLastDropTimeMap.put(powerUpType, System.nanoTime());
-				int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
-				PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);
-				spawnIndicators.add(new SpawnIndicator("PowerUp", newPu));
-			}
-	    }
-	    
-	    //spawn indicators update
-		for(int i=0; i<spawnIndicators.size(); i++){
-			boolean remove = spawnIndicators.get(i).update();
-			if(remove){
-				spawnIndicators.get(i).spawn();
-				spawnIndicators.remove(i);
-				i--;
+		if(gameMode != GameMode.TUTORIAL || currentTutorialStage > 10) {
+		    for (Map.Entry<Integer, Long> puDropRateEntry : puLastDropTimeMap.entrySet()) {
+		    	int powerUpType = puDropRateEntry.getKey();
+		    	long powerUpLastDropTime = puDropRateEntry.getValue();
+		    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
+		    	double dropTime = (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier());
+				if(puElapsed > RandomUtils.getPlusMinusPercentage(dropTime, 0.2)) {
+					puLastDropTimeMap.put(powerUpType, System.nanoTime());
+					int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
+					PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);
+					spawnIndicators.add(new SpawnIndicator("PowerUp", newPu));
+				}
+		    }
+		    
+		    //spawn indicators update
+			for(int i=0; i<spawnIndicators.size(); i++){
+				boolean remove = spawnIndicators.get(i).update();
+				if(remove){
+					spawnIndicators.get(i).spawn();
+					spawnIndicators.remove(i);
+					i--;
+				}
 			}
 		}
 	    

@@ -28,6 +28,13 @@ public class RandomUtils {
 		return dest;
 	}
 	
+	public static int[] getRandomDestNoBorder(int width, int height) {
+		int[] dest = new int[2];
+		dest[0] = (int) (Math.random() * width * 8/10) + width/10;
+		dest[1] = (int) (Math.random() * height* 8/10) + height/10;
+		return dest;
+	}
+	
 	public static double getPlusMinus(double original, double plus, double minus) {
 		if(Math.random() > 0.5) {
 			return original + Math.random() * plus;

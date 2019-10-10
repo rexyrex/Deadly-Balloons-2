@@ -361,12 +361,26 @@ public class Enemy {
 		
 		//tutorial enemy
 		if(type ==1000){
-			color1 = new Color(255,200,200,241);
+			color1 = new Color(50,205,50,241);
 			if(rank == 1){
-				speed = 0.7;
+				speed = 1.7;
 				r = 60;
-				health = 100000;
-				maxHealth = 100000;
+				health = 3;
+				maxHealth = 3;
+				money = 0;
+			}
+			if(rank == 2){
+				speed = 1.5;
+				r = 70;
+				health = 6;
+				maxHealth = 6;
+				money = 0;
+			}
+			if(rank == 3){
+				speed = 1.2;
+				r = 80;
+				health = 10;
+				maxHealth = 10;
 				money = 0;
 			}
 		}
@@ -863,8 +877,8 @@ public class Enemy {
 				chargeState = ChargeState.STATIONARY;
 				this.dx = 0;
 				this.dy=0;
-				destX = RandomUtils.getRandomDest(canvas_width, canvas_height)[0];
-				destY = RandomUtils.getRandomDest(canvas_width, canvas_height)[1];
+				destX = RandomUtils.getRandomDestNoBorder(canvas_width, canvas_height)[0];
+				destY = RandomUtils.getRandomDestNoBorder(canvas_width, canvas_height)[1];
 				lastChargeCompleteTime = System.nanoTime();
 			}	
 			if((System.nanoTime() - lastChargeCompleteTime)/1000000000 > (skillSet.get("charge skill"))) {

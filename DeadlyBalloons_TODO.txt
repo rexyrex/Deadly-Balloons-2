@@ -23,3 +23,6 @@ turretCharge 15 => 103
 friends 16 => 104
 lightning 18 => 105
 Torpedos 19 => 106
+
+
+problem with tutorial not going to stage 11

@@ -29,7 +29,7 @@ public class Tutorial {
 	public Tutorial(GamePanel gp) {
 		this.gp = gp;
 		
-		totalStages = 10;
+		totalStages = 11;
 		stageEntered = new boolean[totalStages];
 		stageStartDelay = new long[totalStages];
 		stageStartTime = new long[totalStages];
@@ -42,8 +42,6 @@ public class Tutorial {
 		stageReqMet= new boolean[totalStages];
 		
 		stageKeysPressed = new HashMap<Integer,Integer>();
-		
-		init();
 	}
 	
 	public void clearStageKeysPressed() {
@@ -52,6 +50,9 @@ public class Tutorial {
 	
 	//reset Tutorial
 	public void init() {
+		
+		gp.player.setScore(0);
+		
 		for(int i=0; i<totalStages; i++) {
 			stageEntered[i] = false;
 			stageStartTime[i] = 0;
@@ -104,8 +105,15 @@ public class Tutorial {
 		long elapsed = (System.nanoTime() - nextStageQueuedTime[stage])/1000000;
 		if(stageReqMet[stage] && elapsed > nextStageDelay[stage]) {
 			gp.currentTutorialStage++;
+			setUpStage(gp.currentTutorialStage);
 			clearStageKeysPressed();
 		}		
+	}
+	
+	public void setUpStage(int stage) {
+		if(stage==9) {
+			gp.player.addScore(2000);
+		}
 	}
 	
 	public boolean checkReqMet(int stage) {
@@ -166,7 +174,7 @@ public class Tutorial {
 			}
 			break;
 		case 10:
-			if(getKeyPressedCount(KeyEvent.VK_Z) > 0) {
+			if(gp.player.getScore() < 2000) {
 				return true;
 			}
 			break;
@@ -216,64 +224,70 @@ public class Tutorial {
 				//g.setColor(new Color(255,255,255,120));
 				//g.fillRect(0,0,gp.WIDTH,gp.HEIGHT);
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Arrow Keys to move\nSpace Bar to Shoot";
 				renderText(c,f,s);
 				break;
 			case 1: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press Q to Push\nEnemies Away! (500 Stamina)";
 				renderText(c,f,s);
 				break;
 			case 2: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press W to Freeze\nEnemies in Range! (800 Stamina)";
 				renderText(c,f,s);
 				break;
 			case 3: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press E to place\nA BlackHole! (700 Stamina)";
 				renderText(c,f,s);
 				break;
 			case 4: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press R to become\nTemporarily Invincible!\n(200 +30/tick Stamina)";
 				renderText(c,f,s);
 				break;
 			case 5: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press D to Dash! (200 Stamina)";
 				renderText(c,f,s);
 				break;
 			case 6: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press X to Place A bomb!\n(Costs 1 Bomb)";
 				renderText(c,f,s);
 				break;
 			case 7: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,25);
+				f = new Font("Comic Sans MS", Font.BOLD,25);
 				s = "Press T to Place A Turret!\n(200 Stamina)\nAnd press the turret's number\nTo teleport to it!\n(50 Stamina)\nYou can place up to 5 Turrets total";
 				renderText(c,f,s);
 				break;
 			case 8: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Press S to Place A Shelter!\n(Costs 1 Shelter)\nEnemies can't get to \nyou in here!";
 				renderText(c,f,s);
 				break;
 			case 9: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Gulim", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Buy Items from the Shop -->\n<--And See your upgraded stats";
 				renderText(c,f,s);
 				break;				
+			case 10: 
+				c = new Color(255,255,0,alpha);
+				f = new Font("Comic Sans MS", Font.BOLD,40);
+				s = "Try out different types\nOf Power Ups!";
+				renderText(c,f,s);
+				break;	
 			default : break;
 		}	
 	
@@ -289,7 +303,7 @@ public class Tutorial {
 	public void drawMultipleStrings(String text) {
 		Graphics2D g = gp.g;
 		
-		int y = gp.HEIGHT/2;
+		int y = gp.HEIGHT/2+100;
 		for (String line : text.split("\n")) {
 			int length = (int) g.getFontMetrics().getStringBounds(line, g).getWidth();
             g.drawString(line, (gp.WIDTH-length)/2,  y += g.getFontMetrics().getHeight());

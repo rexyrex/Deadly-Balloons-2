@@ -343,7 +343,7 @@ public class Player {
 		
 		nWalls = 1;
 		
-		score = 500;
+		score = 1000;
 	}
 
 	//Constructor
@@ -367,6 +367,7 @@ public class Player {
 	public void setSpazing(boolean b){spazing = b;}
 	public boolean isRecovering(){ return recovering;}
 	public int getScore() { return score; }
+	public void setScore(int score) {this.score = score;  }
 	public boolean isPushing() { return isPushing; }
 	public double getPushRadius(){ return pushRadius; }
 	public double getCollectRadius() { return puCollectRadius; }

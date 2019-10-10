@@ -114,7 +114,7 @@ public class Menu {
 			g.setColor(Color.white);
 			renderTitle("Credits", g);
 			
-			Color c = new Color(0,191,255,255);
+			Color c = new Color(255,215,0,255);
 			Font f = new Font("Comic Sans MS", Font.ITALIC,40);
 			String s = 
 						"Made By Rexyrex\n"+
@@ -122,9 +122,9 @@ public class Menu {
 						;
 			renderMiddleText(c,f,s, 120);
 			
-			c = new Color(255,218,185,255);
+			c = new Color(240,230,140,255);
 			f = new Font("Comic Sans MS", Font.PLAIN,25);
-			s = "Beta Testers:\n"+
+			s = "< Beta Testers >\n"+
 			"Sehoon Yang\n" +
 			"Sukjoo Kim\n"+
 			"SangJun Ahn";
@@ -200,7 +200,7 @@ public class Menu {
 						"R / Invincibility / 200 + @/ None\n"+
 						"D / Dash / 200 / None\n"+
 						"X / Bomb / 0 / 1 Bomb\n"+
-						"A / Toggle Addon / 0 / <1 Addon\n"+
+						"A / Toggle Addon / 0 / >=1 Addon\n"+
 						"T / Place Turret / 400 / Max 5 Turrets\n"+
 						"S / Place Shelter / 0 / 1 Shelter\n"+
 						"F / Collect / 700 / None\n"+
