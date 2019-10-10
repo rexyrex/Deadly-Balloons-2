@@ -39,6 +39,12 @@ public class MouseInput implements MouseListener{
 					return;
 				}
 				
+				//play btn
+				if(mouseIn(mx,my,menu.highScoresBtn)) {
+					GamePanel.menuState = GamePanel.MenuState.HIGH_SCORES;
+					return;
+				}
+				
 				//help btn
 				if(mouseIn(mx,my,menu.helpBtn)) {
 					GamePanel.menuState = GamePanel.MenuState.HELP;
@@ -145,6 +151,15 @@ public class MouseInput implements MouseListener{
 					return;
 				}
 			}		
+			
+			//High Scores Menu
+			if(GamePanel.menuState == GamePanel.MenuState.HIGH_SCORES) {
+				//back btn
+				if(mouseIn(mx,my,menu.backFromHighScoresBtn)) {
+					GamePanel.menuState = GamePanel.MenuState.MAIN;
+					return;
+				}
+			}	
 		}
 		
 		//Game Over Menu

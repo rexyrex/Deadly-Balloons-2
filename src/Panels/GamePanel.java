@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public enum MenuState {
-		MAIN, CREDITS, PLAY_MODES, HELP, CONTROLS, DEFAULT_LEVELS, SURVIVAL_LEVELS
+		MAIN, HIGH_SCORES, CREDITS, PLAY_MODES, HELP, CONTROLS, DEFAULT_LEVELS, SURVIVAL_LEVELS
 	}
 	
 	public enum GameMode {

@@ -1,9 +1,11 @@
 package Menu;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import Panels.GamePanel;
@@ -12,16 +14,19 @@ import VFX.Explosion;
 
 public class Menu {
 	
-	public int btnLength = 160;
+	public int btnLength = 200;
 	public int btnHeight = 50;
 	public Rectangle playBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
-	public Rectangle helpBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
-	public Rectangle creditsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 400, btnLength, btnHeight);
-	public Rectangle quitBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
+	public Rectangle highScoresBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 280, btnLength, btnHeight);
+	public Rectangle helpBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 360, btnLength, btnHeight);
+	public Rectangle creditsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 440, btnLength, btnHeight);
+	public Rectangle quitBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 520, btnLength, btnHeight);
 	
 	public Rectangle backFromCreditsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
 	public Rectangle goToControlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	public Rectangle controlsToMainBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
+	
+	public Rectangle backFromHighScoresBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
 	
 	public Rectangle tutorialModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
 	public Rectangle defaultModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
@@ -91,6 +96,9 @@ public class Menu {
 			g.drawString("Play", playBtn.x+20, playBtn.y+35);
 			g2d.draw(playBtn);
 			
+			g.drawString("High Scores", highScoresBtn.x+20, highScoresBtn.y+35);
+			g2d.draw(highScoresBtn);
+			
 			g.drawString("Help", helpBtn.x+20, helpBtn.y+35);
 			g2d.draw(helpBtn);
 			
@@ -106,9 +114,37 @@ public class Menu {
 			g.setColor(Color.white);
 			renderTitle("Credits", g);
 			
+			Color c = new Color(0,191,255,255);
+			Font f = new Font("TimesRoman", Font.ITALIC,40);
+			String s = 
+						"Made By Rexyrex\n"+
+						"\n"
+						;
+			renderMiddleText(c,f,s, 120);
+			
+			c = new Color(255,218,185,255);
+			f = new Font("TimesRoman", Font.PLAIN,25);
+			s = "Beta Testers:\n"+
+			"Sehoon Yang\n" +
+			"Sukjoo Kim\n"+
+			"SangJun Ahn";
+			renderMiddleText(c,f,s, 220);
+			
+			g.setColor(Color.white);
 			g.setFont(menuBtnFont);
 			g.drawString("Back", backFromCreditsBtn.x+20, backFromCreditsBtn.y+35);
 			g2d.draw(backFromCreditsBtn);
+			
+		}
+		
+		if(GamePanel.menuState == GamePanel.MenuState.HIGH_SCORES) {
+			g.setFont(menuTitleFont);
+			g.setColor(Color.white);
+			renderTitle("High Scores", g);
+			
+			g.setFont(menuBtnFont);
+			g.drawString("Back", backFromHighScoresBtn.x+20, backFromHighScoresBtn.y+35);
+			g2d.draw(backFromHighScoresBtn);
 			
 			if(!loadedHighScores) {
 				RestUtils.get("https://deadly-balloons-2.firebaseio.com/DefaultLevels/MrYang.json");
@@ -142,13 +178,13 @@ public class Menu {
 						;
 			renderText(c,f,s, 50, 120);
 			
-
+			g.setColor(Color.white);
 			g.setFont(menuBtnFont);
 			g.drawString("Controls", goToControlsBtn.x+20, goToControlsBtn.y+35);
 			g2d.draw(goToControlsBtn);
 		}
 		
-		if(GamePanel.menuState == GamePanel.MenuState.HELP) {
+		if(GamePanel.menuState == GamePanel.MenuState.CONTROLS) {
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			renderTitle("Help", g);
@@ -158,22 +194,22 @@ public class Menu {
 			String s = 
 						"Key / Ability / Stamina Cost / Other Requirements\n" + 
 						"SPACE / Fire / 0 / None\n" +
-						"Q / Push Enemies Away / 500 / None\n" +
-						"W / Freeze Enemies in AOE / 800 / None\n"+
+						"Q / Push Enemies / 500 / None\n" +
+						"W / Freeze Enemies / 800 / None\n"+
 						"E / Place Black Hole / 700 / None\n" +
-						"R / Invincibility Toggle / 200 + 30 per tick / None\n"+
-						"D / Dash (Temp speed boost) / 200 / None\n"+
-						"X / Bomb / 0 / 1 Bomb (dropped by enemies)\n"+
-						"A / Toggle Addon / 0 / At least 1 Addon (dropped)\n"+
+						"R / Invincibility / 200 + @/ None\n"+
+						"D / Dash / 200 / None\n"+
+						"X / Bomb / 0 / 1 Bomb\n"+
+						"A / Toggle Addon / 0 / <1 Addon\n"+
 						"T / Place Turret / 400 / Max 5 Turrets\n"+
-						"S / Place Shelter / 0 / 1 Shelter (dropped)\n"+
+						"S / Place Shelter / 0 / 1 Shelter\n"+
 						"F / Collect / 700 / None\n"+
 						"NUMPAD 0 / Pause / 0 / None\n"+
 						""
 						;
-			renderText(c,f,s, 50, 120);
+			renderControls(c,f,s, 50, 120);
 			
-
+			g.setColor(Color.white);
 			g.setFont(menuBtnFont);
 			g.drawString("Main Menu", controlsToMainBtn.x+20, controlsToMainBtn.y+35);
 			g2d.draw(controlsToMainBtn);
@@ -230,6 +266,22 @@ public class Menu {
 		g.drawString(title, (GamePanel.WIDTH-length)/2, 100);
 	}
 	
+	public void renderMiddleText(Color c, Font f, String s,int y) {
+		Graphics2D g = gp.g;
+		g.setColor(c);
+		g.setFont(f);		
+		drawMiddleStrings(s,y);
+	}
+	
+	public void drawMiddleStrings(String text, int y) {
+		Graphics2D g = gp.g;
+
+		for (String line : text.split("\n")) {
+			int length = (int) g.getFontMetrics().getStringBounds(line, g).getWidth();
+            g.drawString(line, (gp.WIDTH-length)/2,  y += g.getFontMetrics().getHeight());
+		}
+	}
+	
 	public void renderText(Color c, Font f, String s, int x, int y) {
 		Graphics2D g = gp.g;
 		g.setColor(c);
@@ -241,6 +293,56 @@ public class Menu {
 		Graphics2D g = gp.g;
 		for (String line : text.split("\n")) {
             g.drawString(line, x,  y += g.getFontMetrics().getHeight());
+		}
+	}
+	
+	public void renderControls(Color c, Font f, String s, int x, int y) {
+		Graphics2D g = gp.g;
+		g.setColor(c);
+		g.setFont(f);		
+		drawContolsStrings(s,x,y);
+	}
+	
+	public void drawContolsStrings(String text, int x, int y) {
+		Graphics2D g = gp.g;
+		int index = 0;
+		for (String line : text.split("\n")) {
+			y += g.getFontMetrics().getHeight();
+			String soFar = "";
+			int tmpX  =x;
+			for(String part : line.split("/")) {
+				soFar += part;
+				int length = getColLength(index);
+				g.setColor(getColor(index));
+				g.drawString(part, tmpX,  y );
+				tmpX += length;
+				index++;
+			}
+			g.setColor(new Color(192,192,192,200));
+			g.setStroke(new BasicStroke(1));
+			g.draw(new Line2D.Double(10, y+6, gp.WIDTH-10, y+6));
+		}
+	}
+	
+	public int getColLength(int index) {
+		int sw = index % 4;
+		switch(sw) {
+		case 0: return 120;
+		case 1: return 180;
+		case 2: return 130;
+		case 3: return 200;
+		default: return 100;
+		}
+	}
+	
+	public Color getColor(int index) {
+		int sw = index % 4;
+		switch(sw) {
+		case 0: return Color.RED;
+		case 1: return Color.blue;
+		case 2: return Color.green;
+		case 3: return Color.cyan;
+		default: return Color.WHITE;
 		}
 	}
 }

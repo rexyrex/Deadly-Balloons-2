@@ -66,6 +66,7 @@ public class Explosion {
 		}
 		
 		g.drawOval((int)(x-r),(int)(y-r), (int) (2*r), (int) (2*r));
+		g.setStroke(new BasicStroke(1));
 	}
 	
 }
