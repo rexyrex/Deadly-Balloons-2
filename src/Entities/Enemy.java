@@ -1093,7 +1093,7 @@ public class Enemy {
 		
 		if(stunned) {
 			int stunBarLength = (int) r;
-			g.setColor(Color.BLUE.darker());
+			g.setColor(new Color(220,243,255,200));
 			long timeSinceStun = (System.nanoTime() - stunnedStart)/1000000;
 			double stunProgress = (double)timeSinceStun/(double)stunnedLength;
 			if(stunProgress > 1) {

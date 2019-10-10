@@ -116,10 +116,16 @@ public class Player {
 	private int superSpeedDamping;
 	
 	private boolean isRaged;
+	private boolean isInRageField;
 	private double dmgMultiplier;
 	private long rageStartTime;
 	private long rageLength;
 	private long rageElapsed;
+	
+	private boolean aoeFreezeAnimRunning;
+	private long aoeFreezeStartTime;
+	private long aoeFreezeLength;
+	private long aoeFreezeElapsed;
 	
 	
 	private Turret[] ts = new Turret[5];
@@ -251,10 +257,15 @@ public class Player {
 		lightningDmg = 7.0;
 		
 		isRaged = false;
+		isInRageField = false;
 		rageStartTime = 0;
 		rageLength = 5000;
 		rageElapsed = 0;
 		dmgMultiplier = 1.0;
+		
+		aoeFreezeStartTime = 0;
+		aoeFreezeLength = 420;
+		aoeFreezeAnimRunning = false;
 		
 		lightningStunLength = 2000;
 		
@@ -382,11 +393,21 @@ public class Player {
 	public void startRage() {
 		rageStartTime = System.nanoTime();
 		isRaged = true;
-		dmgMultiplier = 1.5;
+		dmgMultiplier = 1.2;
 	}
 	
 	public void stopRage() {
 		isRaged = false;
+		dmgMultiplier = 1.0;
+	}
+	
+	public void enterRageField() {
+		isInRageField = true;
+		dmgMultiplier = 1.2;
+	}
+	
+	public void leaveRageField() {
+		isInRageField = false;
 		dmgMultiplier = 1.0;
 	}
 	
@@ -462,6 +483,8 @@ public class Player {
 	}
 	
 	public void freezeAOE(long duration) {
+		aoeFreezeAnimRunning = true;
+		aoeFreezeStartTime = System.nanoTime();
 		for(int i=0; i<GamePanel.enemies.size(); i++){
 			if(GamePanel.enemies.get(i).isInRange(getx(), gety(), getPushRadius()))
 				GamePanel.enemies.get(i).stun(duration);
@@ -799,6 +822,15 @@ public class Player {
 			}
 		}
 		
+		//aoe freeze anim
+		if(aoeFreezeAnimRunning) {
+			aoeFreezeElapsed = (System.nanoTime() - aoeFreezeStartTime) / 1000000;
+			
+			if(aoeFreezeElapsed > aoeFreezeLength) {
+				aoeFreezeAnimRunning = false;
+			}
+		}
+		
 		//stamina
 		long staminaElapsed = (System.nanoTime() - staminaTimer)/1000000;
 		if(staminaElapsed > staminaGainDelay){
@@ -1103,7 +1135,7 @@ public class Player {
 			g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
 		}
 		
-		if(isRaged) {
+		if(isRaged || isInRageField) {
 			g.setStroke(new BasicStroke(3));
 			g.setColor(new Color(255,0,255,255));//purple
 			g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
@@ -1111,11 +1143,20 @@ public class Player {
 			g.setColor(Color.red); 
 			g.drawOval((int)(x-r), (int)(y-r), 2*r, 2*r);
 			g.setStroke(new BasicStroke(1));
-			
-
-			
-			g.drawRect((int)(x-2*r), (int)(y+2*r), (int)(4*r), (int)(r));
-			g.fillRect((int)(x-2*r), (int)(y+2*r), (int)(4*r*((double)rageElapsed/rageLength)), (int)(r));
+		}
+		
+		if(isRaged) {			
+			g.drawRect((int)(x-2*r), (int)(y-2*r), (int)(4*r), (int)(r));
+			g.fillRect((int)(x-2*r), (int)(y-2*r), (int)(4*r*((double)rageElapsed/rageLength)), (int)(r));
+		}
+		
+		if(aoeFreezeAnimRunning) {
+			int freezeAnimAlpha = (int) (255 - 255 * aoeFreezeElapsed / aoeFreezeLength);
+			if(freezeAnimAlpha < 0) {
+				freezeAnimAlpha = 0;
+			}
+			g.setColor(new Color(220,243,255,freezeAnimAlpha));
+			g.fillOval((int)(x-pushRadius), (int)(y-pushRadius), (int)(2*pushRadius), (int)(2*pushRadius));
 		}
 		
 		if(!isPushing){
