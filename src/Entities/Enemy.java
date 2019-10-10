@@ -10,6 +10,7 @@ import java.util.HashMap;
 import Panels.GamePanel;
 import Utils.MathUtils;
 import Utils.RandomUtils;
+import VFX.Text;
 
 
 public class Enemy {

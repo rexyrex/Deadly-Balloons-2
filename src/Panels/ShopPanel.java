@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-import Entities.Text;
+import VFX.Text;
 
 public class ShopPanel extends JPanel{
 	/**

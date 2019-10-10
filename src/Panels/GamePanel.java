@@ -35,14 +35,12 @@ import Entities.BlackHole;
 import Entities.Bomb;
 import Entities.Bullet;
 import Entities.Enemy;
-import Entities.Explosion;
 import Entities.Friend;
 import Entities.Lightning;
 import Entities.Player;
 import Entities.PowerUp;
 import Entities.Shelter;
 import Entities.SpawnIndicator;
-import Entities.Text;
 import Entities.Torpedo;
 import Entities.Turret;
 import Entities.Tutorial;
@@ -50,6 +48,10 @@ import Menu.Menu;
 import Menu.MouseInput;
 import Utils.RandomUtils;
 import Utils.StringUtils;
+import VFX.Explosion;
+import VFX.FootPrint;
+import VFX.ParticleEffect;
+import VFX.Text;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
@@ -93,6 +95,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<Lightning> lightnings;
 	public static ArrayList<Torpedo> torpedos;
 	public static ArrayList<SpawnIndicator> spawnIndicators;
+	public static ArrayList<FootPrint> footPrints;
+	public static ArrayList<ParticleEffect> particleEffects;
 	
 	//key presses
 	private Set<Integer> keysPressed = new HashSet<Integer>();
@@ -246,6 +250,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		lightnings = new ArrayList<Lightning>();
 		torpedos = new ArrayList<Torpedo>();
 		spawnIndicators = new ArrayList<SpawnIndicator>();
+		footPrints = new ArrayList<FootPrint>();
+		particleEffects = new ArrayList<ParticleEffect>();
+		
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
@@ -544,6 +551,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//draw player
 		player.draw(g);
+		
+		//draw footprints
+		for(int i=0; i<footPrints.size(); i++) {
+			footPrints.get(i).draw(g);
+		}
+		
+		//draw particle effects
+		for(int i=0; i<particleEffects.size(); i++) {
+			particleEffects.get(i).draw(g);
+		}
 
 		//draw bullets
 		for(int i=0; i<bullets.size(); i++){
@@ -746,6 +763,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//player update
 		player.update();
+		
+		//footprints update
+		for(int i=0; i<footPrints.size(); i++){
+			boolean remove = footPrints.get(i).update();
+			if(remove){
+				footPrints.remove(i);
+				i--;
+			}
+		}
+		
+		//particle effects update
+		for(int i=0; i<particleEffects.size(); i++){
+			boolean remove = particleEffects.get(i).update();
+			if(remove){
+				particleEffects.remove(i);
+				i--;
+			}
+		}
 		
 		//bullet update
 		for(int i=0; i<bullets.size(); i++){
@@ -1304,7 +1339,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		if(keyCode == KeyEvent.VK_E){
+		if(keyCode == KeyEvent.VK_D){
 			if(player.useStamina(150)) {
 				player.startSuperSpeed();
 			}			

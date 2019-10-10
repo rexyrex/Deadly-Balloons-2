@@ -7,6 +7,10 @@ import java.util.Random;
 
 import Audio.AudioPlayer;
 import Panels.GamePanel;
+import VFX.Explosion;
+import VFX.FootPrint;
+import VFX.ParticleEffect;
+import VFX.Text;
 
 public class Player {
 
@@ -109,6 +113,7 @@ public class Player {
 	private long superSpeedLength;
 	private long superSpeedStartTime;
 	private int speedBeforeSuperSpeed;
+	private int superSpeedDamping;
 	
 	private Turret[] ts = new Turret[5];
 	private boolean[] tsAvailability = new boolean[5];
@@ -278,6 +283,7 @@ public class Player {
 		superSpeedStartTime = 0;
 		superSpeedLength = 150;
 		superSpeed = 15;
+		superSpeedDamping = 1;
 		
 		bombing = false;
 		bombingTimer = System.nanoTime();
@@ -345,6 +351,10 @@ public class Player {
 	public void setImmobalized(boolean b){ immobalized = b; }
 	
 	public void startSuperSpeed() {
+		
+		//particle effect
+		GamePanel.particleEffects.add(new ParticleEffect(x, y, 2, 10));
+		
 		superSpeedStartTime = System.nanoTime();
 		isSuperSpeed = true;
 		speedBeforeSuperSpeed = speed;
@@ -745,8 +755,13 @@ public class Player {
 		
 		if(isSuperSpeed) {
 			long superSpeedElapsed = (System.nanoTime() - superSpeedStartTime) / 1000000;
+			
+			GamePanel.footPrints.add(new FootPrint(x,y,r,color1));
+			
 			if(superSpeedElapsed > superSpeedLength) {
 				stopSuperSpeed();
+			} else if(speed > speedBeforeSuperSpeed +1) {
+				speed -= superSpeedDamping;
 			}
 		}
 		

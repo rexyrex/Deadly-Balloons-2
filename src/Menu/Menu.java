@@ -6,9 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import Entities.Explosion;
 import Panels.GamePanel;
 import Utils.RestUtils;
+import VFX.Explosion;
 
 public class Menu {
 	
