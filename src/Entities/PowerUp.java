@@ -172,6 +172,12 @@ public class PowerUp {
 				name = "Torpedos";
 				collectText = "Go Get Em!";
 				break;	
+			case 108:
+				color1 = new Color(255,0,255,255);
+				r = 7;
+				name = "RAGE";
+				collectText = "RAGED!";
+				break;	
 			default: 
 				color1 = Color.RED;
 				r=10;
@@ -343,7 +349,10 @@ public class PowerUp {
 					
 					GamePanel.torpedos.add(new Torpedo(GamePanel.player.getx(), GamePanel.player.gety(), tDestX, tDestY));
 				}
-				break;			
+				break;	
+			case 108:
+				GamePanel.player.startRage();
+				break;
 			default:
 				break;
 		}

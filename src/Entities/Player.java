@@ -1105,10 +1105,10 @@ public class Player {
 		
 		if(isRaged) {
 			g.setStroke(new BasicStroke(3));
-			g.setColor(new Color(255,0,255,255));
+			g.setColor(new Color(255,0,255,255));//purple
 			g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
 			
-			g.setColor(Color.red); //purple
+			g.setColor(Color.red); 
 			g.drawOval((int)(x-r), (int)(y-r), 2*r, 2*r);
 			g.setStroke(new BasicStroke(1));
 			

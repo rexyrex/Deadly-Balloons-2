@@ -129,7 +129,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			22400, // 104. supercharge
 			45500, // 105. friends
 			14100, // 106. lightning
-			20300 // 107. torpedo
+			20300, // 107. torpedo
+			30000 // 108. rage
 	};
 	
 	private long URDTimeMillis;
