@@ -1322,7 +1322,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		
 		if(keyCode == KeyEvent.VK_D){
-			if(player.useStamina(150)) {
+			if(player.useStamina(200)) {
 				player.startSuperSpeed();
 			}			
 		}
@@ -1360,6 +1360,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			if(player.useStamina(500)) {
 				player.startCollecting();
 			}			
+		}
+		
+		if(keyCode == KeyEvent.VK_Z) {
+			//player.startRage();
 		}
 
 		

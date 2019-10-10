@@ -47,6 +47,7 @@ public class ParticleEffect {
 			rs[i] = r;
 			speeds[i] = Math.random() * maxSpeed;
 			updateDxDyRandom(i);
+			System.out.println("particle " + i + ": " + dxs[i] + ", " + dys[i]);
 		}
 		
 		System.out.println("particle start");

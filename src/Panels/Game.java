@@ -1,14 +1,8 @@
 package Panels;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 public class Game {
 
 	public static void main(String args[]){		
@@ -16,7 +10,7 @@ public class Game {
 		window.setLayout(new BorderLayout());
 		//window.setPreferredSize(new Dimension(1500,700));
 
-		
+		//window.setBackground(new Color(0,0,0,0));
 		ShopPanel sPanel = new ShopPanel();
 		
 		

@@ -26,6 +26,7 @@ public class Bullet {
 	private Enemy e;
 	private boolean missileFoundTarget;
 	
+	private boolean isRage = false;
 	private boolean isSideMissile = false;
 	private boolean isRightMissile = false;
 	private boolean isLeftMissile = false;
@@ -59,13 +60,23 @@ public class Bullet {
 	}
 
 	//normal
-	public Bullet(double angle, int x, int y, double dmg){
+	public Bullet(double angle, int x, int y, double dmg, boolean isRaged){
 		this.x = x;
 		this.y = y;
-		r = 2;
+		if(isRaged) {
+			r = 5;
+		} else {
+			r = 2;
+		}
+		this.isRage = isRaged;
 		
 		rad = Math.toRadians(angle);
-		speed = 10;
+		if(isRaged) {
+			speed = 12;
+		} else {
+			speed = 10;
+		}
+		
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 		dya = 0;
@@ -74,7 +85,12 @@ public class Bullet {
 		isSideMissile = false;
 		isAddOn = false;
 				
-		color1 = Color.YELLOW;
+		if(isRaged) {
+			color1 = new Color(148,0,211,255); //purple
+		} else {
+			color1 = Color.YELLOW;
+		}
+		
 		this.dmg = dmg;
 	}
 	
@@ -355,7 +371,7 @@ public class Bullet {
 		g.setColor(color1);
 		g.fillOval((int)(x-r),(int)(y-r),2*r,2*r);
 		
-		if(isSideMissile || isAddOn){
+		if(isSideMissile || isAddOn || isRage){
 			for(int i=0; i<getHistoryLength(); i++){
 				
 				if(i>(int)(getHistoryLength()/7))

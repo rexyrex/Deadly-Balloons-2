@@ -115,6 +115,13 @@ public class Player {
 	private int speedBeforeSuperSpeed;
 	private int superSpeedDamping;
 	
+	private boolean isRaged;
+	private double dmgMultiplier;
+	private long rageStartTime;
+	private long rageLength;
+	private long rageElapsed;
+	
+	
 	private Turret[] ts = new Turret[5];
 	private boolean[] tsAvailability = new boolean[5];
 	
@@ -243,6 +250,12 @@ public class Player {
 		friendDmg = 1.0;
 		lightningDmg = 7.0;
 		
+		isRaged = false;
+		rageStartTime = 0;
+		rageLength = 5000;
+		rageElapsed = 0;
+		dmgMultiplier = 1.0;
+		
 		lightningStunLength = 2000;
 		
 		powerLevel = 0;
@@ -364,6 +377,17 @@ public class Player {
 	public void stopSuperSpeed() {
 		isSuperSpeed = false;
 		speed = speedBeforeSuperSpeed;
+	}
+	
+	public void startRage() {
+		rageStartTime = System.nanoTime();
+		isRaged = true;
+		dmgMultiplier = 1.5;
+	}
+	
+	public void stopRage() {
+		isRaged = false;
+		dmgMultiplier = 1.0;
 	}
 	
 	
@@ -753,6 +777,7 @@ public class Player {
 			}
 		}
 		
+		//dash
 		if(isSuperSpeed) {
 			long superSpeedElapsed = (System.nanoTime() - superSpeedStartTime) / 1000000;
 			
@@ -762,6 +787,15 @@ public class Player {
 				stopSuperSpeed();
 			} else if(speed > speedBeforeSuperSpeed +1) {
 				speed -= superSpeedDamping;
+			}
+		}
+		
+		//rage
+		if(isRaged) {
+			rageElapsed = (System.nanoTime() - rageStartTime) / 1000000;
+			
+			if(rageElapsed > rageLength) {
+				stopRage();
 			}
 		}
 		
@@ -837,65 +871,65 @@ public class Player {
 				firingTimer = System.nanoTime();
 				
 				if(powerLevel < 1){
-					GamePanel.bullets.add(new Bullet(270, x,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x,y, bulletDmg * dmgMultiplier, isRaged));
 				}
 				else if(powerLevel < 2){
-					GamePanel.bullets.add(new Bullet(270, x+5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(270, x-5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x+5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(270, x-5,y, bulletDmg* dmgMultiplier, isRaged));
 					
 				} else if(powerLevel < 3) {
-					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg* dmgMultiplier, isRaged));
 					
 				} else if(powerLevel < 4) {
-					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg* dmgMultiplier, isRaged));
 					
 				} else if(powerLevel < 5){
-					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg* dmgMultiplier, isRaged));
 					//
-					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg* dmgMultiplier, isRaged));
 					
 				} else if(powerLevel < 6){
-					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg* dmgMultiplier, isRaged));
 					
-					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg* dmgMultiplier, isRaged));
 					
-					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(80, x+7, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(100, x-7, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(80, x+7, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(100, x-7, y, bulletDmg* dmgMultiplier, isRaged));
 					
 				} else {
-					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(270, x+0,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(265, x-5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(275, x+5,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(257, x-8,y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(283, x+8,y, bulletDmg* dmgMultiplier, isRaged));
 					
-					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(200, x-10, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(340, x+10, y, bulletDmg* dmgMultiplier, isRaged));
 					
-					GamePanel.bullets.add(new Bullet(160, x-10, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(20, x+10, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(160, x-10, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(20, x+10, y, bulletDmg* dmgMultiplier, isRaged));
 					
-					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(80, x+7, y, bulletDmg));
-					GamePanel.bullets.add(new Bullet(100, x-7, y, bulletDmg));
+					GamePanel.bullets.add(new Bullet(90, x, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(80, x+7, y, bulletDmg* dmgMultiplier, isRaged));
+					GamePanel.bullets.add(new Bullet(100, x-7, y, bulletDmg* dmgMultiplier, isRaged));
 					
 				}
 			}
@@ -1069,6 +1103,21 @@ public class Player {
 			g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
 		}
 		
+		if(isRaged) {
+			g.setStroke(new BasicStroke(3));
+			g.setColor(new Color(255,0,255,255));
+			g.fillOval((int)(x-r), (int)(y-r), 2*r, 2*r);
+			
+			g.setColor(Color.red); //purple
+			g.drawOval((int)(x-r), (int)(y-r), 2*r, 2*r);
+			g.setStroke(new BasicStroke(1));
+			
+
+			
+			g.drawRect((int)(x-2*r), (int)(y+2*r), (int)(4*r), (int)(r));
+			g.fillRect((int)(x-2*r), (int)(y+2*r), (int)(4*r*((double)rageElapsed/rageLength)), (int)(r));
+		}
+		
 		if(!isPushing){
 			g.setColor(new Color(255,255,255,32));
 			g.drawOval((int)(x-pushRadius), (int)(y-pushRadius), (int)(2*pushRadius), (int)(2*pushRadius));
@@ -1076,8 +1125,6 @@ public class Player {
 			long dElapsed = (System.nanoTime() - pushDrawTimer)/1000000;
 			if(dElapsed > pushDrawLength){
 				pushDrawTimer = (System.nanoTime());
-				
-			
 			}
 			double radius = pushRadius*((double)dElapsed / (double)pushDrawLength);
 			
@@ -1172,8 +1219,6 @@ public class Player {
 			
 		}
 	}
-
-	
 	
 	public int getx() { return x;}
 	public int gety() { return y;}
