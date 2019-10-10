@@ -366,7 +366,7 @@ public class Player {
 	public void startSuperSpeed() {
 		
 		//particle effect
-		GamePanel.particleEffects.add(new ParticleEffect(x, y, 5, 10));
+		GamePanel.particleEffects.add(new ParticleEffect(x, y, 2, 15));
 		
 		superSpeedStartTime = System.nanoTime();
 		isSuperSpeed = true;
