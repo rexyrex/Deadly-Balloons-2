@@ -49,10 +49,8 @@ public class ParticleEffect {
 			rs[i] = r;
 			speeds[i] = Math.random() * maxSpeed;
 			updateDxDyRandom(i);
-			System.out.println("particle " + i + ": " + dxs[i] + ", " + dys[i]);
 		}
 		
-		System.out.println("particle start");
 	}
 	
 	public void updateDxDyTowards(double goX, double goY, int index){
@@ -92,7 +90,6 @@ public class ParticleEffect {
 		}
 		
 		if((System.nanoTime() - startTime)/1000000 > duration) {
-			System.out.println("particle end");
 			return true;
 		}		
 		return false;

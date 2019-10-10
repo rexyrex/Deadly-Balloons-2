@@ -60,7 +60,7 @@ public class InfoPanel extends JPanel{
         
         //scrollPane.getViewport().getView().setBackground(Color.black);
         
-        Font f = new Font("Gulim", Font.BOLD, 15);
+        Font f = new Font("Comic Sans MS", Font.BOLD, 15);
         table.setFont(f);
         table.setForeground(Color.white);
         table.getTableHeader().setOpaque(false);
@@ -181,7 +181,7 @@ public class InfoPanel extends JPanel{
         
         table2 = new JTable(statsContents, statsHeaders);        
         table2.setBackground(Color.black);        
-        Font f2 = new Font("Gulim", Font.BOLD, 15);
+        Font f2 = new Font("Comic Sans MS", Font.BOLD, 15);
         table2.setFont(f2);
         table2.setForeground(Color.white);
         table2.getTableHeader().setOpaque(false);

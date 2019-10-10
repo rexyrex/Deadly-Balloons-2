@@ -63,8 +63,8 @@ public class Menu {
 	
 	public void render(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		Font menuTitleFont = new Font("Gulim", Font.BOLD, 50);
-		Font menuBtnFont = new Font("Gulim", Font.PLAIN, 30);
+		Font menuTitleFont = new Font("Comic Sans MS", Font.BOLD, 50);
+		Font menuBtnFont = new Font("Comic Sans MS", Font.PLAIN, 30);
 
 		
 		g.setColor(new Color(0,0,0));
@@ -115,7 +115,7 @@ public class Menu {
 			renderTitle("Credits", g);
 			
 			Color c = new Color(0,191,255,255);
-			Font f = new Font("TimesRoman", Font.ITALIC,40);
+			Font f = new Font("Comic Sans MS", Font.ITALIC,40);
 			String s = 
 						"Made By Rexyrex\n"+
 						"\n"
@@ -123,7 +123,7 @@ public class Menu {
 			renderMiddleText(c,f,s, 120);
 			
 			c = new Color(255,218,185,255);
-			f = new Font("TimesRoman", Font.PLAIN,25);
+			f = new Font("Comic Sans MS", Font.PLAIN,25);
 			s = "Beta Testers:\n"+
 			"Sehoon Yang\n" +
 			"Sukjoo Kim\n"+
@@ -159,7 +159,7 @@ public class Menu {
 			renderTitle("Help", g);
 			
 			Color c = new Color(255,255,255,255);
-			Font f = new Font("TimesRoman", Font.PLAIN,20);
+			Font f = new Font("Comic Sans MS", Font.PLAIN,20);
 			String s = 
 						"Welcome to Deadly Balloons 2.0\n" + 
 						"The objective is to pop all the balloons without dying!\n" +
@@ -187,10 +187,10 @@ public class Menu {
 		if(GamePanel.menuState == GamePanel.MenuState.CONTROLS) {
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
-			renderTitle("Help", g);
+			renderTitle("Controls", g);
 			
 			Color c = new Color(255,255,255,255);
-			Font f = new Font("TimesRoman", Font.PLAIN,20);
+			Font f = new Font("Comic Sans MS", Font.PLAIN,20);
 			String s = 
 						"Key / Ability / Stamina Cost / Other Requirements\n" + 
 						"SPACE / Fire / 0 / None\n" +
@@ -338,10 +338,10 @@ public class Menu {
 	public Color getColor(int index) {
 		int sw = index % 4;
 		switch(sw) {
-		case 0: return Color.RED;
-		case 1: return Color.blue;
-		case 2: return Color.green;
-		case 3: return Color.cyan;
+		case 0: return new Color(238,232,170,255);
+		case 1: return new Color(255,228,225, 255);
+		case 2: return new Color(65,105,225, 255);
+		case 3: return new Color(222,184,135, 255);
 		default: return Color.WHITE;
 		}
 	}

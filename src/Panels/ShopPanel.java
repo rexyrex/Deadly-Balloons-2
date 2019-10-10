@@ -50,14 +50,14 @@ public class ShopPanel extends JPanel{
 		
 		JLabel shopTitleLabel = new JLabel("tmp", SwingConstants.CENTER);
 		shopTitleLabel.setForeground(Color.white);
-		shopTitleLabel.setFont(new Font("Gulim", Font.BOLD, 20));
+		shopTitleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
 		shopTitleLabel.setText("Shop");			
         add(shopTitleLabel);
 		
 	}
 	
 	public void init() {
-		System.out.println("Shop Panel Init");
+		//System.out.println("Shop Panel Init");
 		itemPurchaseMap = new HashMap();
 		itemBaseCostMap = new HashMap();
 		itemBaseName = new HashMap();
@@ -145,7 +145,7 @@ public class ShopPanel extends JPanel{
 		maxPurchaseMap.put(btn, maxPurchaseCount);
 		btn.setBackground(Color.white);
 		//btn.setPreferredSize(new Dimension(10,10));
-		btn.setFont(new Font("Gulim", Font.BOLD, 15));
+		btn.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
 		add(btn);
 	}
 	

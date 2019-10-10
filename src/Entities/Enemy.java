@@ -1033,20 +1033,20 @@ public class Enemy {
 			} else {
 				newAlpha = 255;
 			}
-			if(newAlpha > 0) {
-				System.out.println(newAlpha);
-			
+			if(newAlpha > 0) {			
 				color1 = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(),  newAlpha);
 			}
 		}
 		
 		//draw name
 		if(type==6 || rank>3){
-			g.setColor(Color.RED.brighter());
+			g.setColor(new Color(245,222,179));
+			g.setStroke(new BasicStroke(3));
 			g.setFont(new Font("Gulim",Font.BOLD,16));
 			String s = name;
 			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 			g.drawString(s, (int)(x-(length)/2), (int)(y));
+			g.setStroke(new BasicStroke(1));
 		}
 		
 		//render enemy circle

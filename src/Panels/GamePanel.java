@@ -347,7 +347,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			frameCount++;
 			if(frameCount == maxFrameCount){
 				//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
-				System.out.println(1000.0 / ((totalTime/frameCount)/1000000));
+				System.out.println("FPS: " + 1000.0 / ((totalTime/frameCount)/1000000));
 				frameCount = 0;
 				totalTime = 0;
 			}			
@@ -500,12 +500,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setColor(new Color(255,255,255,120));
 		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.RED);
-		g.setFont(new Font("Gulim", Font.BOLD,80));
+		g.setFont(new Font("Comic Sans MS", Font.BOLD,80));
 		String s = "PAUSED";
 		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2);
 		
-		g.setFont(new Font("Gulim", Font.BOLD,30));
+		g.setFont(new Font("Comic Sans MS", Font.BOLD,30));
 		
 		g.setColor(Color.green);
 		g.drawString("Resume", resumeFromPausedBtn.x+22, resumeFromPausedBtn.y+35);
@@ -631,7 +631,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			
 		//draw wave number
 		if(waveStartTimer != 0 && gameState == GameState.PLAY){
-			g.setFont(new Font("Gulim", Font.PLAIN,40));
+			g.setFont(new Font("TimesRoman", Font.PLAIN,40));
 			String s = " W A V E  " + waveNumber + "  :   " + waveNames.get(waveNumber-1);
 			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 			int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));

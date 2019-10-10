@@ -71,7 +71,7 @@ public class Text {
 		return false;
 	}
 	public void draw(Graphics2D g){
-		g.setFont(new Font("Gulim", f,fontSize));
+		g.setFont(new Font("Comic Sans MS", f,fontSize));
 		long elapsed = (System.nanoTime()-start)/1000000;
 		int alpha = (int) ((255*Math.sin(3.14 * elapsed/time)));
 		if(alpha>255) alpha = 255;
