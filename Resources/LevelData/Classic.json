@@ -1,0 +1,241 @@
+	{
+	"levelName" : "EZPZ",
+	"levelNumber" : 1,
+	"waves" : [
+		{  
+	        "waveTitle":"The Noob Level",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 1,
+					"count": 8
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Still a Noob",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 2,
+					"count": 6
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"They have names?",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Faster",
+	        "waveEnemies":[  
+				{
+					"type": 2,
+					"rank": 3,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Bigger",
+	        "waveEnemies":[  
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 4
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Mixed",
+	        "waveEnemies":[  
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 5
+				},
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 5
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Color of Nature",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 3,
+					"count": 6
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Natural Chaos",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"It's a Disastah",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 4
+				},
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 4
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Never Go Black",
+	        "waveEnemies":[  
+				{
+					"type": 4,
+					"rank": 4,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"A Dark Mix",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 4,
+					"rank": 4,
+					"count": 1
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"They Love You",
+	        "waveEnemies":[  
+				{
+					"type": 5,
+					"rank": 3,
+					"count": 1
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Bigger Lovers",
+	        "waveEnemies":[  
+				{
+					"type": 5,
+					"rank": 4,
+					"count": 1
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"More Practice with Lovers",
+	        "waveEnemies":[  
+				{
+					"type": 5,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 1
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"One of Each Please",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 2,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 4,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 5,
+					"rank": 4,
+					"count": 1
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Calm Before the Storm",
+	        "waveEnemies":[  
+				{
+					"type": 1,
+					"rank": 4,
+					"count": 10
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Donald",
+	        "waveEnemies":[  
+				{
+					"type": 91,
+					"rank": 1,
+					"count": 1
+				}
+	        ]
+	    }
+	]	
+	}    

@@ -420,6 +420,22 @@ public class Enemy {
 			}
 		}
 		
+		if(type==91) {
+			skillSet.put("boss 0 skill", 3.0);
+			skillSet.put("health bar skill", 1.0);
+			skillSet.put("regen skill", 10000.0);
+			skillSet.put("spawn powerup skill", 0.1);
+			color1 = new Color(255,0,255,128);
+			name = "Donald";
+			if(rank == 1){
+				speed = 4;
+				r = 90;
+				health = 2000;
+				maxHealth = 2000;
+				money = 500;
+			}	
+		}
+		
 		money = (int) (money * moneyMult);
 		
 		x = Math.random() * GamePanel.WIDTH /2 + GamePanel.WIDTH/4;
@@ -900,6 +916,29 @@ public class Enemy {
 			//}
 		}
 		
+		if(skillSet.containsKey("boss 0 skill")){
+			if(RandomUtils.runChance(0.7)){
+				int nSpawns = 2;
+				texts.add(new Text(getx(), gety(), 2000, "+" + nSpawns + " spawned!"));
+				for(int ss=0; ss<nSpawns; ss++){						
+					produceRandomEnemy();
+				}
+			}
+			
+			if(RandomUtils.runChance(3)){
+				changeDirectionRandomly();
+			}
+			
+			if(RandomUtils.runChance(0.5)){
+				changeSpeedRandomly();
+			}
+			
+			if(RandomUtils.runChance(1.2)){
+				goTowards(player.getx(), player.gety());
+			}
+
+		}
+		
 		if(skillSet.containsKey("boss 1 skill")){
 			if(RandomUtils.runChance(0.7)){
 				int nSpawns = 2;
@@ -920,11 +959,6 @@ public class Enemy {
 			if(RandomUtils.runChance(1.5)){
 				goTowards(player.getx(), player.gety());
 			}
-			
-			if(RandomUtils.runChance(0.1)){
-				//heal();
-			}			
-			
 
 		}
 		
@@ -948,10 +982,6 @@ public class Enemy {
 			if(RandomUtils.runChance(1.5)){
 				goTowards(player.getx(), player.gety());
 			}
-			
-			if(RandomUtils.runChance(0.1)){
-				//heal();
-			}	
 			
 			if(RandomUtils.runChance(0.1)){
 				int tmpInterval = GamePanel.HEIGHT / 7;

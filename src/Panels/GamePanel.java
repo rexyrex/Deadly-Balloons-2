@@ -671,37 +671,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw player score
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-		g.drawString("Time : " + StringUtils.getTime(elapsedTime), WIDTH-130, 30);
+		g.drawString("Time : " + StringUtils.getTime(elapsedTime), WIDTH-135, 30);
 		
 		//draw player speed
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Move Speed : " + player.getSpeed()+"/8", WIDTH-130, 50);
+		g.drawString("Move Speed : " + player.getSpeed()+"/8", WIDTH-135, 50);
 		
 		//draw player speed
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Att Speed : " + (int)player.getAttSpeed()+"/50", WIDTH-130, 70);
+		g.drawString("Att Speed : " + (int)player.getAttSpeed()+"/50", WIDTH-135, 70);
 		
 		//draw player bombs
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(255,20,147));
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("BOMBS : " + player.getBombs(), WIDTH-130, 90);
+		g.drawString("BOMBS : " + player.getBombs(), WIDTH-135, 90);
 		
 		//draw player shelter count
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Shelters : " + player.getShelterCount(), WIDTH-130, 110);
+		g.drawString("Shelters : " + player.getShelterCount(), WIDTH-135, 110);
 		
 		//draw player turrets
 		g.setColor(Color.RED);
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Turrets : " + (5-turrets.size()) + "/5", WIDTH-130, 130);
+		g.drawString("Turrets : " + (5-turrets.size()) + "/5", WIDTH-135, 130);
 		
 		//draw player money
-		g.setColor(Color.GREEN);
+		g.setColor(new Color(50,205,50));
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Money : " + player.getScore(), WIDTH-130, 150);
+		g.drawString("Money : " + player.getScore(), WIDTH-135, 150);
 		
 		//draw slowdown meter
 		if(slowDownTimer !=0){

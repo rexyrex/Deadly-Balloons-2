@@ -244,7 +244,7 @@ public class Player {
 	public void init() {
 		x = GamePanel.WIDTH/2;
 		y = GamePanel.HEIGHT/2;
-		r = 9;
+		r = 7;
 		
 		dropRateMultiplier = 1.0;
 		spawnTimeMultiplier = 1.0;

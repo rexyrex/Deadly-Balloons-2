@@ -243,7 +243,7 @@ public class Menu {
 			g.setFont(menuBtnFont);
 			
 			g.setColor(Color.green);
-			g.drawString("EZPZ", ezpzLvlBtn.x+20, ezpzLvlBtn.y+35);
+			g.drawString("Classic", ezpzLvlBtn.x+20, ezpzLvlBtn.y+35);
 			g2d.draw(ezpzLvlBtn);
 			
 			g.setColor(Color.yellow);

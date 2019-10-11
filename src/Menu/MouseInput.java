@@ -95,9 +95,9 @@ public class MouseInput implements MouseListener{
 			
 			//Default Levels Menu
 			if(GamePanel.menuState == GamePanel.MenuState.DEFAULT_LEVELS) {			
-				//ezpz lvl btn
+				//classic lvl btn
 				if(mouseIn(mx,my,menu.ezpzLvlBtn)) {
-					gp.initNewLvl("EZPZ", GamePanel.GameMode.DEFAULT, false);
+					gp.initNewLvl("Classic", GamePanel.GameMode.DEFAULT, false);
 					GamePanel.gameState = GamePanel.GameState.PLAY;					
 					return;
 				}
