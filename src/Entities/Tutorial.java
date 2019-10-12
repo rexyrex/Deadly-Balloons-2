@@ -2,6 +2,7 @@ package Entities;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
@@ -25,9 +26,23 @@ public class Tutorial {
 	
 	public HashMap<Integer, Integer> stageKeysPressed;
 	
+	public int btnLength = 100;
+	public int btnHeight = 20;
+	public Rectangle endTutBtn;
+	
+	private boolean isEndTutBtnBlink;
+	private long blinkStartTime;
+	private long blinkLength;
+	private long blinkElapsed;
 	
 	public Tutorial(GamePanel gp) {
 		this.gp = gp;
+		
+		endTutBtn = new Rectangle(gp.WIDTH-135, 160, btnLength, btnHeight);
+		isEndTutBtnBlink = false;
+		blinkStartTime = 0;
+		blinkElapsed = 0;
+		blinkLength = 1000;
 		
 		totalStages = 11;
 		stageEntered = new boolean[totalStages];
@@ -90,6 +105,8 @@ public class Tutorial {
 	}
 	
 	public void update(int stage) {
+
+		
 		//inc stage if conditions are met
 		
 		if(!stageReqMet[stage]) {
@@ -113,6 +130,10 @@ public class Tutorial {
 	public void setUpStage(int stage) {
 		if(stage==9) {
 			gp.player.addScore(2000);
+		}
+		if(stage==1) {
+			blinkStartTime = System.nanoTime();
+			isEndTutBtnBlink = true;
 		}
 	}
 	
@@ -186,6 +207,35 @@ public class Tutorial {
 
 	public void render(int stage) {
 		Graphics2D g = gp.g;
+		
+		//blink btn update
+		int endTutBtnAlpha = 0;
+		blinkElapsed = (System.nanoTime() - blinkStartTime)/1000000;
+		if(isEndTutBtnBlink) {
+			if(blinkElapsed > blinkLength) {
+				blinkStartTime = System.nanoTime();
+			} else if(blinkElapsed > blinkLength/2) {
+				endTutBtnAlpha = (int) (255 - 255 * blinkElapsed / blinkLength);
+			} else {
+				endTutBtnAlpha = (int) (255 * blinkElapsed / blinkLength);
+			}
+			
+			if(endTutBtnAlpha< 0)
+			{
+				endTutBtnAlpha = 0;			
+			}
+			
+			if(endTutBtnAlpha>255) {
+				endTutBtnAlpha = 255;
+			}
+		}
+		
+		g.setColor(new Color(255,0,0,endTutBtnAlpha));
+		g.fillRect(endTutBtn.x, endTutBtn.y, endTutBtn.width, endTutBtn.height);
+		g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+		g.setColor(Color.white);
+		g.drawString("End Tutorial", endTutBtn.x+6, endTutBtn.y+15);
+		g.draw(endTutBtn);
 		
 		if(!stageEntered[stage]) {
 			stageEntered[stage] = true;

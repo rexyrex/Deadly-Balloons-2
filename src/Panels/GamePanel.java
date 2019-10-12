@@ -460,6 +460,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			waveData.add(enemyToAdd);
 		}
 		
+		
+		//load background
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 		lvlStartTime = System.nanoTime();
 	}
 
@@ -672,7 +680,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw player score
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-		g.drawString("Time : " + StringUtils.getTime(elapsedTime), WIDTH-135, 30);
+		g.drawString("Time : " + StringUtils.getTime(lvlElapsedTime), WIDTH-135, 30);
 		
 		//draw player speed
 		g.setColor(Color.WHITE);

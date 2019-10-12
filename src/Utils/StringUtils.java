@@ -8,6 +8,10 @@ public class StringUtils {
 		long seconds = elapsedTime / 1000; // Maybe no need to divide if the input is in seconds
 		LocalTime timeOfDay = LocalTime.ofSecondOfDay(seconds);
 		String time = timeOfDay.toString();
+		
+		
+		time = timeOfDay.getMinute() + "m " + timeOfDay.getSecond() + "s";
+		
 		return time;
 	}
 	
