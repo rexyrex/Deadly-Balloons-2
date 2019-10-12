@@ -1,6 +1,7 @@
 	{
 	"levelName" : "EZPZ",
 	"levelNumber" : 1,
+	"background" : "backImg2.jpg",
 	"waves" : [
 		{  
 	        "waveTitle":"The Noob Level",

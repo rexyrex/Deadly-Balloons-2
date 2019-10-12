@@ -50,3 +50,5 @@ Create Survival Mode Levels
 High score system
 
 scale to bigger screens?
+
+stamina bar should flash when not enough stamina

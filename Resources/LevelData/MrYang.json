@@ -1,6 +1,7 @@
 	{
 	"levelName" : "Mr. Yang",
 	"levelNumber" : 2,
+	"background" : "backImg6.png",
 	"waves" : [
 		{  
 	        "waveTitle":"손 풀 기 1",

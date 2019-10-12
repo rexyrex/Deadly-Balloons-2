@@ -261,7 +261,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
-            pauseImg = ImageIO.read(getClass().getResourceAsStream("/img/keyboardImg3.png"));
+            pauseImg = ImageIO.read(getClass().getResourceAsStream("/img/keyboard_img_populated.png"));
             pauseImg = ImageUtils.resize(pauseImg, 0.950);
         } catch (IOException e) {
             e.printStackTrace();
@@ -508,7 +508,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//load background
         try {
-            img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
+        	String lvlBackgroundImg = (String) waveDataObj.get("background");
+            img = ImageIO.read(getClass().getResourceAsStream("/img/"+lvlBackgroundImg));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1578,7 +1579,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			removeTurret(4);
 		}		
 		//Pause
-		if(keyCode == KeyEvent.VK_NUMPAD0){		
+		if(keyCode == KeyEvent.VK_NUMPAD0 || keyCode == KeyEvent.VK_P){		
 			if(gameState == GameState.PLAY) {
 				pauseGame();
 			} else if(gameState == GameState.PAUSED){
