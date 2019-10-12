@@ -365,22 +365,22 @@ public class Enemy {
 			if(rank == 1){
 				speed = 1.7;
 				r = 60;
-				health = 3;
-				maxHealth = 3;
+				health = 15;
+				maxHealth = 15;
 				money = 0;
 			}
 			if(rank == 2){
 				speed = 1.5;
 				r = 70;
-				health = 6;
-				maxHealth = 6;
+				health = 22;
+				maxHealth = 22;
 				money = 0;
 			}
 			if(rank == 3){
 				speed = 1.2;
 				r = 80;
-				health = 10;
-				maxHealth = 10;
+				health = 30;
+				maxHealth = 30;
 				money = 0;
 			}
 		}

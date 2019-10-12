@@ -427,15 +427,15 @@ public class Player {
 	public void upgradeAbilities() {
 		//randomly upgrades abilities
 		
-		sideMissileDmg += Math.random()/20 + 0.01;
-		turretDmg += Math.random()/20 + 0.01;
-		bombDmg += Math.random()/20 + 0.01;
-		addonDmg += Math.random()/20 + 0.01;
-		spazLength += Math.random() * 50 + 20;
-		firingSideLength += Math.random() * 50 + 20;
-		friendDmg += Math.random()/20 + 0.01;
-		lightningDmg += Math.random()/8;
-		lightningStunLength += Math.random() * 100 + 30;
+		sideMissileDmg += Math.random()/18 + 0.02;
+		turretDmg += Math.random()/18 + 0.02;
+		bombDmg += Math.random()/18 + 0.02;
+		addonDmg += Math.random()/18 + 0.02;
+		spazLength += Math.random() * 50 + 30;
+		firingSideLength += Math.random() * 50 + 30;
+		friendDmg += Math.random()/18 + 0.02;
+		lightningDmg += Math.random()/6;
+		lightningStunLength += Math.random() * 100 + 40;
 	}
 	
 	public boolean attemptPurchase(int cost) {

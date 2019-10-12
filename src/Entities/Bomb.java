@@ -33,18 +33,18 @@ public class Bomb {
 		this.x = x;
 		this.y = y;
 		this.r = 5;
-		this.maxr = 150 * (Math.random()+0.5);
+		this.maxr = 150;
 		
 		triggerTimer = System.nanoTime();
-		triggerDelay = 3000;
+		triggerDelay = 1000;
 		
-		bombLength = 700;
+		bombLength = 2000;
 		bombTimer = System.nanoTime();
 		isBombing = false;
 		doneBombing = false;
 		c= new Color(255,255,255,177);
 		cBomb1 = new Color(255,0,7,128);
-		cBomb2 = Color.MAGENTA;
+		cBomb2 = new Color(255,255,255,255);//Color.MAGENTA;
 		
 		bombColorSwitchTime = 20;
 		bombColorSwitchTimer = System.nanoTime();

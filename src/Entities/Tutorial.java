@@ -11,7 +11,7 @@ import Panels.GamePanel;
 public class Tutorial {
 	
 	private GamePanel gp;
-	private int totalStages;
+	public int totalStages;
 	private boolean[] stageEntered;
 	private long[] stageStartDelay;
 	private long[] stageStartTime;
@@ -44,7 +44,7 @@ public class Tutorial {
 		blinkElapsed = 0;
 		blinkLength = 1000;
 		
-		totalStages = 11;
+		totalStages = 12;
 		stageEntered = new boolean[totalStages];
 		stageStartDelay = new long[totalStages];
 		stageStartTime = new long[totalStages];
@@ -190,15 +190,17 @@ public class Tutorial {
 			}
 			break;
 		case 9:
-			if(getKeyPressedCount(KeyEvent.VK_F) > 0) {
-				return true;
-			}
-			break;
-		case 10:
 			if(gp.player.getScore() < 2000) {
 				return true;
 			}
 			break;
+		case 10:
+			if(getKeyPressedCount(KeyEvent.VK_F) > 0) {
+				return true;
+			}
+			break;
+		case 11:
+			return false;
 		default: return false;
 		}
 		
@@ -331,11 +333,17 @@ public class Tutorial {
 				f = new Font("Comic Sans MS", Font.BOLD,40);
 				s = "Buy Items from the Shop -->\n<--And See your upgraded stats";
 				renderText(c,f,s);
-				break;				
+				break;		
 			case 10: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Comic Sans MS", Font.BOLD,40);
-				s = "Try out different types\nOf Power Ups!";
+				f = new Font("Comic Sans MS", Font.BOLD,30);
+				s = "Press F to quickly collect nearby powerups!";
+				renderText(c,f,s);
+				break;				
+			case 11: 
+				c = new Color(255,255,0,alpha);
+				f = new Font("Comic Sans MS", Font.BOLD,20);
+				s = "Try out different types\nOf Power Ups!\nAnd when you're done,\nPress the End Tutorial Button!\n(On the top right)";
 				renderText(c,f,s);
 				break;	
 			default : break;

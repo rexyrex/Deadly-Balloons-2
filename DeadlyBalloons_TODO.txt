@@ -39,3 +39,7 @@ Create Survival Mode Levels
 High score system
 
 Fix Sound issue when playing from Jar
+
+
+
+Add hotkey info to pause menu

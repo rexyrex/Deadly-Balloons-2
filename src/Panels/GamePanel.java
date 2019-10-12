@@ -46,6 +46,7 @@ import Entities.Turret;
 import Entities.Tutorial;
 import Menu.Menu;
 import Menu.MouseInput;
+import Utils.ImageUtils;
 import Utils.RandomUtils;
 import Utils.StringUtils;
 import VFX.Explosion;
@@ -151,12 +152,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private long pauseElapsedTime;
 	private long totalPausedTime;
 	
+	private int pauseBackgroundAlpha;
+	public boolean pauseHideKeyboard;
+	
+	private long shKbBtnBlinkElapsed;
+	private long shKbBtnblinkStartTime;
+	
 	public static long slowDownTimer;
 	private long slowDownTimerDiff;
 	private int slowDownLength = 6000;
 	
 	
 	private BufferedImage img;
+	private BufferedImage pauseImg;
 	
 	public InfoPanel ip;
 	public ShopPanel sp;
@@ -176,9 +184,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public Rectangle retryLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 455, btnLength, btnHeight);
 	
 	//Pause Btns
-	public Rectangle resumeFromPausedBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 455, btnLength, btnHeight);
-	public Rectangle quitFromPauseBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 525, btnLength, btnHeight);
-	
+	public Rectangle resumeFromPausedBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 555, btnLength, btnHeight);
+	public Rectangle quitFromPauseBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 625, btnLength, btnHeight);
+	public Rectangle pauseHideKeyboardBtn;
 	public enum GameState {
 		TUTORIAL, PLAY, MENU, GAME_OVER, PAUSED
 	}
@@ -221,7 +229,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		addKeyListener(this);
 		menu = new Menu(this);
 		tutorial = new Tutorial(this);
-		addMouseListener(new MouseInput(menu, this));
+		addMouseListener(new MouseInput(menu, tutorial, this));
 	}
 
 	//RUN METHOD
@@ -237,6 +245,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
+            pauseImg = ImageIO.read(getClass().getResourceAsStream("/img/keyboardImg3.png"));
+            pauseImg = ImageUtils.resize(pauseImg, 0.950);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -366,8 +376,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			gm = lastGameMode;
 		}
 		
-
-		
 		lastGameMode = gm;
 		lastPlayedLvl = lvlName;
 		gameMode = gm;
@@ -392,6 +400,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		shelters.clear();
 		lightnings.clear();
 		torpedos.clear();
+		footPrints.clear();
+		spawnIndicators.clear();
+		particleEffects.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -399,6 +410,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveStart = true;
 		waveNumber = 0;
 		victorious = false;
+		
+		pauseHideKeyboard = false;
+		pauseBackgroundAlpha = 120;
 		
 		if(gm == GameMode.TUTORIAL) {
 			currentTutorialStage = 0;
@@ -492,6 +506,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		} else {
 			s = "G A M E  O V E R";
 		}		
+		
+		if(gameMode == GameMode.TUTORIAL) {
+			if(currentTutorialStage == tutorial.totalStages) {
+				s = "Tutorial Complete!";
+			} else {
+				s = "Tutorial Ended";
+			}
+		}
+		
+		
 		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2 - 120);
 		//s = "Final Score: " + player.getScore();
@@ -518,23 +542,76 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 
 	private void pauseRender() {
-		g.setColor(new Color(255,255,255,120));
+		g.setColor(new Color(255,255,255,pauseBackgroundAlpha));
 		g.fillRect(0,0,WIDTH,HEIGHT);
-		g.setColor(Color.RED);
-		g.setFont(new Font("Comic Sans MS", Font.BOLD,80));
+		int keyboardImgWidth = pauseImg.getWidth();
+		int keyboardImgX = (WIDTH - keyboardImgWidth)/2;
+		int keyboardImgY = 50;
+		
+		//draw img
+		if(pauseHideKeyboard) {
+			g.setColor(new Color(255,255,255,255));
+			g.fillRect(keyboardImgX,keyboardImgY,pauseImg.getWidth(), pauseImg.getHeight());
+			g.drawImage(pauseImg,keyboardImgX,keyboardImgY , null);
+		}
+		
+		g.setColor(new Color(255,69,0));
+		g.setFont(new Font("Comic Sans MS", Font.BOLD,42));
 		String s = "PAUSED";
 		int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2);
+		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+150);
+		
+		
+		
+		g.setStroke(new BasicStroke(3));
+		
+		//blinking btn
+		int btnAlpha = 0;
+		shKbBtnBlinkElapsed = (System.nanoTime() - shKbBtnblinkStartTime)/1000000;
+
+		if(shKbBtnBlinkElapsed > 500) {
+			shKbBtnblinkStartTime = System.nanoTime();
+		} else if(shKbBtnBlinkElapsed > 500/2) {
+			btnAlpha = (int) (255 - 255 * shKbBtnBlinkElapsed / 500);
+		} else {
+			btnAlpha = (int) (255 * shKbBtnBlinkElapsed / 500);
+		}
+		
+		if(btnAlpha< 0)
+		{
+			btnAlpha = 0;			
+		}
+		
+		if(btnAlpha>255) {
+			btnAlpha = 255;
+		}
+		
+		g.setFont(new Font("Comic Sans MS", Font.BOLD,15));
+		pauseHideKeyboardBtn = new Rectangle(keyboardImgX, HEIGHT/2+150-35, 100, 35);
+		g.setColor(new Color(0,0,0,255));
+		g.drawString("Show/Hide", pauseHideKeyboardBtn.x+10, pauseHideKeyboardBtn.y+16);
+		
+		g.drawString("Keys", pauseHideKeyboardBtn.x+10, pauseHideKeyboardBtn.y+30);
+		g.draw(pauseHideKeyboardBtn);
+		g.setColor(new Color(0,0,0,btnAlpha));
+		g.fill(pauseHideKeyboardBtn);
 		
 		g.setFont(new Font("Comic Sans MS", Font.BOLD,30));
-		
-		g.setColor(Color.green);
+		resumeFromPausedBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 520, btnLength, btnHeight);
+		g.setColor(new Color(0,128,0));
+		g.fill(resumeFromPausedBtn);
+		g.setColor(new Color(255,255,255));
 		g.drawString("Resume", resumeFromPausedBtn.x+22, resumeFromPausedBtn.y+35);
-		g.draw(resumeFromPausedBtn);
 		
-		g.setColor(Color.RED);
+		quitFromPauseBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 580, btnLength, btnHeight);
+		g.setColor(new Color(255,69,0));
+		g.fill(quitFromPauseBtn);
+		g.setColor(new Color(255,255,255));
 		g.drawString("Give up", quitFromPauseBtn.x+22, quitFromPauseBtn.y+35);
-		g.draw(quitFromPauseBtn);
+
+		g.setStroke(new BasicStroke(1));
+		
+
 		
 	}
 	
@@ -1363,7 +1440,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		if(keyCode == KeyEvent.VK_W){
 			if(player.useStamina(800)){
-				player.freezeAOE(5000);
+				player.freezeAOE(7000);
 			}
 		}
 		
@@ -1472,6 +1549,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		gameState = GameState.PAUSED;	
 		//jframe.setState(Frame.ICONIFIED);
 		pauseStartTime = System.nanoTime();
+		shKbBtnblinkStartTime = System.nanoTime();
 	}
 	
 	public void resumeGame() {

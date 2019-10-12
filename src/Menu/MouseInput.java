@@ -3,16 +3,19 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import Entities.Tutorial;
 import Panels.GamePanel;
 
 public class MouseInput implements MouseListener{
 
 	private Menu menu;
 	private GamePanel gp;
+	private Tutorial tutorial;
 	
-	public MouseInput(Menu menu, GamePanel gp) {
+	public MouseInput(Menu menu, Tutorial tutorial, GamePanel gp) {
 		this.menu = menu;
 		this.gp = gp;
+		this.tutorial = tutorial;
 	}
 	
 	
@@ -162,6 +165,18 @@ public class MouseInput implements MouseListener{
 			}	
 		}
 		
+		//Game is Running State
+		if(GamePanel.gameState == GamePanel.GameState.PLAY) {
+			//Tutorial Mode
+			if(GamePanel.gameMode == GamePanel.GameMode.TUTORIAL) {
+				//end tutorial btn
+				if(mouseIn(mx,my,tutorial.endTutBtn)) {
+					GamePanel.gameState = GamePanel.GameState.GAME_OVER;
+					return;
+				}
+			}
+		}
+		
 		//Game Over Menu
 		if(GamePanel.gameState == GamePanel.GameState.GAME_OVER) {
 			//replay
@@ -189,6 +204,12 @@ public class MouseInput implements MouseListener{
 			//resume
 			if(mouseIn(mx,my,gp.resumeFromPausedBtn)) {
 				gp.resumeGame();
+				return;
+			}
+			
+			//show/hide keyboard
+			if(mouseIn(mx,my,gp.pauseHideKeyboardBtn)) {
+				gp.pauseHideKeyboard = !gp.pauseHideKeyboard;
 				return;
 			}
 		}
