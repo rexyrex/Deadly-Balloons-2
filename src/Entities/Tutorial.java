@@ -26,8 +26,8 @@ public class Tutorial {
 	
 	public HashMap<Integer, Integer> stageKeysPressed;
 	
-	public int btnLength = 100;
-	public int btnHeight = 20;
+	public int btnLength = 170;
+	public int btnHeight = 40;
 	public Rectangle endTutBtn;
 	
 	private boolean isEndTutBtnBlink;
@@ -38,7 +38,7 @@ public class Tutorial {
 	public Tutorial(GamePanel gp) {
 		this.gp = gp;
 		
-		endTutBtn = new Rectangle(gp.WIDTH-135, 160, btnLength, btnHeight);
+		endTutBtn = new Rectangle(gp.WIDTH-185, gp.HEIGHT-55, btnLength, btnHeight);
 		isEndTutBtnBlink = false;
 		blinkStartTime = 0;
 		blinkElapsed = 0;
@@ -134,7 +134,7 @@ public class Tutorial {
 		if(stage==9) {
 			gp.player.addScore(2000);
 		}
-		if(stage==1) {
+		if(stage==11) {
 			blinkStartTime = System.nanoTime();
 			isEndTutBtnBlink = true;
 		}
@@ -237,9 +237,9 @@ public class Tutorial {
 		
 		g.setColor(new Color(255,0,0,endTutBtnAlpha));
 		g.fillRect(endTutBtn.x, endTutBtn.y, endTutBtn.width, endTutBtn.height);
-		g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+		g.setFont(new Font("Comic Sans MS", Font.BOLD, 25));
 		g.setColor(Color.white);
-		g.drawString("End Tutorial", endTutBtn.x+6, endTutBtn.y+15);
+		g.drawString("Exit Tutorial", endTutBtn.x+6, endTutBtn.y+30);
 		g.draw(endTutBtn);
 		
 		if(!stageEntered[stage]) {
@@ -346,7 +346,7 @@ public class Tutorial {
 			case 11: 
 				c = new Color(255,255,0,alpha);
 				f = new Font("Comic Sans MS", Font.BOLD,25);
-				s = "Try out different types\nOf Power Ups!\nAnd when you're done,\nPress the End Tutorial Button!\n(On the top right)";
+				s = "Have Fun :)";
 				renderText(c,f,s);
 				break;	
 			default : break;
