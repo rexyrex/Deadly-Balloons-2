@@ -244,7 +244,7 @@ public class Player {
 	public void init() {
 		x = GamePanel.WIDTH/2;
 		y = GamePanel.HEIGHT/2;
-		r = 7;
+		r = 8;
 		
 		dropRateMultiplier = 1.0;
 		spawnTimeMultiplier = 1.0;
@@ -305,8 +305,8 @@ public class Player {
 		
 		isSuperSpeed = false;
 		superSpeedStartTime = 0;
-		superSpeedLength = 150;
-		superSpeed = 15;
+		superSpeedLength = 200;
+		superSpeed = 20;
 		superSpeedDamping = 1;
 		
 		bombing = false;
@@ -374,6 +374,12 @@ public class Player {
 	public void startInvincible(){ invincible = true; inviTimer = System.nanoTime();}
 	public void stopInvincible(){ invincible = false; }
 	public void setImmobalized(boolean b){ immobalized = b; }
+	
+	public boolean isImmobalized() {return immobalized;}
+	
+	public boolean isSuperSpeed() {
+		return isSuperSpeed;
+	}
 	
 	public void startSuperSpeed() {
 		

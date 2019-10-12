@@ -347,7 +347,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			frameCount++;
 			if(frameCount == maxFrameCount){
 				//averageFPS = 1000.0 / ((totalTime/frameCount)/1000000);
-				System.out.println("FPS: " + 1000.0 / ((totalTime/frameCount)/1000000));
+				String fpsStr = String.format("%.0f", 1000.0 / ((totalTime/frameCount)/1000000));
+				System.out.println("FPS: " + fpsStr);
 				frameCount = 0;
 				totalTime = 0;
 			}			
@@ -934,7 +935,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				//p.showCollectTextAtPowerUp();
 				//explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
 				//powerups.remove(i);		
-				p.goTowards(player.getx(), player.gety(), 7.22);
+				p.goTowards(player.getx(), player.gety(), 7.0);
 			} else {
 				p.recoverMovement();
 			}
@@ -1329,9 +1330,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		
 		if(keyCode == KeyEvent.VK_D){
-			if(player.useStamina(200)) {
-				player.startSuperSpeed();
-			}			
+			if(!player.isSuperSpeed()) {
+				if(player.useStamina(200)) {
+					player.startSuperSpeed();
+				}	
+			}
+		
 		}
 		
 		if(keyCode == KeyEvent.VK_Q){
