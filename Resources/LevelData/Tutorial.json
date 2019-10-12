@@ -1,7 +1,7 @@
 	{
 	"levelName" : "Tutorial",
 	"levelNumber" : 1,
-	"background" : "backImg5.jpg",
+	"background" : "gimpBack1.png",
 	"waves" : [
 		{  
 	        "waveTitle":"Tutorial",

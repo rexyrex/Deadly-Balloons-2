@@ -36,10 +36,11 @@ e.g. Army should only spawn after wave 10
 
 
 "Collect" Skill cooldown
+Levels should have different backgrounds
 
 --TODO--
 
-Levels should have different backgrounds
+Add better backgrounds
 
 BGM
 
@@ -52,3 +53,5 @@ High score system
 scale to bigger screens?
 
 stamina bar should flash when not enough stamina
+
+charging enemy when pushed behaviour

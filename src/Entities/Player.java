@@ -266,8 +266,8 @@ public class Player {
 		
 		isSuperSpeed = false;
 		superSpeedStartTime = 0;
-		superSpeedLength = 200;
-		superSpeed = 20;
+		superSpeedLength = 170;
+		superSpeed = 22;
 		superSpeedDamping = 1;
 		
 		bombing = false;
@@ -769,7 +769,7 @@ public class Player {
 	public void placeShelter(){
 		if(nWalls>0){
 			nWalls--;
-			GamePanel.shelters.add(new Shelter(x,y,70));
+			GamePanel.shelters.add(new Shelter(x,y,100));
 		}
 		
 	}

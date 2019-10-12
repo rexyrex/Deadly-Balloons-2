@@ -749,7 +749,8 @@ public class Enemy {
 	
 	public void pushAway(double px, double py){
 		if(skillSet.containsKey("charge skill")) {
-			GamePanel.texts.add(new Text(x, y,2000,"I Cant be Pushed :)", true, Color.RED, Font.BOLD));
+			//GamePanel.texts.add(new Text(x, y,2000,"I Cant be Pushed :)", true, Color.RED, Font.BOLD));
+			chargingEnemyInit();
 			return;
 		}
 		

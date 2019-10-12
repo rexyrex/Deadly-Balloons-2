@@ -510,6 +510,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         try {
         	String lvlBackgroundImg = (String) waveDataObj.get("background");
             img = ImageIO.read(getClass().getResourceAsStream("/img/"+lvlBackgroundImg));
+            img = ImageUtils.resize(img, WIDTH, HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1526,7 +1527,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 			if(player.useStamina(800)){
 				player.useSkillWithCd("W - FreezeAOE");
-				player.freezeAOE(6000);
+				player.freezeAOE(7000);
 			}
 		}
 		
@@ -1624,6 +1625,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void skillCdWarn() {
 		skillCdWarnStartTime = System.nanoTime();
 		isSkillCdWarn = true;
+		texts.add(new Text(player.getx(), player.gety(),2000,"Cooldown!"));
+		
 	}
 	
 	public void pauseGame() {
