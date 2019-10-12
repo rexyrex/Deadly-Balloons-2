@@ -123,13 +123,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	};
 	
 	private long puDropTimes[] = {
-			12200, // 101. spaz
-			15700, // 102. side missile
-			35300, // 103. army
-			22400, // 104. supercharge
-			45500, // 105. friends
+			14200, // 101. spaz
+			17700, // 102. side missile
+			38300, // 103. army
+			27400, // 104. supercharge
+			49500, // 105. friends
 			14100, // 106. lightning
-			20300, // 107. torpedo
+			25300, // 107. torpedo
 			30000 // 108. rage
 	};
 	
@@ -146,6 +146,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private long lvlStartTime;
 	private long lvlElapsedTime;
+	
+	private long pauseStartTime;
+	private long pauseElapsedTime;
+	private long totalPausedTime;
 	
 	public static long slowDownTimer;
 	private long slowDownTimerDiff;
@@ -301,6 +305,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			requestFocus();
 			startTime = System.nanoTime();
 			if(gameState == GameState.PAUSED) {				
+				pauseElapsedTime = (System.nanoTime() - pauseStartTime)/ 1000000;
 				gameRender();
 				pauseRender();
 				gameDraw();
@@ -317,7 +322,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 				
 			if(gameState == GameState.PLAY) {
-				lvlElapsedTime = (System.nanoTime() - lvlStartTime)/1000000;
+				lvlElapsedTime = (System.nanoTime() - lvlStartTime)/1000000  - totalPausedTime;
 				ip.updateStats2();
 				
 				gameUpdate();	
@@ -468,6 +473,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             e.printStackTrace();
         }
 		
+        
+        pauseStartTime = 0;
+        totalPausedTime = 0;
+        
 		lvlStartTime = System.nanoTime();
 	}
 
@@ -1419,10 +1428,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//Pause
 		if(keyCode == KeyEvent.VK_NUMPAD0){		
 			if(gameState == GameState.PLAY) {
-				gameState = GameState.PAUSED;	
-				jframe.setState(Frame.ICONIFIED);
+				pauseGame();
 			} else if(gameState == GameState.PAUSED){
-				gameState = GameState.PLAY;
+				resumeGame();
 			}	
 		}
 		
@@ -1458,6 +1466,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void pauseGame() {
+		gameState = GameState.PAUSED;	
+		//jframe.setState(Frame.ICONIFIED);
+		pauseStartTime = System.nanoTime();
+	}
+	
+	public void resumeGame() {
+		gameState = GameState.PLAY;
+		totalPausedTime += pauseElapsedTime;
+		System.out.println(totalPausedTime);
 	}
 	
 	public static void updatePuCount(PowerUp pu, boolean remove) {

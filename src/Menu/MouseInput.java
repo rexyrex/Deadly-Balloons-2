@@ -188,7 +188,7 @@ public class MouseInput implements MouseListener{
 			}
 			//resume
 			if(mouseIn(mx,my,gp.resumeFromPausedBtn)) {
-				GamePanel.gameState = GamePanel.GameState.PLAY;
+				gp.resumeGame();
 				return;
 			}
 		}
