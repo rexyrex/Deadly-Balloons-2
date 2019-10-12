@@ -128,6 +128,9 @@ public class Tutorial {
 	}
 	
 	public void setUpStage(int stage) {
+		
+		gp.player.gainStamina(1000);
+		
 		if(stage==9) {
 			gp.player.addScore(2000);
 		}
@@ -300,7 +303,7 @@ public class Tutorial {
 				break;
 			case 4: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Comic Sans MS", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,35);
 				s = "Press R to become\nTemporarily Invincible!\n(200 +30/tick Stamina)";
 				renderText(c,f,s);
 				break;
@@ -319,12 +322,12 @@ public class Tutorial {
 			case 7: 
 				c = new Color(255,255,0,alpha);
 				f = new Font("Comic Sans MS", Font.BOLD,25);
-				s = "Press T to Place A Turret!\n(200 Stamina)\nAnd press the turret's number\nTo teleport to it!\n(50 Stamina)\nYou can place up to 5 Turrets total";
+				s = "Press T to Place A Turret!\n(200 Stamina)\nAnd press the turret's number\nTo teleport to it!\n[Max 5 Turrets at Once]";
 				renderText(c,f,s);
 				break;
 			case 8: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Comic Sans MS", Font.BOLD,40);
+				f = new Font("Comic Sans MS", Font.BOLD,30);
 				s = "Press S to Place A Shelter!\n(Costs 1 Shelter)\nEnemies can't get to \nyou in here!";
 				renderText(c,f,s);
 				break;
@@ -336,13 +339,13 @@ public class Tutorial {
 				break;		
 			case 10: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Comic Sans MS", Font.BOLD,30);
-				s = "Press F to quickly collect nearby powerups!";
+				f = new Font("Comic Sans MS", Font.BOLD,35);
+				s = "Press F to quickly collect\n nearby powerups!";
 				renderText(c,f,s);
 				break;				
 			case 11: 
 				c = new Color(255,255,0,alpha);
-				f = new Font("Comic Sans MS", Font.BOLD,20);
+				f = new Font("Comic Sans MS", Font.BOLD,25);
 				s = "Try out different types\nOf Power Ups!\nAnd when you're done,\nPress the End Tutorial Button!\n(On the top right)";
 				renderText(c,f,s);
 				break;	

@@ -51,7 +51,7 @@ public class PowerUp {
 		this.dx = 0;
 		this.dy = 2;
 		timer = System.nanoTime();
-		lifeTime = 10000;
+		lifeTime = (long) (10000 *  (Math.random() + 0.7));
 		
 		beingCollected = false;
 		

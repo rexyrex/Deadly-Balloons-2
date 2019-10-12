@@ -127,6 +127,16 @@ public class Player {
 	private long aoeFreezeLength;
 	private long aoeFreezeElapsed;
 	
+	public HashMap<String, Long> skillCdMap;
+	public HashMap<String, Long> skillLastUsedMap;
+	public HashMap<String, Color> skillColorMap;
+	
+	public String[] skills = {"F - Collect", "W - FreezeAOE"};
+	public long[] skillCds = {20000, 20000};	
+	public Color[] skillColors = {
+		new Color(218,165,32),
+		new Color(175,238,238)
+	};
 	
 	private Turret[] ts = new Turret[5];
 	private boolean[] tsAvailability = new boolean[5];
@@ -157,88 +167,39 @@ public class Player {
 	
 	private long lightningStunLength;
 	
-	public double getSpawnTimeMultiplier() {
-		return spawnTimeMultiplier;
-	}
 
-	public void setSpawnTimeMultiplier(double spawnTimeMultiplier) {
-		this.spawnTimeMultiplier = spawnTimeMultiplier;
-	}
 	
-	public long getLightningStunLength() {
-		return lightningStunLength;
-	}
 
-	public void setLightningStunLength(long lightningStunLength) {
-		this.lightningStunLength = lightningStunLength;
-	}
+	//Constructor
+	public Player(){
+		color1 = Color.WHITE;
+		color2 = Color.RED;
+		
+		sfx = new HashMap<String, AudioPlayer>();
+		sfx.put("laser", new AudioPlayer("/sfx/shoot.mp3"));
+		sfx.put("side", new AudioPlayer("/sfx/side_missile.mp3"));
+		
+		skillCdMap = new HashMap<String, Long>();
+		skillLastUsedMap = new HashMap<String, Long>();
+		skillColorMap = new HashMap<String,Color>();
 
-	public double getLightningDmg() {
-		return lightningDmg;
-	}
-
-	public void setLightningDmg(double lightningDmg) {
-		this.lightningDmg = lightningDmg;
-	}
-
-	public double getFriendDmg() {
-		return friendDmg;
-	}
-
-	public void setFriendDmg(double friendDmg) {
-		this.friendDmg = friendDmg;
-	}
-
-	public double getAddonDmg() {
-		return addonDmg;
-	}
-
-	public void setAddonDmg(double addonDmg) {
-		this.addonDmg = addonDmg;
-	}
-
-	public double getSideMissileDmg() {
-		return sideMissileDmg;
-	}
-
-	public void setSideMissileDmg(double sideMissileDmg) {
-		this.sideMissileDmg = sideMissileDmg;
-	}
-
-	public double getTurretDmg() {
-		return turretDmg;
-	}
-
-	public void setTurretDmg(double turretDmg) {
-		this.turretDmg = turretDmg;
-	}
-	
-	public double getBombDmg() {
-		return bombDmg;
-	}
-
-	public void setBombDmg(double bombDmg) {
-		this.bombDmg = bombDmg;
-	}
-
-	public double getbulletDmg() {
-		return bulletDmg;
-	}
-
-	public void setbulletDmg(double bulletDmg) {
-		this.bulletDmg = bulletDmg;
-	}
-	
-	public long getSpazDuration() {
-		return spazLength;
-	}
-	
-	public long getSideMissileDuration() {
-		return firingSideLength; 
-	}
-	
-	public boolean isCollectingPu() {
-		return isCollectingPu;
+		
+		//init skill Last used Map
+		for(int i=0; i<skills.length; i++) {
+			skillLastUsedMap.put(skills[i], (long) 0);
+		}
+		
+		//init skill cd Map
+		for(int i=0; i<skills.length; i++) {
+			skillCdMap.put(skills[i], skillCds[i]);
+		}
+		
+		//init skill color Map
+		for(int i=0; i<skills.length; i++) {
+			skillColorMap.put(skills[i], skillColors[i]);
+		}
+		
+		init();
 	}
 	
 	public void init() {
@@ -345,18 +306,122 @@ public class Player {
 		
 		score = 1000;
 	}
-
-	//Constructor
-	public Player(){
-		color1 = Color.WHITE;
-		color2 = Color.RED;
-		
-		sfx = new HashMap<String, AudioPlayer>();
-		sfx.put("laser", new AudioPlayer("/SFX/shoot.mp3"));
-		sfx.put("side", new AudioPlayer("/SFX/side_missile.mp3"));
-		
-		init();
+	
+	public void useSkillWithCd(String skill) {
+		if(skillLastUsedMap.containsKey(skill)) {
+			skillLastUsedMap.put(skill, System.nanoTime());
+		}		
 	}
+	
+	public long skillTimeRemaining(String skill) {
+		if(skillCdMap.containsKey(skill)) {
+			long elapsed = (System.nanoTime() - skillLastUsedMap.get(skill))/1000000;
+			long timeRemaining = skillCdMap.get(skill) - elapsed;
+			if(timeRemaining<0) {
+				timeRemaining = 0;
+			}
+			return timeRemaining;
+		}		
+		return 0;
+	}
+	
+	//return time elapsed since skill used
+	public HashMap<String, Long> getCdSkills(){
+		HashMap<String,Long> skillsOnCd = new HashMap<String,Long>();
+		for(int i=0; i<skills.length; i++) {
+			if(skillTimeRemaining(skills[i]) > 0) {
+				long elapsed = (System.nanoTime() - skillLastUsedMap.get(skills[i])) / 1000000;
+				skillsOnCd.put(skills[i], elapsed);
+			}
+		}
+		
+		return skillsOnCd;		
+	}
+	
+	public double getSpawnTimeMultiplier() {
+		return spawnTimeMultiplier;
+	}
+
+	public void setSpawnTimeMultiplier(double spawnTimeMultiplier) {
+		this.spawnTimeMultiplier = spawnTimeMultiplier;
+	}
+	
+	public long getLightningStunLength() {
+		return lightningStunLength;
+	}
+
+	public void setLightningStunLength(long lightningStunLength) {
+		this.lightningStunLength = lightningStunLength;
+	}
+
+	public double getLightningDmg() {
+		return lightningDmg;
+	}
+
+	public void setLightningDmg(double lightningDmg) {
+		this.lightningDmg = lightningDmg;
+	}
+
+	public double getFriendDmg() {
+		return friendDmg;
+	}
+
+	public void setFriendDmg(double friendDmg) {
+		this.friendDmg = friendDmg;
+	}
+
+	public double getAddonDmg() {
+		return addonDmg;
+	}
+
+	public void setAddonDmg(double addonDmg) {
+		this.addonDmg = addonDmg;
+	}
+
+	public double getSideMissileDmg() {
+		return sideMissileDmg;
+	}
+
+	public void setSideMissileDmg(double sideMissileDmg) {
+		this.sideMissileDmg = sideMissileDmg;
+	}
+
+	public double getTurretDmg() {
+		return turretDmg;
+	}
+
+	public void setTurretDmg(double turretDmg) {
+		this.turretDmg = turretDmg;
+	}
+	
+	public double getBombDmg() {
+		return bombDmg;
+	}
+
+	public void setBombDmg(double bombDmg) {
+		this.bombDmg = bombDmg;
+	}
+
+	public double getbulletDmg() {
+		return bulletDmg;
+	}
+
+	public void setbulletDmg(double bulletDmg) {
+		this.bulletDmg = bulletDmg;
+	}
+	
+	public long getSpazDuration() {
+		return spazLength;
+	}
+	
+	public long getSideMissileDuration() {
+		return firingSideLength; 
+	}
+	
+	public boolean isCollectingPu() {
+		return isCollectingPu;
+	}
+
 	
 	//setters
 	public void setLeft(boolean b){ left = b;}
@@ -735,7 +800,6 @@ public class Player {
 			Turret t = ts[i];
 			x = (int) t.getx();
 			y = (int) t.gety();
-			startPushing();
 			t.setDead(true);			
 			tsAvailability[i] = true;		
 			GamePanel.explosions.add(new Explosion(x,y,r,r+20,1));

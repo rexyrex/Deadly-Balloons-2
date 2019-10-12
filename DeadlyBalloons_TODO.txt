@@ -24,13 +24,24 @@ friends 16 => 104
 lightning 18 => 105
 Torpedos 19 => 106
 
+Add hotkey info to pause menu
 
-2019 10/12
 (FInish Tutorial)
 problem with tutorial not going to stage 11
+Fix Sound issue when playing from Jar
+
 
 Powerup spawns (spawn indicators) should have wave requirements
 e.g. Army should only spawn after wave 10
+
+
+"Collect" Skill cooldown
+
+--TODO--
+
+Levels should have different backgrounds
+
+BGM
 
 Create hard level (Rex)
 
@@ -38,8 +49,4 @@ Create Survival Mode Levels
 
 High score system
 
-Fix Sound issue when playing from Jar
 
-
-
-Add hotkey info to pause menu

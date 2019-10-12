@@ -107,6 +107,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static HashMap<Integer, Long> puDropTimeMap;
 	public static HashMap<Integer, Double> puDropRateMap;
 	public static HashMap<Integer, Integer> puCountMap;
+	public static HashMap<Integer, Integer> puMinWaveMap;
 	
 	private double puDropRates[] = {
 			0.22, // 1. extra life
@@ -134,6 +135,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			30000 // 108. rage
 	};
 	
+	private int puMinWaves[] = {
+			0, // 101. spaz
+			1, // 102. side missile
+			10, // 103. army
+			4, // 104. supercharge
+			12, // 105. friends
+			1, // 106. lightning
+			7, // 107. torpedo
+			5 // 108. rage
+	};
+	
 	private long URDTimeMillis;
 	private long elapsedTime;
 	
@@ -151,6 +163,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private long pauseStartTime;
 	private long pauseElapsedTime;
 	private long totalPausedTime;
+	
+	private long skillCdWarnStartTime;
+	private long skillCdWarnLength;
+	private boolean isSkillCdWarn;
 	
 	private int pauseBackgroundAlpha;
 	public boolean pauseHideKeyboard;
@@ -275,6 +291,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		puDropTimeMap = new HashMap<Integer, Long>();
 		puDropRateMap = new HashMap<Integer, Double>();
 		puCountMap = new HashMap<Integer, Integer>();
+		puMinWaveMap = new HashMap<Integer, Integer>();
 
 		
 		//Populate dropRateMap
@@ -287,16 +304,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			puDropTimeMap.put(i+101, puDropTimes[i]);
 		}
 		
+		//Populate minWaveMap
+		for(int i=0; i<puMinWaves.length; i++) {
+			puMinWaveMap.put(i+101, puMinWaves[i]);
+		}
+		
 		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
 		//bgmusic.play();
 
 		sfx = new HashMap<String, AudioPlayer>();
 		
-		sfx.put("hit", new AudioPlayer("/SFX/enemy_hit.mp3"));
-		sfx.put("player die", new AudioPlayer("/SFX/die.mp3"));
-		sfx.put("enemy die", new AudioPlayer("/SFX/enemydie.mp3"));
-		sfx.put("place black hole", new AudioPlayer("/SFX/place_black_hole.mp3"));
-		sfx.put("collect powerup", new AudioPlayer("/SFX/powerup_collect.mp3"));
+		sfx.put("hit", new AudioPlayer("/sfx/enemy_hit.mp3"));
+		sfx.put("player die", new AudioPlayer("/sfx/die.mp3"));
+		sfx.put("enemy die", new AudioPlayer("/sfx/enemydie.mp3"));
+		sfx.put("place black hole", new AudioPlayer("/sfx/place_black_hole.mp3"));
+		sfx.put("collect powerup", new AudioPlayer("/sfx/powerup_collect.mp3"));
 		
 		long startTime;
 		long waitTime;
@@ -411,6 +433,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveNumber = 0;
 		victorious = false;
 		
+		skillCdWarnLength = 500;
+		skillCdWarnStartTime = 0;
+		isSkillCdWarn = false;
+		
 		pauseHideKeyboard = false;
 		pauseBackgroundAlpha = 120;
 		
@@ -508,7 +534,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}		
 		
 		if(gameMode == GameMode.TUTORIAL) {
-			if(currentTutorialStage == tutorial.totalStages) {
+			if(currentTutorialStage >= tutorial.totalStages-1) {
 				s = "Tutorial Complete!";
 			} else {
 				s = "Tutorial Ended";
@@ -797,6 +823,56 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setColor(new Color(50,205,50));
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Money : " + player.getScore(), WIDTH-135, 150);
+		
+		//Draw SKills on CD
+		HashMap<String, Long> cdSkills = player.getCdSkills();
+		if(cdSkills.size() > 0) {
+			//There are skills on cd
+			g.setColor(new Color(255,255,255));
+			g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
+			g.drawString("Skill CD's", WIDTH-135, 170);
+			
+			//if skillcd warn, rect color blinks red
+			long skillCdWarnElapsed = (System.nanoTime() - skillCdWarnStartTime)/1000000;
+			if(skillCdWarnElapsed > skillCdWarnLength && isSkillCdWarn) {
+				isSkillCdWarn = false;
+			}			
+			//skills cd rect gets bigger when warn
+			int skillsCdRectSizeUp = 0;
+			if(isSkillCdWarn) {
+				int skillCdWarnAlpha = (int) (255 - 255 * skillCdWarnElapsed / skillCdWarnLength);
+				if(skillCdWarnAlpha < 100) {skillCdWarnAlpha = 100;}
+				skillsCdRectSizeUp = (int) (7 - 7 * skillCdWarnElapsed / skillCdWarnLength);
+				if(skillsCdRectSizeUp < 0) {skillsCdRectSizeUp = 0;}
+				g.setColor(new Color(255,0,0,skillCdWarnAlpha));
+			} else {
+				g.setColor(new Color(255,0,0,100));
+			}
+			
+			//cd skills list surrounding rect
+			g.fillRect(WIDTH-140 -skillsCdRectSizeUp , 175 - skillsCdRectSizeUp, 125 + skillsCdRectSizeUp*2, 25 * cdSkills.size() + 10 + skillsCdRectSizeUp*2);
+			
+			//content within skill cd rect
+			g.setColor(new Color(255,255,255));
+			int cdSkillCount = 0;
+			for (Map.Entry<String, Long> entry : cdSkills.entrySet()) {
+				cdSkillCount++;
+				
+				g.setColor(player.skillColorMap.get(entry.getKey()));
+				g.drawString(entry.getKey(), WIDTH-135, 170 + 25 * cdSkillCount);
+				
+				//cd bar
+				g.drawRect(WIDTH-135, 170 + 25 * cdSkillCount + 4, 100, 6);
+				
+				long elapsed = entry.getValue();
+				long cd = player.skillCdMap.get(entry.getKey());				
+				g.fillRect(WIDTH-135, 170 + 25 * cdSkillCount + 4, (int) (100-100 * elapsed/cd), 6);
+		    }
+			
+
+		}
+		
+		
 		
 		//draw slowdown meter
 		if(slowDownTimer !=0){
@@ -1126,6 +1202,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
+		
 		//spawn indicators create
 		if(gameMode != GameMode.TUTORIAL || currentTutorialStage > 10) {
 		    for (Map.Entry<Integer, Long> puDropRateEntry : puLastDropTimeMap.entrySet()) {
@@ -1133,12 +1210,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		    	long powerUpLastDropTime = puDropRateEntry.getValue();
 		    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
 		    	double dropTime = (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier());
-				if(puElapsed > RandomUtils.getPlusMinusPercentage(dropTime, 0.2)) {
-					puLastDropTimeMap.put(powerUpType, System.nanoTime());
-					int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
-					PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);
-					spawnIndicators.add(new SpawnIndicator("PowerUp", newPu));
-				}
+		    	//Check min wave requirements for each powerup (ignore if tutorial mode)
+		    	if(waveNumber >= puMinWaveMap.get(powerUpType) || gameMode == GameMode.TUTORIAL) {
+					if(puElapsed > RandomUtils.getPlusMinusPercentage(dropTime, 0.2)) {
+						puLastDropTimeMap.put(powerUpType, System.nanoTime());
+						int[] newPuPos = RandomUtils.getRandomDest(WIDTH, HEIGHT);
+						PowerUp newPu = new PowerUp(powerUpType, newPuPos[0], newPuPos[1]);
+						spawnIndicators.add(new SpawnIndicator("PowerUp", newPu));
+					}
+		    	}
 		    }
 		    
 		    //spawn indicators update
@@ -1439,8 +1519,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_W){
+			if(player.skillTimeRemaining("W - FreezeAOE") > 0) {
+				skillCdWarn();
+				return;
+			}
 			if(player.useStamina(800)){
-				player.freezeAOE(7000);
+				player.useSkillWithCd("W - FreezeAOE");
+				player.freezeAOE(6000);
 			}
 		}
 		
@@ -1462,45 +1547,35 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_F){
+			if(player.skillTimeRemaining("F - Collect") > 0) {
+				skillCdWarn();
+				return;
+			}
 			if(player.useStamina(700)) {
+				player.useSkillWithCd("F - Collect");
 				player.startCollecting();
 			}			
-		}
-		
-		if(keyCode == KeyEvent.VK_Z) {
-			//player.startRage();
-		}
-
+		}		
 		
 		if(keyCode == KeyEvent.VK_1){
-			if(player.useStamina(50)){
-				player.tpToTurret(0);
-				removeTurret(0);
-			}
+			player.tpToTurret(0);
+			removeTurret(0);
 		}
 		if(keyCode == KeyEvent.VK_2){
-			if(player.useStamina(50)){
-				player.tpToTurret(1);
-				removeTurret(1);
-			}
+			player.tpToTurret(1);
+			removeTurret(1);
 		}
 		if(keyCode == KeyEvent.VK_3){
-			if(player.useStamina(50)){
-				player.tpToTurret(2);
-				removeTurret(2);
-			}
+			player.tpToTurret(2);
+			removeTurret(2);
 		}
 		if(keyCode == KeyEvent.VK_4){
-			if(player.useStamina(50)){
 				player.tpToTurret(3);
 				removeTurret(3);
-			}
 		}
 		if(keyCode == KeyEvent.VK_5){
-			if(player.useStamina(50)){
-				player.tpToTurret(4);
-				removeTurret(4);
-			}
+			player.tpToTurret(4);
+			removeTurret(4);
 		}		
 		//Pause
 		if(keyCode == KeyEvent.VK_NUMPAD0){		
@@ -1543,6 +1618,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void skillCdWarn() {
+		skillCdWarnStartTime = System.nanoTime();
+		isSkillCdWarn = true;
 	}
 	
 	public void pauseGame() {
