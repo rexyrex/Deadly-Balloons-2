@@ -110,17 +110,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static HashMap<Integer, Integer> puMinWaveMap;
 	
 	private double puDropRates[] = {
-			0.22, // 1. extra life
-			0.5, // 2. power +1
-			1.1, // 3. power +2
+			0.17, // 1. extra life
+			0.35, // 2. power +1
+			0.7, // 3. power +2
 			1.5, // 4. faster enemies
-			0.2, // 5. inc speed
-			0.4, // 6. bomb
-			0.2, // 7. firerate
-			0.15, // 8. addon
+			0.15, // 5. inc speed
+			0.25, // 6. bomb
+			0.14, // 7. firerate
+			0.9, // 8. addon
 			0.5, // 9. stamina
 			0.12, // 10. max stamina
-			0.07, // 11. shelter
+			0.05, // 11. shelter
 			0 // 12. die
 	};
 	
@@ -1350,7 +1350,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			    for (Map.Entry<Integer, Double> puDropRateEntry : puDropRateMap.entrySet()) {
 			    	int powerUpType = puDropRateEntry.getKey();
 			    	double powerUpDropRate = puDropRateEntry.getValue();
-					if(RandomUtils.runChance(powerUpDropRate * player.getDropRateMultiplier())) {
+					if(RandomUtils.runChance(powerUpDropRate * player.getDropRateMultiplier() * e.getDropMultiplier())) {
 						double[] offset = RandomUtils.getRandomOffset(5, 5);
 						powerups.add(new PowerUp(powerUpType, e.getx()+offset[0],e.gety()+offset[1]));
 					}

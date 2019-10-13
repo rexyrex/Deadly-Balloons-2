@@ -91,6 +91,8 @@ public class Enemy {
 	private int moneyEnemyAlpha;
 	private boolean moneyEnemyAlphaInc;
 	
+	private double dropMultiplier;
+	
 	
 	//constructor
 	public Enemy(int type, int rank, double moneyMult){
@@ -116,7 +118,9 @@ public class Enemy {
 		
 		this.name = fnames[fn] + " " + lnames[ln];
 		
-		skillSet = new HashMap();
+		skillSet = new HashMap<String, Double>();
+		
+		dropMultiplier = 1.0;
 		
 		//default
 		if(type ==1){
@@ -151,6 +155,7 @@ public class Enemy {
 		}
 		
 		if(type ==2){
+			dropMultiplier = 1.1;
 			//color1 = Color.red;
 			color1 = new Color(255,0,0,128);
 			if(rank == 1){
@@ -180,6 +185,7 @@ public class Enemy {
 		}
 		
 		if(type ==3){
+			dropMultiplier = 1.2;
 			skillSet.put("blackhole chance skill", 0.2);
 			skillSet.put("bomb chance skill",0.2);
 			//color1 = Color.GREEN;
@@ -211,6 +217,7 @@ public class Enemy {
 		}
 		
 		if(type ==4){
+			dropMultiplier = 1.3;
 			//color1 = Color.BLACK;
 			color1 = new Color(0,0,0,128);
 			if(rank == 1){
@@ -239,6 +246,7 @@ public class Enemy {
 			}
 		}
 		if(type ==5){
+			dropMultiplier = 1.5;
 			//color1 = rainbow;
 			skillSet.put("follow player skill", 3.0);
 			color1 = new Color(255,255,0,128);
@@ -269,6 +277,7 @@ public class Enemy {
 		}
 		
 		if(type ==6){
+			dropMultiplier = 1.5;
 			skillSet.put("charge skill", 3.0);
 			color1 = new Color(155,155,255,128);
 			skillSet.put("health bar skill", 1.0);
@@ -287,6 +296,7 @@ public class Enemy {
 				health = 30;
 				maxHealth = 30;
 				money = 7;
+				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
 				speed = 17;
@@ -294,6 +304,7 @@ public class Enemy {
 				health = 40;
 				maxHealth = 40;
 				money = 10;
+				dropMultiplier = 1.9;
 			}
 			
 			if(rank == 4){
@@ -302,10 +313,12 @@ public class Enemy {
 				health = 50;
 				maxHealth = 50;
 				money = 12;
+				dropMultiplier = 2.2;
 			}	
 		}
 		
 		if(type ==7){
+			dropMultiplier = 1.5;
 			skillSet.put("growing skill", 2.47);
 			color1 = new Color(102,222,255,128);
 			skillSet.put("health bar skill", 1.0);
@@ -324,6 +337,7 @@ public class Enemy {
 				health = 40;
 				maxHealth = 40;
 				money = 6;
+				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
 				speed = 4;
@@ -331,6 +345,7 @@ public class Enemy {
 				health = 55;
 				maxHealth = 55;
 				money = 8;
+				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
@@ -339,6 +354,7 @@ public class Enemy {
 				health = 70;
 				maxHealth = 70;
 				money = 9;
+				dropMultiplier = 2.5;
 			}	
 		}
 		
@@ -478,6 +494,7 @@ public class Enemy {
 	
 	public int getMoney() { return money; }
 	
+	public double getDropMultiplier() { return dropMultiplier;}
 	public String getName() { return name; }
 	public double getx(){ return x; }
 	public double gety(){ return y; }
@@ -975,15 +992,15 @@ public class Enemy {
 				}
 			}
 			
-			if(RandomUtils.runChance(3)){
+			if(RandomUtils.runChance(4)){
 				changeDirectionRandomly();
 			}
 			
-			if(RandomUtils.runChance(0.5)){
+			if(RandomUtils.runChance(0.7)){
 				changeSpeedRandomly();
 			}
 			
-			if(RandomUtils.runChance(1.5)){
+			if(RandomUtils.runChance(2.0)){
 				goTowards(player.getx(), player.gety());
 			}
 			
@@ -992,10 +1009,9 @@ public class Enemy {
 				
 				for(int j=0; j<7; j++) {
 					if(RandomUtils.runChance(50)) {
-						GamePanel.powerups.add(new PowerUp(17, 35 + j*tmpInterval,0));
-					}					
-				}					
-				
+						GamePanel.powerups.add(new PowerUp(12, 35 + j*tmpInterval,0));
+					}
+				}
 			}
 		}
 		

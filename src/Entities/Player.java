@@ -253,7 +253,7 @@ public class Player {
 		firing = false;
 		firingTimer = System.nanoTime();
 		firingDelay = 250;
-		maxFiringDelay = 120;
+		maxFiringDelay = 140;
 		
 		firingSide = false;
 		firingSideTimer = System.nanoTime();

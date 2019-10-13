@@ -60,6 +60,10 @@ shelter should show how long left
 
 stamina bar should flash when not enough stamina
 
+
+harder enemies should have higher drop rates
+
+
 --TODO--
 
 Add better backgrounds
@@ -75,8 +79,6 @@ High score system
 scale to bigger screens?
 
 
-
-harder enemies should have higher drop rates
 
 
 
