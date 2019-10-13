@@ -260,6 +260,7 @@ public class PowerUp {
 				GamePanel.player.increasePower(2);
 				break;
 			case 4:
+				GamePanel.sfx.get("speed up enemies").play();
 				GamePanel.slowDownTimer = System.nanoTime();
 				for(int j = 0; j<GamePanel.enemies.size(); j++){
 					GamePanel.enemies.get(j).setSlow(true);

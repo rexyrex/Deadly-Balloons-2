@@ -35,7 +35,7 @@ public class Bomb {
 		this.x = x;
 		this.y = y;
 		this.r = 5;
-		this.maxr = 150;
+		this.maxr = 270;
 		
 		triggerTimer = System.nanoTime();
 		triggerDelay = 1000;
@@ -65,7 +65,7 @@ public class Bomb {
 		triggerTimer = System.nanoTime();
 		triggerDelay = 100;
 		
-		bombLength = 250;
+		bombLength = 300;
 		bombTimer = System.nanoTime();
 		this.isBombing = isBombing;
 		doneBombing = false;

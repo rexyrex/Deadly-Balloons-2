@@ -324,7 +324,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("collect", new AudioPlayer("/sfx/collect.wav"));
 		sfx.put("push", new AudioPlayer("/sfx/push.wav"));
 		sfx.put("dash", new AudioPlayer("/sfx/dash.wav"));
-		sfx.put("invincible", new AudioPlayer("/sfx/invincible.wav"));
+		sfx.put("invincible on", new AudioPlayer("/sfx/invincible.wav"));
+		sfx.put("invincible off", new AudioPlayer("/sfx/invincible_off.wav"));
 		sfx.put("turret", new AudioPlayer("/sfx/turret.wav"));
 		sfx.put("bomb", new AudioPlayer("/sfx/bomb.wav"));
 		sfx.put("explosion", new AudioPlayer("/sfx/explosion.wav"));
@@ -335,8 +336,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("army", new AudioPlayer("/sfx/army.wav"));
 		sfx.put("spaz", new AudioPlayer("/sfx/spaz.wav"));
 		sfx.put("super charge turret", new AudioPlayer("/sfx/super_charge_turret.wav"));
-		sfx.put("friends", new AudioPlayer("/sfx/friends"));
-		sfx.put("torpedo", new AudioPlayer("/sfx/torpedo"));
+		sfx.put("friends", new AudioPlayer("/sfx/friends.wav"));
+		sfx.put("torpedo", new AudioPlayer("/sfx/torpedo.wav"));
+		sfx.put("speed up enemies", new AudioPlayer("/sfx/speed_up_enemies.wav"));
+		sfx.put("skill cd", new AudioPlayer("/sfx/skill_cd.wav"));
 		
 		sfx.put("shop buy", new AudioPlayer("/sfx/buy_shop2.wav"));
 		sfx.put("pause", new AudioPlayer("/sfx/pause.wav"));
@@ -1575,11 +1578,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}	
 		
 		if(keyCode == KeyEvent.VK_R){			
-			if(!player.isInvincible()) {
+			if(player.isInvincible()) {
+				sfx.get("invincible off").play();
 				player.toggleInvincible();
 			} else {
 				if(player.useStamina(200)){
-					sfx.get("invincible").play();
+					sfx.get("invincible on").play();
 					player.toggleInvincible();		
 				}
 			}			
@@ -1682,6 +1686,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public void skillCdWarn() {
+		sfx.get("skill cd").play();
 		skillCdWarnStartTime = System.nanoTime();
 		isSkillCdWarn = true;
 		texts.add(new Text(player.getx(), player.gety(),2000,"Cooldown!"));

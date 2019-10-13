@@ -40,6 +40,18 @@ Levels should have different backgrounds
 
 charging enemy when pushed behaviour
 
+shop hotkeys
+
+speed up enemies powerup sound effect add
+
+torpedo start sound effect not working
+
+increase bomb radius
+
+increase rage duration
+
+add skill cd sound
+
 --TODO--
 
 Add better backgrounds
@@ -59,10 +71,8 @@ stamina bar should flash when not enough stamina
 harder enemies should have higher drop rates
 
 
-shop hotkeys
-speed up enemies powerup sound effect add
-torpedo start sound effect not working
-iincrease bomb radius
+
+
+
 fix sound stop not working (replay sound)
-increase rage duration
-add skill cd sound
+

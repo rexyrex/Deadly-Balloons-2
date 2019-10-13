@@ -229,7 +229,7 @@ public class Player {
 		isRaged = false;
 		isInRageField = false;
 		rageStartTime = 0;
-		rageLength = 5000;
+		rageLength = 7000;
 		rageElapsed = 0;
 		dmgMultiplier = 1.0;
 		
@@ -300,7 +300,7 @@ public class Player {
 		
 		maxStamina = 1200;
 		currentStamina = 1200;
-		staminaRegen = 7;
+		staminaRegen = 7.2;
 		staminaTimer = System.nanoTime();
 		staminaGainDelay = 50;
 		
