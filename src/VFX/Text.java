@@ -27,6 +27,7 @@ public class Text {
 		fontSize = 15;
 	}
 	
+	//Low stamina
 	public Text(double x, double y, long time, String s, boolean other, Color c){
 		this.x = x;
 		this.y = y;
@@ -35,8 +36,8 @@ public class Text {
 		start = System.nanoTime();
 		this.c = c;
 		this.other = other;
-		f = Font.PLAIN;
-		fontSize = 15;
+		f = Font.BOLD;
+		fontSize = 25;
 	}
 	
 	public Text(double x, double y, long time, String s, boolean other, Color c, int f){

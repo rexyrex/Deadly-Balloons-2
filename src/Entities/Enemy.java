@@ -1147,8 +1147,8 @@ public class Enemy {
 			if(stunProgress > 1) {
 				stunProgress = 1;
 			}			
-			g.drawRect((int)(x-stunBarLength/2), (int)(y+stunBarLength/2), stunBarLength, stunBarLength/5);
-			g.fillRect((int)(x-stunBarLength/2), (int)(y+stunBarLength/2), (int)(stunBarLength*stunProgress), stunBarLength/5);
+			g.drawRect((int)(x-stunBarLength/2), (int)(y+stunBarLength/4), stunBarLength, stunBarLength/10);
+			g.fillRect((int)(x-stunBarLength/2), (int)(y+stunBarLength/4), (int)(stunBarLength*stunProgress), stunBarLength/10);
 		}
 		
 		if(targeted){

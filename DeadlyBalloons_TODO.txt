@@ -52,6 +52,14 @@ increase rage duration
 
 add skill cd sound
 
+fix sound stop not working (replay sound) [Java Limitation]
+
+stun bar overlaps with heal bar
+
+shelter should show how long left
+
+stamina bar should flash when not enough stamina
+
 --TODO--
 
 Add better backgrounds
@@ -66,7 +74,7 @@ High score system
 
 scale to bigger screens?
 
-stamina bar should flash when not enough stamina
+
 
 harder enemies should have higher drop rates
 
@@ -74,5 +82,6 @@ harder enemies should have higher drop rates
 
 
 
-fix sound stop not working (replay sound)
+
+
 

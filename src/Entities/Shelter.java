@@ -92,6 +92,17 @@ public class Shelter {
 		g.drawOval((int)(x-r), (int)(y-r), (int)(2*r), (int)(2*r));
 		g.setStroke(new BasicStroke(1));
 		
+		
+		long elapsed = (System.nanoTime() - timer)/1000000;
+		int lifeBarLength = (int) r;
+		g.setColor(new Color(220,243,255,200));
+		double stunProgress = 1 - (double)elapsed/(double)lifeTime;
+		if(stunProgress < 0) {
+			stunProgress = 0;
+		}			
+		g.drawRect((int)(x-lifeBarLength/2), (int)(y+lifeBarLength/4), lifeBarLength, lifeBarLength/5);
+		g.fillRect((int)(x-lifeBarLength/2), (int)(y+lifeBarLength/4), (int)(lifeBarLength*stunProgress), lifeBarLength/5);
+		
 		g.setColor(circleC);
 		g.drawOval((int)(x-circleRadius), (int)(y-circleRadius), (int)(2*circleRadius), (int)(2*circleRadius));
 		

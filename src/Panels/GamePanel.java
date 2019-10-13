@@ -168,6 +168,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private long skillCdWarnLength;
 	private boolean isSkillCdWarn;
 	
+	private static long staminaLowStartTime;
+	private long staminaLowLength;
+	private static boolean isStaminaLow;
+	
 	private int pauseBackgroundAlpha;
 	public boolean pauseHideKeyboard;
 	
@@ -340,6 +344,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("torpedo", new AudioPlayer("/sfx/torpedo.wav"));
 		sfx.put("speed up enemies", new AudioPlayer("/sfx/speed_up_enemies.wav"));
 		sfx.put("skill cd", new AudioPlayer("/sfx/skill_cd.wav"));
+		sfx.put("stamina low", new AudioPlayer("/sfx/stamina_low.wav"));
 		
 		sfx.put("shop buy", new AudioPlayer("/sfx/buy_shop2.wav"));
 		sfx.put("pause", new AudioPlayer("/sfx/pause.wav"));
@@ -463,6 +468,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		skillCdWarnLength = 370;
 		skillCdWarnStartTime = 0;
 		isSkillCdWarn = false;
+		
+		staminaLowLength = 370;
+		staminaLowStartTime = 0;
+		isStaminaLow = false;
 		
 		pauseHideKeyboard = true;
 		pauseBackgroundAlpha = 120;
@@ -826,12 +835,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw player speed
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Move Speed : " + player.getSpeed()+"/8", WIDTH-135, 50);
+		g.drawString("Move Speed : " + player.getSpeed()+"/7", WIDTH-135, 50);
 		
 		//draw player speed
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Att Speed : " + (int)player.getAttSpeed()+"/50", WIDTH-135, 70);
+		g.setFont(new Font("Comic Sans MS",Font.BOLD,12));
+		g.drawString("Att Speed : " + (int)player.getAttSpeed()+"/100", WIDTH-135, 70);
 		
 		//draw player bombs
 		g.setColor(new Color(255,20,147));
@@ -916,8 +925,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//draw stamina meter
+		long staminaLowElapsed = (System.nanoTime() - staminaLowStartTime)/1000000; 
+		
+		if(staminaLowElapsed > staminaLowLength && isStaminaLow) {
+			isStaminaLow = false;
+		}	
+		
+		int staminaBarSizeUp = 0;
+		if(isStaminaLow) {
+			staminaBarSizeUp = (int) (100 - 100 * staminaLowElapsed / staminaLowLength);
+		}
+		
+		if(staminaBarSizeUp < 0) {
+			staminaBarSizeUp = 0;
+		}
+		
+		
 		g.setColor(new Color(0,0,0,222));
-		g.drawRect(WIDTH/4, HEIGHT-60, WIDTH/2, 8);
+		g.drawRect(WIDTH/4- staminaBarSizeUp, HEIGHT-60- staminaBarSizeUp/6, WIDTH/2+ staminaBarSizeUp*2, HEIGHT/100+ staminaBarSizeUp/3);
 		double ratio = player.getCurrentStamina()/player.getMaxStamina() * 100;
 		if(ratio < 30){
 			g.setColor(new Color(255,0,0,222));
@@ -928,10 +953,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		} else {
 			g.setColor(new Color(0,255,0,222));
 		}
-		g.fillRect(WIDTH/4, HEIGHT-60, (int)((WIDTH/2)*(player.getCurrentStamina()/player.getMaxStamina())), 8);
+
+		
+		g.fillRect(WIDTH/4 - staminaBarSizeUp, HEIGHT-60- staminaBarSizeUp/6, (int)((WIDTH/2)*(player.getCurrentStamina()/player.getMaxStamina())) + staminaBarSizeUp*2, HEIGHT/100 + staminaBarSizeUp/3);
 		//g.setColor(new Color(34,139,34,255));
-		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-		g.drawString("Stamina : " + (int)player.getCurrentStamina() + " / " + (int)player.getMaxStamina(), 200, 660);
+		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14 + staminaBarSizeUp / 2));
+		g.drawString("Stamina : " + (int)player.getCurrentStamina() + " / " + (int)(player.getMaxStamina() ), WIDTH/4- staminaBarSizeUp, HEIGHT-63- staminaBarSizeUp/6);
 	}
 
 	//GAME UPDATE
@@ -1685,12 +1712,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 	}
 	
+	public static void alertStaminaLow() {
+		sfx.get("stamina low").play();
+		staminaLowStartTime = System.nanoTime();
+		isStaminaLow = true;
+	}
+	
 	public void skillCdWarn() {
 		sfx.get("skill cd").play();
 		skillCdWarnStartTime = System.nanoTime();
 		isSkillCdWarn = true;
 		texts.add(new Text(player.getx(), player.gety(),2000,"Cooldown!"));
-		
 	}
 	
 	public void pauseGame() {

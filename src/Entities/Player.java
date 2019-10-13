@@ -1,6 +1,7 @@
 package Entities;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Random;
@@ -71,6 +72,7 @@ public class Player {
 	private boolean firing;
 	private long firingTimer;
 	private long firingDelay;
+	private long maxFiringDelay;
 	
 	//following missile
 	private boolean firingSide;
@@ -250,7 +252,8 @@ public class Player {
 		
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 240;
+		firingDelay = 250;
+		maxFiringDelay = 120;
 		
 		firingSide = false;
 		firingSideTimer = System.nanoTime();
@@ -544,7 +547,7 @@ public class Player {
 	}
 	
 	public double getAttSpeed(){
-		return (300-firingDelay)/4;
+		return ((double)maxFiringDelay / firingDelay) * 100;
 	}
 	
 	public boolean isInvincible() { return invincible; }
@@ -628,7 +631,7 @@ public class Player {
 	
 	
 	
-	public void incFireRate(){ firingDelay -= 27; if(firingDelay<100){firingDelay=100;}}
+	public void incFireRate(){ firingDelay -= 15; if(firingDelay<maxFiringDelay){firingDelay=maxFiringDelay;}}
 	public long getFiringDelay() { return firingDelay; }
 	
 	public void incBombs(){bombs++;}
@@ -696,7 +699,7 @@ public class Player {
 	
 	public void toggleAddOn() { if(addOnEnable){addOnEnable=false;}else{addOnEnable=true;} }
 	
-	public void incSpeed(){ speed++; if(speed>8) speed=8;}
+	public void incSpeed(){ speed++; if(speed>7) speed=7;}
 	public int getSpeed(){return speed;}
 	
 	public void setBombing(boolean b){bombing = b; if(b==true){bombingTimer=System.nanoTime();}}
@@ -707,6 +710,7 @@ public class Player {
 
 	public boolean useStamina(double s) {
 		if (s > currentStamina) {
+			GamePanel.alertStaminaLow();
 			GamePanel.texts.add(new Text(x, y, 200, ""+s+" stamina needed!",true,new Color(255,0,0,255)));
 			return false;
 		} else {
@@ -1204,6 +1208,7 @@ public class Player {
 		}
 		
 		if(recovering){
+			g.setFont(new Font("Comic Sans MS",Font.BOLD,25));
 			g.drawRect((int)(x-2*r), (int)(y+2*r), (int)(4*r), (int)(r));
 			g.fillRect((int)(x-2*r), (int)(y+2*r), (int)(4*r*((double)rElapsed/2000)), (int)(r));
 			String s = "recovering";
