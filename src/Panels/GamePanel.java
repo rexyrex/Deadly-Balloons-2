@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static int HEIGHT = 700;
 	
 	private AudioPlayer bgmusic;
-	private HashMap<String, AudioPlayer> sfx;
+	public static HashMap<String, AudioPlayer> sfx;
 	
 	private Thread thread;
 	private boolean running;
@@ -319,6 +319,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("enemy die", new AudioPlayer("/sfx/enemydie.wav"));
 		sfx.put("place black hole", new AudioPlayer("/sfx/place_black_hole.wav"));
 		sfx.put("collect powerup", new AudioPlayer("/sfx/powerup_collect.wav"));
+		sfx.put("freeze", new AudioPlayer("/sfx/freeze.wav"));
+		sfx.put("rage", new AudioPlayer("/sfx/rage.wav"));
+		sfx.put("collect", new AudioPlayer("/sfx/collect.wav"));
+		sfx.put("push", new AudioPlayer("/sfx/push.wav"));
+		sfx.put("dash", new AudioPlayer("/sfx/dash.wav"));
+		sfx.put("invincible", new AudioPlayer("/sfx/invincible.wav"));
+		sfx.put("turret", new AudioPlayer("/sfx/turret.wav"));
+		sfx.put("bomb", new AudioPlayer("/sfx/bomb.wav"));
+		sfx.put("explosion", new AudioPlayer("/sfx/explosion.wav"));
+		sfx.put("tp turret", new AudioPlayer("/sfx/tp_turret.wav"));
+		sfx.put("shelter", new AudioPlayer("/sfx/shelter.wav"));
+		sfx.put("addon", new AudioPlayer("/sfx/addon.wav"));
+		sfx.put("lightning", new AudioPlayer("/sfx/lightning.wav"));
+		sfx.put("army", new AudioPlayer("/sfx/army.wav"));
+		sfx.put("spaz", new AudioPlayer("/sfx/spaz.wav"));
+		sfx.put("super charge turret", new AudioPlayer("/sfx/super_charge_turret.wav"));
+		sfx.put("friends", new AudioPlayer("/sfx/friends"));
+		sfx.put("torpedo", new AudioPlayer("/sfx/torpedo"));
+		
+		sfx.put("shop buy", new AudioPlayer("/sfx/buy_shop2.wav"));
+		sfx.put("pause", new AudioPlayer("/sfx/pause.wav"));
+		sfx.put("menu select", new AudioPlayer("/sfx/menu_select.wav"));
+		sfx.put("menu back", new AudioPlayer("/sfx/menu_back.wav"));
+		
 		
 		long startTime;
 		long waitTime;
@@ -433,11 +457,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveNumber = 0;
 		victorious = false;
 		
-		skillCdWarnLength = 500;
+		skillCdWarnLength = 370;
 		skillCdWarnStartTime = 0;
 		isSkillCdWarn = false;
 		
-		pauseHideKeyboard = false;
+		pauseHideKeyboard = true;
 		pauseBackgroundAlpha = 120;
 		
 		if(gm == GameMode.TUTORIAL) {
@@ -844,8 +868,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			if(isSkillCdWarn) {
 				int skillCdWarnAlpha = (int) (255 - 255 * skillCdWarnElapsed / skillCdWarnLength);
 				if(skillCdWarnAlpha < 100) {skillCdWarnAlpha = 100;}
-				skillsCdRectSizeUp = (int) (7 - 7 * skillCdWarnElapsed / skillCdWarnLength);
+				skillsCdRectSizeUp = (int) (157 - 157 * skillCdWarnElapsed / skillCdWarnLength);
 				if(skillsCdRectSizeUp < 0) {skillsCdRectSizeUp = 0;}
+				
+				//black out screen so cd rect can be seen better
+				g.setColor(new Color(0,0,0,skillCdWarnAlpha));
+				g.fillRect(0,0,WIDTH,HEIGHT);
+				
 				g.setColor(new Color(255,0,0,skillCdWarnAlpha));
 			} else {
 				g.setColor(new Color(255,0,0,100));
@@ -885,7 +914,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//draw stamina meter
 		g.setColor(new Color(0,0,0,222));
-		g.drawRect(200, 640, 300, 8);
+		g.drawRect(WIDTH/4, HEIGHT-60, WIDTH/2, 8);
 		double ratio = player.getCurrentStamina()/player.getMaxStamina() * 100;
 		if(ratio < 30){
 			g.setColor(new Color(255,0,0,222));
@@ -894,10 +923,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		} else if(ratio < 70){
 			g.setColor(new Color(255,128,0,222));
 		} else {
-			g.setColor(new Color(34,139,34,222));
+			g.setColor(new Color(0,255,0,222));
 		}
-		g.fillRect(200, 640, (int)(300*(player.getCurrentStamina()/player.getMaxStamina())), 8);
-		g.setColor(new Color(34,139,34,255));
+		g.fillRect(WIDTH/4, HEIGHT-60, (int)((WIDTH/2)*(player.getCurrentStamina()/player.getMaxStamina())), 8);
+		//g.setColor(new Color(34,139,34,255));
 		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		g.drawString("Stamina : " + (int)player.getCurrentStamina() + " / " + (int)player.getMaxStamina(), 200, 660);
 	}
@@ -1107,7 +1136,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				//p.showCollectTextAtPowerUp();
 				//explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
 				//powerups.remove(i);		
-				p.goTowards(player.getx(), player.gety(), 7.0);
+				p.goTowards(player.getx(), player.gety(), 8.0);
 			} else {
 				p.recoverMovement();
 			}
@@ -1480,16 +1509,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			player.setFiring(true);
 			//sfx.get("laser").play();
 		}
-		if(keyCode == KeyEvent.VK_X){		
-				player.placeBomb();			
+		if(keyCode == KeyEvent.VK_X){
+			sfx.get("bomb").play();
+			player.placeBomb();			
 		}	
 		
 		if(keyCode == KeyEvent.VK_A){
+			sfx.get("addon").play();
 			player.toggleAddOn();
 		}
 		if(!keysPressed.contains(KeyEvent.VK_CONTROL) && keyCode == KeyEvent.VK_T){
 			if(turrets.size()<5){
 				if(player.useStamina(400)){
+					sfx.get("turret").play();
 					player.placeTurret();
 				}
 			} else {
@@ -1500,6 +1532,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		if(keyCode == KeyEvent.VK_S){
 			if(player.getShelterCount()>0){
+				sfx.get("shelter").play();
 				player.placeShelter();
 			}
 		}
@@ -1508,6 +1541,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_D){
 			if(!player.isSuperSpeed()) {
 				if(player.useStamina(200)) {
+					sfx.get("dash").play();
 					player.startSuperSpeed();
 				}	
 			}
@@ -1516,6 +1550,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		if(keyCode == KeyEvent.VK_Q){
 			if(player.useStamina(500)){
+				sfx.get("push").play();
 				player.startPushing();
 			}
 		}
@@ -1526,6 +1561,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				return;
 			}
 			if(player.useStamina(800)){
+				sfx.get("freeze").play();
 				player.useSkillWithCd("W - FreezeAOE");
 				player.freezeAOE(7000);
 			}
@@ -1543,6 +1579,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				player.toggleInvincible();
 			} else {
 				if(player.useStamina(200)){
+					sfx.get("invincible").play();
 					player.toggleInvincible();		
 				}
 			}			
@@ -1553,39 +1590,61 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				skillCdWarn();
 				return;
 			}
-			if(player.useStamina(700)) {
+			if(player.useStamina(700)) {				
+				sfx.get("collect").play();
 				player.useSkillWithCd("F - Collect");
 				player.startCollecting();
 			}			
 		}		
 		
 		if(keyCode == KeyEvent.VK_1){
+			sfx.get("tp turret").play();
 			player.tpToTurret(0);
 			removeTurret(0);
 		}
 		if(keyCode == KeyEvent.VK_2){
+			sfx.get("tp turret").play();
 			player.tpToTurret(1);
 			removeTurret(1);
 		}
 		if(keyCode == KeyEvent.VK_3){
+			sfx.get("tp turret").play();
 			player.tpToTurret(2);
 			removeTurret(2);
 		}
 		if(keyCode == KeyEvent.VK_4){
-				player.tpToTurret(3);
-				removeTurret(3);
+			sfx.get("tp turret").play();
+			player.tpToTurret(3);
+			removeTurret(3);
 		}
 		if(keyCode == KeyEvent.VK_5){
+			sfx.get("tp turret").play();
 			player.tpToTurret(4);
 			removeTurret(4);
 		}		
 		//Pause
 		if(keyCode == KeyEvent.VK_NUMPAD0 || keyCode == KeyEvent.VK_P){		
 			if(gameState == GameState.PLAY) {
+				sfx.get("pause").play();
 				pauseGame();
 			} else if(gameState == GameState.PAUSED){
+				sfx.get("pause").play();
 				resumeGame();
 			}	
+		}
+		
+		//Shop Related
+		if(keyCode == KeyEvent.VK_F1) {
+			sp.buyLifeBtn.doClick();
+		}
+		if(keyCode == KeyEvent.VK_F2) {
+			sp.buyPowerBtn.doClick();
+		}
+		if(keyCode == KeyEvent.VK_F3) {
+			sp.buyAbilityBtn.doClick();
+		}
+		if(keyCode == KeyEvent.VK_F4) {
+			sp.dropRateBtn.doClick();
 		}
 		
 	}

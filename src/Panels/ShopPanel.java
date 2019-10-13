@@ -31,6 +31,11 @@ public class ShopPanel extends JPanel{
 	long msgTimerDiff;
 	long msgDelay;
 	long msgStartTimer;
+	
+    final JButton buyLifeBtn = new JButton("<html>F1 : Extra Life 0 <br />( Cost : " + 120 + " )</html>");        
+    final JButton buyPowerBtn = new JButton("<html>F2 : Power Up 0 <br />( Cost : " + 30 + " )</html>");
+    final JButton buyAbilityBtn = new JButton("<html>F3 : Ability Up 0 <br />( Cost : " + 50 + " )</html>");
+    final JButton dropRateBtn = new JButton("<html>F4 : Drop Rate 0 <br />( Cost : " + 200 + " )</html>");
 
 	public ShopPanel(){
 		super();
@@ -63,15 +68,12 @@ public class ShopPanel extends JPanel{
 		itemBaseName = new HashMap();
 		maxPurchaseMap = new HashMap();
 		
-        final JButton buyLifeBtn = new JButton("<html>Extra Life 0 <br />( Cost : " + 120 + " )</html>");        
-        final JButton buyPowerBtn = new JButton("<html>Power Up 0 <br />( Cost : " + 30 + " )</html>");
-        final JButton buyAbilityBtn = new JButton("<html>Ability Up 0 <br />( Cost : " + 50 + " )</html>");
-        final JButton dropRateBtn = new JButton("<html>Drop Rate 0 <br />( Cost : " + 200 + " )</html>");
+
         
-        initMaps(buyLifeBtn, "Extra Life", 120, 1000);
-        initMaps(buyPowerBtn, "Power Up", 30, 1000);
-        initMaps(buyAbilityBtn, "Ability Up", 50, 1000);
-        initMaps(dropRateBtn, "Drop Rate", 200, 10);
+        initMaps(buyLifeBtn, "F1 : Extra Life", 120, 1000);
+        initMaps(buyPowerBtn, "F2 : Power Up", 30, 1000);
+        initMaps(buyAbilityBtn, "F3 : Ability Up", 50, 1000);
+        initMaps(dropRateBtn, "F4 : Drop Rate", 200, 10);
         
         
         dropRateBtn.addActionListener(new ActionListener() {
@@ -125,18 +127,23 @@ public class ShopPanel extends JPanel{
         buyLifeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int cost = calcCost(buyLifeBtn);
-				if(checkMaxBought(buyLifeBtn)) {
-					msgOnGui("Max!",false);
-				} else if(GamePanel.player.attemptPurchase(cost)) {
-					GamePanel.player.gainLife();
-					purchaseProcess(buyLifeBtn);
-				} else {
-					msgOnGui("Not enough Money!",false);	
-				}						
+				buyLife();
 			}			
 		});
 	}
+	
+	public void buyLife() {
+		int cost = calcCost(buyLifeBtn);
+		if(checkMaxBought(buyLifeBtn)) {
+			msgOnGui("Max!",false);
+		} else if(GamePanel.player.attemptPurchase(cost)) {
+			GamePanel.player.gainLife();
+			purchaseProcess(buyLifeBtn);
+		} else {
+			msgOnGui("Not enough Money!",false);	
+		}	
+	}
+	
 	
 	public void initMaps(JButton btn, String baseName, int cost, int maxPurchaseCount) {
 		itemBaseName.put(btn, baseName);
@@ -166,6 +173,7 @@ public class ShopPanel extends JPanel{
 	}
 	
 	public void purchaseProcess(JButton btn) {
+		GamePanel.sfx.get("shop buy").play();
 		msgOnGui(itemBaseName.get(btn) + " Purchased!",true);
 		itemPurchaseMap.put(btn, itemPurchaseMap.get(btn)+1);
 		

@@ -7,7 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import Audio.AudioPlayer;
 import Panels.GamePanel;
 import Utils.RestUtils;
 import VFX.Explosion;
@@ -48,6 +50,7 @@ public class Menu {
 		explosions = new ArrayList<Explosion>();
 		loadedHighScores = false;
 		this.gp = gp;
+
 	}
 	
 	public void clickAnim(Graphics g, int x, int y) {

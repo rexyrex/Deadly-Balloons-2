@@ -748,11 +748,7 @@ public class Enemy {
 	}
 	
 	public void pushAway(double px, double py){
-		if(skillSet.containsKey("charge skill")) {
-			//GamePanel.texts.add(new Text(x, y,2000,"I Cant be Pushed :)", true, Color.RED, Font.BOLD));
-			chargingEnemyInit();
-			return;
-		}
+
 		
 		double xDiff = px-x;
 		double yDiff = py-y;
@@ -767,6 +763,13 @@ public class Enemy {
 			
 			dx = -Math.cos(rad) * speed;
 			dy = -Math.sin(rad) * speed;
+			
+			if(skillSet.containsKey("charge skill")) {
+				//GamePanel.texts.add(new Text(x, y,2000,"I Cant be Pushed :)", true, Color.RED, Font.BOLD));
+				x += dx;
+				y += dy;
+				chargingEnemyInit();
+			}
 	}
 	
 	public void pullTowards(double px, double py){

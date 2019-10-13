@@ -38,6 +38,8 @@ e.g. Army should only spawn after wave 10
 "Collect" Skill cooldown
 Levels should have different backgrounds
 
+charging enemy when pushed behaviour
+
 --TODO--
 
 Add better backgrounds
@@ -54,4 +56,13 @@ scale to bigger screens?
 
 stamina bar should flash when not enough stamina
 
-charging enemy when pushed behaviour
+harder enemies should have higher drop rates
+
+
+shop hotkeys
+speed up enemies powerup sound effect add
+torpedo start sound effect not working
+iincrease bomb radius
+fix sound stop not working (replay sound)
+increase rage duration
+add skill cd sound

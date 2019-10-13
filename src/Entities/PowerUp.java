@@ -290,12 +290,14 @@ public class PowerUp {
 				GamePanel.player.loseLife();
 				break;
 			case 101:
+				GamePanel.sfx.get("spaz").play();
 				GamePanel.player.startSpazing();
 				break;
 			case 102:
 				GamePanel.player.startFiringSide();
 				break;
 			case 103:
+				GamePanel.sfx.get("army").play();
 				int tmpInterval = GamePanel.HEIGHT / 6;
 				
 				for(int j=0; j<6; j++) {
@@ -303,19 +305,23 @@ public class PowerUp {
 				}
 				break;
 			case 104:
+				GamePanel.sfx.get("super charge turret").play();
 				for(int j=0; j<GamePanel.turrets.size(); j++) {
 					GamePanel.turrets.get(j).setSuperCharged(true);
 				}
 				break;
 			case 105:
+				GamePanel.sfx.get("friends").play();
 				for(int j=0; j<3; j++) {
 					GamePanel.friends.add(new Friend(GamePanel.player.getx(), GamePanel.player.gety(), 0, 0, 2));
 				}
 				break;
 			case 106:
+				GamePanel.sfx.get("lightning").play();
 				GamePanel.lightnings.add(new Lightning(GamePanel.enemies, 1, GamePanel.player.getLightningStunLength()));
 				break;
 			case 107:
+				GamePanel.sfx.get("torpedo").play();
 				double tDestX;
 				double tDestY;
 				for(int t=0; t< 3; t++) {
@@ -351,6 +357,7 @@ public class PowerUp {
 				}
 				break;	
 			case 108:
+				GamePanel.sfx.get("rage").play();
 				GamePanel.player.startRage();
 				break;
 			default:

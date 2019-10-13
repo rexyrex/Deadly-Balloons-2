@@ -132,7 +132,7 @@ public class Player {
 	public HashMap<String, Color> skillColorMap;
 	
 	public String[] skills = {"F - Collect", "W - FreezeAOE"};
-	public long[] skillCds = {20000, 20000};	
+	public long[] skillCds = {15000, 20000};	
 	public Color[] skillColors = {
 		new Color(218,165,32),
 		new Color(175,238,238)
@@ -207,6 +207,15 @@ public class Player {
 		y = GamePanel.HEIGHT/2;
 		r = 8;
 		
+		//turret update
+		for(int i=0; i<tsAvailability.length; i++) {
+			tsAvailability[i] = true;
+		}
+		
+		for(int i=0; i<ts.length; i++) {
+			ts[i] = null;
+		}
+		
 		dropRateMultiplier = 1.0;
 		spawnTimeMultiplier = 1.0;
 		bulletDmg = 1.0;
@@ -241,7 +250,7 @@ public class Player {
 		
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 100;
+		firingDelay = 240;
 		
 		firingSide = false;
 		firingSideTimer = System.nanoTime();
@@ -261,8 +270,8 @@ public class Player {
 		
 		isCollectingPu = false;
 		puCollectTimer = 0;
-		puCollectLength = 2000;
-		puCollectRadius = 150;
+		puCollectLength = 2500;
+		puCollectRadius = 200;
 		
 		isSuperSpeed = false;
 		superSpeedStartTime = 0;

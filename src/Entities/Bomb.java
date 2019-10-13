@@ -2,6 +2,8 @@ package Entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import Panels.GamePanel;
+
 
 public class Bomb {
 	private double x;
@@ -54,6 +56,7 @@ public class Bomb {
 	
 	//instant bombing
 	public Bomb(double x, double y, boolean hostile, boolean isBombing){
+		GamePanel.sfx.get("explosion").play();
 		this.x = x;
 		this.y = y;
 		this.r = 5;
