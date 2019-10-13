@@ -176,8 +176,8 @@ public class Player {
 		color2 = Color.RED;
 		
 		sfx = new HashMap<String, AudioPlayer>();
-		sfx.put("laser", new AudioPlayer("/sfx/shoot.mp3"));
-		sfx.put("side", new AudioPlayer("/sfx/side_missile.mp3"));
+		sfx.put("laser", new AudioPlayer("/sfx/shoot.wav"));
+		sfx.put("side", new AudioPlayer("/sfx/side_missile.wav"));
 		
 		skillCdMap = new HashMap<String, Long>();
 		skillLastUsedMap = new HashMap<String, Long>();
@@ -241,7 +241,7 @@ public class Player {
 		
 		firing = false;
 		firingTimer = System.nanoTime();
-		firingDelay = 220;
+		firingDelay = 100;
 		
 		firingSide = false;
 		firingSideTimer = System.nanoTime();
@@ -970,6 +970,7 @@ public class Player {
 		if(firing){
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 			if(elapsed > firingDelay){
+				//sfx.get("laser").stop();
 				sfx.get("laser").play();
 				firingTimer = System.nanoTime();
 				

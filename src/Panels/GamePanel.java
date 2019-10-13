@@ -314,11 +314,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 		sfx = new HashMap<String, AudioPlayer>();
 		
-		sfx.put("hit", new AudioPlayer("/sfx/enemy_hit.mp3"));
-		sfx.put("player die", new AudioPlayer("/sfx/die.mp3"));
-		sfx.put("enemy die", new AudioPlayer("/sfx/enemydie.mp3"));
-		sfx.put("place black hole", new AudioPlayer("/sfx/place_black_hole.mp3"));
-		sfx.put("collect powerup", new AudioPlayer("/sfx/powerup_collect.mp3"));
+		sfx.put("hit", new AudioPlayer("/sfx/enemy_hit.wav"));
+		sfx.put("player die", new AudioPlayer("/sfx/die.wav"));
+		sfx.put("enemy die", new AudioPlayer("/sfx/enemydie.wav"));
+		sfx.put("place black hole", new AudioPlayer("/sfx/place_black_hole.wav"));
+		sfx.put("collect powerup", new AudioPlayer("/sfx/powerup_collect.wav"));
 		
 		long startTime;
 		long waitTime;
