@@ -75,9 +75,9 @@ public class PowerUp {
 				collectText = "Power +2";
 				break;
 			case 4:
-				color1 = Color.orange;
-				r = 22;
-				name="SPEED UP ENEMIES";
+				color1 = Color.white;
+				r = 4;
+				name="Slow";
 				collectText = "Speed Up!";
 				break;
 			case 5:
@@ -260,7 +260,7 @@ public class PowerUp {
 				GamePanel.player.increasePower(2);
 				break;
 			case 4:
-				GamePanel.sfx.get("speed up enemies").play();
+				GamePanel.sfx.get("slow enemies").play();
 				GamePanel.slowDownTimer = System.nanoTime();
 				for(int j = 0; j<GamePanel.enemies.size(); j++){
 					GamePanel.enemies.get(j).setSlow(true);

@@ -273,7 +273,7 @@ public class Player {
 		
 		isCollectingPu = false;
 		puCollectTimer = 0;
-		puCollectLength = 2500;
+		puCollectLength = 3000;
 		puCollectRadius = 200;
 		
 		isSuperSpeed = false;
@@ -303,7 +303,7 @@ public class Player {
 		
 		maxStamina = 1200;
 		currentStamina = 1200;
-		staminaRegen = 7.2;
+		staminaRegen = 7.7;
 		staminaTimer = System.nanoTime();
 		staminaGainDelay = 50;
 		
@@ -504,15 +504,15 @@ public class Player {
 	public void upgradeAbilities() {
 		//randomly upgrades abilities
 		
-		sideMissileDmg += Math.random()/18 + 0.02;
-		turretDmg += Math.random()/18 + 0.02;
-		bombDmg += Math.random()/18 + 0.02;
-		addonDmg += Math.random()/18 + 0.02;
-		spazLength += Math.random() * 50 + 30;
-		firingSideLength += Math.random() * 50 + 30;
-		friendDmg += Math.random()/18 + 0.02;
-		lightningDmg += Math.random()/6;
-		lightningStunLength += Math.random() * 100 + 40;
+		sideMissileDmg += Math.random()/10 + 0.05;
+		turretDmg += Math.random()/10 + 0.05;
+		bombDmg += Math.random()/10 + 0.05;
+		addonDmg += Math.random()/15 + 0.03;
+		spazLength += Math.random() * 30 + 70;
+		firingSideLength += Math.random() * 30 + 70;
+		friendDmg += Math.random()/10 + 0.05;
+		lightningDmg += Math.random()/5;
+		lightningStunLength += Math.random() * 50 + 70;
 	}
 	
 	public boolean attemptPurchase(int cost) {

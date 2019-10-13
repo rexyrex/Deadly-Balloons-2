@@ -40,7 +40,7 @@ public class Bomb {
 		triggerTimer = System.nanoTime();
 		triggerDelay = 1000;
 		
-		bombLength = 1200;
+		bombLength = 700;
 		bombTimer = System.nanoTime();
 		isBombing = false;
 		doneBombing = false;

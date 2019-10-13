@@ -113,11 +113,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			0.17, // 1. extra life
 			0.35, // 2. power +1
 			0.7, // 3. power +2
-			1.5, // 4. faster enemies
+			0.2, // 4. slow enemies
 			0.15, // 5. inc speed
 			0.25, // 6. bomb
 			0.14, // 7. firerate
-			0.9, // 8. addon
+			0.09, // 8. addon
 			0.5, // 9. stamina
 			0.12, // 10. max stamina
 			0.05, // 11. shelter
@@ -342,7 +342,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		sfx.put("super charge turret", new AudioPlayer("/sfx/super_charge_turret.wav"));
 		sfx.put("friends", new AudioPlayer("/sfx/friends.wav"));
 		sfx.put("torpedo", new AudioPlayer("/sfx/torpedo.wav"));
-		sfx.put("speed up enemies", new AudioPlayer("/sfx/speed_up_enemies.wav"));
+		sfx.put("slow enemies", new AudioPlayer("/sfx/speed_up_enemies.wav"));
 		sfx.put("skill cd", new AudioPlayer("/sfx/skill_cd.wav"));
 		sfx.put("stamina low", new AudioPlayer("/sfx/stamina_low.wav"));
 		
@@ -699,7 +699,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//draw slowdown screen
 		if(slowDownTimer !=0){
-			g.setColor(new Color(255,0,0,25));
+			g.setColor(new Color(255,255,255,25));
 			g.fillRect(0, 0, WIDTH, HEIGHT);
 		}
 		
@@ -1166,7 +1166,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				//p.showCollectTextAtPowerUp();
 				//explosions.add(new Explosion(p.getx(), p.gety(),p.getr(), p.getr()+30));
 				//powerups.remove(i);		
-				p.goTowards(player.getx(), player.gety(), 8.0);
+				p.goTowards(player.getx(), player.gety(), 8.27);
 			} else {
 				p.recoverMovement();
 			}
