@@ -1,6 +1,8 @@
 package Panels;
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 import javax.swing.JFrame;
 public class Game {
@@ -30,6 +32,25 @@ public class Game {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		
+
+		File userFile = new File("./userFile.txt");
+		System.out.println(userFile.exists());
+		
+		try (PrintWriter out = new PrintWriter("./userFile.txt")) {
+		    out.println("herro");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		System.out.println("HS: " + HighScoreUtils.getHighscores("DefaultLevels", "MrYang"));
+//		try {
+//			//HighScoreUtils.addHighScore("DefaultLevels", "MrYang", "12m 5s","n0");
+//			HighScoreUtils.getTopFive("DefaultLevels", "MrYang");
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 }

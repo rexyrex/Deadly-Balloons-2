@@ -150,7 +150,10 @@ public class Menu {
 			g2d.draw(backFromHighScoresBtn);
 			
 			if(!loadedHighScores) {
-				RestUtils.get("https://deadly-balloons-2.firebaseio.com/DefaultLevels/MrYang.json");
+				g.setFont(menuTitleFont);
+				g.setColor(Color.white);
+				renderTitle("LOADING", g);
+				//RestUtils.get("https://deadly-balloons-2.firebaseio.com/DefaultLevels/MrYang.json");
 			}
 			
 			loadedHighScores = true;
