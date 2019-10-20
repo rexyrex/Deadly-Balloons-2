@@ -2,12 +2,80 @@ package Panels;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
+import javax.crypto.SecretKey;
 import javax.swing.JFrame;
-public class Game {
+import javax.swing.JOptionPane;
 
-	public static void main(String args[]){		
+import Utils.EncryptUtils;
+import Utils.FileUtils;
+public class Game {
+	
+	public static void initFiles(Path path, SecretKey sk) {
+//		try (PrintWriter out = new PrintWriter(path.toString())) {
+//			SecretKey sk = EncryptUtils.generateNewSecretKey();
+//			byte[] res = EncryptUtils.encrypt("init", sk);
+//		    out.println(res);
+//		    
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+		
+		//SecretKey sk = EncryptUtils.generateNewSecretKey();
+		byte[] res = EncryptUtils.encrypt("init", sk);
+
+		
+		try (FileOutputStream fos = new FileOutputStream(path.toString())) {
+			   fos.write(res);
+			   //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+
+	public static void main(String args[]){
+		Path skPath = Paths.get("sk.rex");
+		EncryptUtils.generateSecretKeyFile(skPath);
+		SecretKey sk = EncryptUtils.readSecretKeyFile(skPath);
+		Path path = Paths.get("uf.rex");
+		File userFile = new File(path.toString());
+		if(!userFile.exists()) {
+			System.out.println("Game Files Corrupted");
+			JOptionPane.showMessageDialog(null, "Game Files Corrupted");
+			return;
+		}
+		
+		try (PrintWriter out = new PrintWriter(path.toString())) {
+		    out.println("herro");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		initFiles(path,sk);
+		
+		byte[] test = FileUtils.readBytes(path);
+		
+		System.out.println(EncryptUtils.decrypt(test, sk));
+		
+		String resultStr = "";
+		
+		while(resultStr.length() < 3) {
+			resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[At Least 3 Characters Long]");
+		}
+		
+
+		
+		
 		final JFrame window = new JFrame("Rex Shooter");
 		window.setLayout(new BorderLayout());
 		//window.setPreferredSize(new Dimension(1500,700));
@@ -33,15 +101,7 @@ public class Game {
 		window.setVisible(true);
 		
 
-		File userFile = new File("./userFile.txt");
-		System.out.println(userFile.exists());
-		
-		try (PrintWriter out = new PrintWriter("./userFile.txt")) {
-		    out.println("herro");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		
 //		System.out.println("HS: " + HighScoreUtils.getHighscores("DefaultLevels", "MrYang"));
 //		try {
