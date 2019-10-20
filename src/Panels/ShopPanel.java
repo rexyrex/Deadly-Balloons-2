@@ -189,7 +189,7 @@ public class ShopPanel extends JPanel{
 	}
 	
 	public int calcCost(JButton btnType) {
-		double tmp = ((double)Math.sqrt(Math.pow((double)itemPurchaseMap.get(btnType)+1, 1.2))) * (double)(itemBaseCostMap.get(btnType));
+		double tmp = ((double)Math.sqrt(Math.pow((double)itemPurchaseMap.get(btnType)+1, 1.12))) * (double)(itemBaseCostMap.get(btnType));
 		return (int) tmp;
 	}
 	
