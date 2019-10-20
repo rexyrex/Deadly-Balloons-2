@@ -33,7 +33,7 @@ public class ShopPanel extends JPanel{
 	long msgStartTimer;
 	
     final JButton buyLifeBtn = new JButton("<html>F1 : Extra Life 0 <br />( Cost : " + 120 + " )</html>");        
-    final JButton buyPowerBtn = new JButton("<html>F2 : Power Up 0 <br />( Cost : " + 30 + " )</html>");
+    final JButton buyPowerBtn = new JButton("<html>F2 : Power Up 0 <br />( Cost : " + 40 + " )</html>");
     final JButton buyAbilityBtn = new JButton("<html>F3 : Ability Up 0 <br />( Cost : " + 50 + " )</html>");
     final JButton dropRateBtn = new JButton("<html>F4 : Drop Rate 0 <br />( Cost : " + 200 + " )</html>");
 
@@ -63,15 +63,15 @@ public class ShopPanel extends JPanel{
 	
 	public void init() {
 		//System.out.println("Shop Panel Init");
-		itemPurchaseMap = new HashMap();
-		itemBaseCostMap = new HashMap();
-		itemBaseName = new HashMap();
-		maxPurchaseMap = new HashMap();
+		itemPurchaseMap = new HashMap<JButton, Integer>();
+		itemBaseCostMap = new HashMap<JButton, Integer>();
+		itemBaseName = new HashMap<JButton, String>();
+		maxPurchaseMap = new HashMap<JButton, Integer>();
 		
 
         
         initMaps(buyLifeBtn, "F1 : Extra Life", 120, 1000);
-        initMaps(buyPowerBtn, "F2 : Power Up", 30, 1000);
+        initMaps(buyPowerBtn, "F2 : Power Up", 40, 1000);
         initMaps(buyAbilityBtn, "F3 : Ability Up", 50, 1000);
         initMaps(dropRateBtn, "F4 : Drop Rate", 200, 10);
         
@@ -189,7 +189,7 @@ public class ShopPanel extends JPanel{
 	}
 	
 	public int calcCost(JButton btnType) {
-		double tmp = ((double)Math.sqrt(itemPurchaseMap.get(btnType)+1)) * (double)(itemBaseCostMap.get(btnType));
+		double tmp = ((double)Math.sqrt(Math.pow((double)itemPurchaseMap.get(btnType)+1, 1.2))) * (double)(itemBaseCostMap.get(btnType));
 		return (int) tmp;
 	}
 	
