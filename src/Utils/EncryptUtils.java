@@ -86,6 +86,6 @@ public class EncryptUtils {
         {
             System.out.println("Exception");
         }
-        return "";
+        return null;
 	}
 }
