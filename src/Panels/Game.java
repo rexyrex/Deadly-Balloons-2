@@ -17,7 +17,7 @@ import Utils.EncryptUtils;
 import Utils.FileUtils;
 public class Game {
 	
-	public static void initFiles(Path path, SecretKey sk) {
+	public static void saveUserName(Path path, SecretKey sk, String userName) {
 //		try (PrintWriter out = new PrintWriter(path.toString())) {
 //			SecretKey sk = EncryptUtils.generateNewSecretKey();
 //			byte[] res = EncryptUtils.encrypt("init", sk);
@@ -28,7 +28,7 @@ public class Game {
 //		}
 		
 		//SecretKey sk = EncryptUtils.generateNewSecretKey();
-		byte[] res = EncryptUtils.encrypt("init", sk);
+		byte[] res = EncryptUtils.encrypt(userName, sk);
 
 		
 		try (FileOutputStream fos = new FileOutputStream(path.toString())) {
@@ -45,50 +45,39 @@ public class Game {
 
 	public static void main(String args[]){
 		Path skPath = Paths.get("sk.rex");
-		EncryptUtils.generateSecretKeyFile(skPath);
+		File skFile = new File(skPath.toString());
+		
+		if(!skFile.exists()) {
+			EncryptUtils.generateSecretKeyFile(skPath);
+		}
+		
 		SecretKey sk = EncryptUtils.readSecretKeyFile(skPath);
 		Path path = Paths.get("uf.rex");
 		File userFile = new File(path.toString());
-		if(!userFile.exists()) {
-			System.out.println("Game Files Corrupted");
-			JOptionPane.showMessageDialog(null, "Game Files Corrupted");
-			return;
-		}
-		
-		try (PrintWriter out = new PrintWriter(path.toString())) {
-		    out.println("herro");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		initFiles(path,sk);
-		
-		byte[] test = FileUtils.readBytes(path);
-		
-		System.out.println(EncryptUtils.decrypt(test, sk));
 		
 		String resultStr = "";
+		if(!userFile.exists()) {
+			while(resultStr.length() < 3) {
+				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[At Least 3 Characters Long]");
+				if(resultStr==null) {
+					resultStr="";
+				}
+			}
+			saveUserName(path,sk,resultStr);
+		}		
 		
-		while(resultStr.length() < 3) {
-			resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[At Least 3 Characters Long]");
-		}
-		
-
-		
+		byte[] usernameBytes = FileUtils.readBytes(path);
+		System.out.println(EncryptUtils.decrypt(usernameBytes, sk));		
 		
 		final JFrame window = new JFrame("Rex Shooter");
+		
 		window.setLayout(new BorderLayout());
-		//window.setPreferredSize(new Dimension(1500,700));
 
-		//window.setBackground(new Color(0,0,0,0));
 		ShopPanel sPanel = new ShopPanel();
 		
-		
 		InfoPanel iPanel = new InfoPanel();
-		
-		
-		GamePanel gp = new GamePanel(window, sPanel, iPanel);
-		
+				
+		GamePanel gp = new GamePanel(window, sPanel, iPanel);		
 		
 		window.add(gp, BorderLayout.CENTER);
 		window.add(iPanel, BorderLayout.WEST);

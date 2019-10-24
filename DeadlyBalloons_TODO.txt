@@ -78,6 +78,17 @@ High score system
 
 scale to bigger screens?
 
+New Enemy:
+1. Randomize speed, randomize direction often
+2. Projectile shooting enemy (color darker when about to fire)
+	2.1 Weak, normal speed, shoots every 3-4seconds
+	2.2 Weak, fast speed, shoots every 5-6seconds
+	2.3 Strong, slow speed, shoots every 4-8seconds
+3. New boss
+	- Very Slow
+	- Spawn Enemies
+	- Spawn Projectiles
+	- Regen Mode
 
 
 
