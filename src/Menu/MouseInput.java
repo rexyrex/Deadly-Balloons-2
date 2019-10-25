@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 import Entities.Tutorial;
 import Panels.GamePanel;
+import Utils.HighScoreUtils;
 
 public class MouseInput implements MouseListener{
 
@@ -175,6 +176,7 @@ public class MouseInput implements MouseListener{
 			if(GamePanel.menuState == GamePanel.MenuState.HIGH_SCORES) {
 				//back btn
 				if(mouseIn(mx,my,menu.backFromHighScoresBtn)) {
+					HighScoreUtils.getHighscores("DefaultLevels", "MrYang");
 					gp.sfx.get("menu back").play();
 					GamePanel.menuState = GamePanel.MenuState.MAIN;
 					return;

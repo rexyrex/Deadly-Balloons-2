@@ -18,56 +18,49 @@ import Utils.FileUtils;
 public class Game {
 	
 	public static void saveUserName(Path path, SecretKey sk, String userName) {
-//		try (PrintWriter out = new PrintWriter(path.toString())) {
-//			SecretKey sk = EncryptUtils.generateNewSecretKey();
-//			byte[] res = EncryptUtils.encrypt("init", sk);
-//		    out.println(res);
-//		    
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-		
-		//SecretKey sk = EncryptUtils.generateNewSecretKey();
 		byte[] res = EncryptUtils.encrypt(userName, sk);
-
 		
 		try (FileOutputStream fos = new FileOutputStream(path.toString())) {
-			   fos.write(res);
-			   //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		   fos.write(res);
+		   //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String args[]){
 		Path skPath = Paths.get("sk.rex");
 		File skFile = new File(skPath.toString());
+		Path path = Paths.get("uf.rex");
+		File userFile = new File(path.toString());
+		
+		boolean resetNick = !skFile.exists() || !userFile.exists();
+		
+
+		
+		String resultStr = "";
+		if(resetNick) {
+			while(resultStr.length() < 3) {
+				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[At Least 3 Characters Long]");
+				if(resultStr==null) {
+					System.exit(1);
+				}
+			}
+		}
 		
 		if(!skFile.exists()) {
 			EncryptUtils.generateSecretKeyFile(skPath);
 		}
 		
 		SecretKey sk = EncryptUtils.readSecretKeyFile(skPath);
-		Path path = Paths.get("uf.rex");
-		File userFile = new File(path.toString());
-		
-		String resultStr = "";
-		if(!userFile.exists()) {
-			while(resultStr.length() < 3) {
-				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[At Least 3 Characters Long]");
-				if(resultStr==null) {
-					resultStr="";
-				}
-			}
-			saveUserName(path,sk,resultStr);
-		}		
+		saveUserName(path,sk,resultStr);
 		
 		byte[] usernameBytes = FileUtils.readBytes(path);
-		System.out.println(EncryptUtils.decrypt(usernameBytes, sk));		
+		String username = EncryptUtils.decrypt(usernameBytes, sk);		
 		
 		final JFrame window = new JFrame("Rex Shooter");
 		
@@ -77,7 +70,7 @@ public class Game {
 		
 		InfoPanel iPanel = new InfoPanel();
 				
-		GamePanel gp = new GamePanel(window, sPanel, iPanel);		
+		GamePanel gp = new GamePanel(window, sPanel, iPanel, username);		
 		
 		window.add(gp, BorderLayout.CENTER);
 		window.add(iPanel, BorderLayout.WEST);

@@ -194,6 +194,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public int btnLength = 170;
 	public int btnHeight = 50;
 	
+	public static String username;
+	
 	//Tutorial Related
 	public int currentTutorialStage;
 
@@ -225,11 +227,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	public static GameMode lastGameMode;
 	
-	public GamePanel(JFrame jframe, ShopPanel sp, InfoPanel ip){
+	public GamePanel(JFrame jframe, ShopPanel sp, InfoPanel ip, String username){
 		super();		
 		this.jframe = jframe;
 		this.ip = ip;
 		this.sp = sp;
+		GamePanel.username = username;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();	
