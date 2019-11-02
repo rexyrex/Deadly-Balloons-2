@@ -41,6 +41,10 @@ public class Game {
 		boolean resetNick = !skFile.exists() || !userFile.exists();
 		
 
+		if(!skFile.exists()) {
+			EncryptUtils.generateSecretKeyFile(skPath);
+		}
+		SecretKey sk = EncryptUtils.readSecretKeyFile(skPath);
 		
 		String resultStr = "";
 		if(resetNick) {
@@ -50,17 +54,12 @@ public class Game {
 					System.exit(1);
 				}
 			}
-		}
-		
-		if(!skFile.exists()) {
-			EncryptUtils.generateSecretKeyFile(skPath);
-		}
-		
-		SecretKey sk = EncryptUtils.readSecretKeyFile(skPath);
-		saveUserName(path,sk,resultStr);
-		
+			saveUserName(path,sk,resultStr);
+		}				
+				
 		byte[] usernameBytes = FileUtils.readBytes(path);
 		String username = EncryptUtils.decrypt(usernameBytes, sk);		
+		System.out.println("Username: " + username);
 		
 		final JFrame window = new JFrame("Rex Shooter");
 		
