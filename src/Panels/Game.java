@@ -48,8 +48,8 @@ public class Game {
 		
 		String resultStr = "";
 		if(resetNick) {
-			while(resultStr.length() < 3) {
-				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[At Least 3 Characters Long]");
+			while(resultStr.length() < 3 || resultStr.length() > 8) {
+				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[3~8 Characters Long]");
 				if(resultStr==null) {
 					System.exit(1);
 				}
