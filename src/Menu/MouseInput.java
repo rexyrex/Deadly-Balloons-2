@@ -99,7 +99,7 @@ public class MouseInput implements MouseListener{
 				//survival btn
 				if(mouseIn(mx,my,menu.survivalModeBtn)) {
 					gp.sfx.get("menu select").play();
-					//GamePanel.menuState = GamePanel.MenuState.SURVIVAL_LEVELS;
+					GamePanel.menuState = GamePanel.MenuState.SURVIVAL_LEVELS;
 					return;
 				}
 				
@@ -126,7 +126,6 @@ public class MouseInput implements MouseListener{
 				if(mouseIn(mx,my,menu.sehoonLvlBtn)) {
 					gp.sfx.get("menu select").play();
 					gp.initNewLvl("MrYang", GamePanel.GameMode.DEFAULT, false);
-					GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
 					GamePanel.gameState = GamePanel.GameState.PLAY;					
 					return;
 				}				
@@ -134,13 +133,47 @@ public class MouseInput implements MouseListener{
 				//survival btn
 				if(mouseIn(mx,my,menu.impossibleLvlBtn)) {
 					gp.sfx.get("menu select").play();
-					//GamePanel.gameMode = GamePanel.GameMode.DEFAULT;
-					//GamePanel.gameState = GamePanel.GameState.PLAY;
+
 					return;
 				}
 				
 				//back btn
 				if(mouseIn(mx,my,menu.backFromDefaultLvlsBtn)) {
+					gp.sfx.get("menu back").play();
+					GamePanel.menuState = GamePanel.MenuState.PLAY_MODES;
+					return;
+				}
+				
+			}
+			
+			//Survival Levels Menu
+			if(GamePanel.menuState == GamePanel.MenuState.SURVIVAL_LEVELS) {			
+				//Bigger lvl btn
+				if(mouseIn(mx,my,menu.survivalBiggerLvlBtn)) {
+					gp.sfx.get("menu select").play();
+					gp.initNewLvl("Bigger", GamePanel.GameMode.SURVIVAL, false);
+					GamePanel.gameState = GamePanel.GameState.PLAY;					
+					return;
+				}
+				
+				//Charge lvl btn
+				if(mouseIn(mx,my,menu.survivalChargeLvlBtn)) {
+					gp.sfx.get("menu select").play();
+					gp.initNewLvl("Charge", GamePanel.GameMode.SURVIVAL, false);
+					GamePanel.gameState = GamePanel.GameState.PLAY;					
+					return;
+				}
+				
+				//shooter lvl btn
+				if(mouseIn(mx,my,menu.survivalShooterLvlBtn)) {
+					gp.sfx.get("menu select").play();
+					//gp.initNewLvl("Shooter", GamePanel.GameMode.SURVIVAL, false);
+					//GamePanel.gameState = GamePanel.GameState.PLAY;
+					return;
+				}
+				
+				//back btn
+				if(mouseIn(mx,my,menu.backFromSurvivalLvlsBtn)) {
 					gp.sfx.get("menu back").play();
 					GamePanel.menuState = GamePanel.MenuState.PLAY_MODES;
 					return;

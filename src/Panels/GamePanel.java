@@ -500,65 +500,83 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	    	puCountMap.put(i+101, 0);
 	    }
 		
-		JSONObject waveDataJSONArr = null;
-		//load JSON Data
-		JSONParser parser = new JSONParser();
-		try {
-			InputStream iStream = getClass().getResourceAsStream("/LevelData/"+ lvlName +".json");
-			//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
-			BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8"));
-			waveDataJSONArr = (JSONObject) parser.parse(br);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (org.json.simple.parser.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		JSONObject waveDataObj = (JSONObject) waveDataJSONArr;
-		JSONArray levelData = (JSONArray) waveDataJSONArr.get("waves");
-		levelTitle = (String) waveDataObj.get("levelName");
-
-		for(Object waveObj : levelData) {
-			//JsonObject Cast
-			JSONObject waveJsonObj = (JSONObject) waveObj;
-			
-			//load titles			
-			String waveName = (String) waveJsonObj.get("waveTitle");
-			waveNames.add( waveName );
-			
-			//load enemy info
-			HashMap<Enemy, Integer> enemyToAdd = new HashMap<Enemy, Integer>();
-			JSONArray enemyDataJsonArr = (JSONArray) waveJsonObj.get("waveEnemies");
-			for(Object enemyInfoObj : enemyDataJsonArr) {
-				//JsonObject Cast
-				JSONObject enemyInfoJsonObj = (JSONObject) enemyInfoObj;
-				
-				
-				
-				int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
-				int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
-				int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
-				//System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
-				Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
-				enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
+	    
+	    if(gm == GameMode.DEFAULT || gm == GameMode.TUTORIAL) {	    	
+	    
+			JSONObject waveDataJSONArr = null;
+			//load JSON Data
+			JSONParser parser = new JSONParser();
+			try {
+				InputStream iStream = getClass().getResourceAsStream("/LevelData/"+ lvlName +".json");
+				//BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/LevelData/Level2.json"), "UTF-8"));
+				BufferedReader br = new BufferedReader(new InputStreamReader(iStream, "UTF-8"));
+				waveDataJSONArr = (JSONObject) parser.parse(br);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (org.json.simple.parser.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			waveData.add(enemyToAdd);
-		}
-		
-		
-		//load background
-        try {
-        	String lvlBackgroundImg = (String) waveDataObj.get("background");
-            img = ImageIO.read(getClass().getResourceAsStream("/img/"+lvlBackgroundImg));
-            img = ImageUtils.resize(img, WIDTH, HEIGHT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			
+			JSONObject waveDataObj = (JSONObject) waveDataJSONArr;
+			JSONArray levelData = (JSONArray) waveDataJSONArr.get("waves");
+			levelTitle = (String) waveDataObj.get("levelName");
+	
+			for(Object waveObj : levelData) {
+				//JsonObject Cast
+				JSONObject waveJsonObj = (JSONObject) waveObj;
+				
+				//load titles			
+				String waveName = (String) waveJsonObj.get("waveTitle");
+				waveNames.add( waveName );
+				
+				//load enemy info
+				HashMap<Enemy, Integer> enemyToAdd = new HashMap<Enemy, Integer>();
+				JSONArray enemyDataJsonArr = (JSONArray) waveJsonObj.get("waveEnemies");
+				for(Object enemyInfoObj : enemyDataJsonArr) {
+					//JsonObject Cast
+					JSONObject enemyInfoJsonObj = (JSONObject) enemyInfoObj;
+					
+					
+					
+					int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
+					int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
+					int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
+					//System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
+					Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
+					enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
+				}
+				waveData.add(enemyToAdd);
+			}
+			
+			
+			//load background
+	        try {
+	        	String lvlBackgroundImg = (String) waveDataObj.get("background");
+	            img = ImageIO.read(getClass().getResourceAsStream("/img/"+lvlBackgroundImg));
+	            img = ImageUtils.resize(img, WIDTH, HEIGHT);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+        
+	    } else {
+	    	//Survival Mode
+	    	levelTitle = lvlName;
+			//load survival background
+	        try {
+
+	            img = ImageIO.read(getClass().getResourceAsStream("/img/"+"survival.png"));
+	            img = ImageUtils.resize(img, WIDTH, HEIGHT);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }	    	
+	    }
+	    
+
 		
         
         pauseStartTime = 0;
@@ -602,9 +620,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+0);
 		
-		s = "Time : " + StringUtils.getTime(lvlElapsedTime);
-		length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-		g.drawString(s, (WIDTH-length)/2, HEIGHT/2+50);
+		//Only show time when NOT survival mode
+		if(gameMode != GameMode.SURVIVAL) {
+			s = "Time : " + StringUtils.getTime(lvlElapsedTime);
+			length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+			g.drawString(s, (WIDTH-length)/2, HEIGHT/2+50);
+		}
+
 		
 		g.drawString("Retry", retryLvlBtn.x+18, retryLvlBtn.y+33);
 		g.draw(retryLvlBtn);
@@ -803,7 +825,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw wave number
 		if(waveStartTimer != 0 && gameState == GameState.PLAY){
 			g.setFont(new Font("TimesRoman", Font.PLAIN,40));
-			String s = " W A V E  " + waveNumber + "  :   " + waveNames.get(waveNumber-1);
+			String s = "";
+			if(gameMode == GameMode.DEFAULT) {
+				s = " W A V E  " + waveNumber + "  :   " + waveNames.get(waveNumber-1);
+			} else {
+				//Survival Mode
+				s = " W A V E  " + waveNumber;
+			}
+			
 			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 			int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));
 			if(alpha>255) alpha = 255;
@@ -837,9 +866,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		
 		//draw player score
-		g.setColor(Color.WHITE);
-		g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-		g.drawString("Time : " + StringUtils.getTime(lvlElapsedTime), WIDTH-135, 30);
+		if(gameMode != GameMode.SURVIVAL) {
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+			g.drawString("Time : " + StringUtils.getTime(lvlElapsedTime), WIDTH-135, 30);
+		} else {
+			//Survival Mode
+			g.setColor(Color.RED);
+			g.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+			g.drawString("SURVIVED : " + (waveNumber-1), WIDTH-135, 30);
+		}
+		
 		
 		//draw player speed
 		g.setColor(Color.WHITE);
@@ -987,27 +1024,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				waveStart = false;
 				waveStartTimer = System.nanoTime();
 				
-				if(waveNumber > waveNames.size()) {
-					System.out.println("Starting to draw");
-					if(gameMode == GameMode.DEFAULT) {			
-						g.setColor(new Color(0,0,0,255));
-						g.fillRect(0,0,WIDTH,HEIGHT);
-						g.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
-						g.setColor(Color.white);
-						
-						int length = (int) g.getFontMetrics().getStringBounds("Saving Score...", g).getWidth();
-						g.drawString("Saving Score...", (GamePanel.WIDTH-length)/2, (GamePanel.HEIGHT)/2);
-						gameDraw();
-						System.out.println("Done Drawing");
-						if(!victorious) {
-							System.out.println("Start Load");
-							HighScoreUtils.addHighScore("DefaultLevels", levelTitle, StringUtils.getTime(lvlElapsedTime), username);
-							System.out.println("Done Load");
-						}						
+				//Default Mode Win Condition
+				if(gameMode == GameMode.DEFAULT && waveNumber > waveNames.size()) {		
+					g.setColor(new Color(0,0,0,255));
+					g.fillRect(0,0,WIDTH,HEIGHT);
+					g.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+					g.setColor(Color.white);
+					
+					int length = (int) g.getFontMetrics().getStringBounds("Saving Score...", g).getWidth();
+					g.drawString("Saving Score...", (GamePanel.WIDTH-length)/2, (GamePanel.HEIGHT)/2);
+					gameDraw();
+					if(!victorious) {
+						HighScoreUtils.addHighScore("DefaultLevels", levelTitle, StringUtils.getTime(lvlElapsedTime), username);
 					}
-					
-					System.out.println("change state");
-					
 					victorious = true;
 					gameState = GameState.GAME_OVER;
 				}
@@ -1408,6 +1437,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//check dead player
 		if(player.isDead()){
 			sfx.get("player die").play();
+			
+			if(gameMode == GameMode.SURVIVAL && waveNumber > 1) {
+				g.setColor(new Color(0,0,0,255));
+				g.fillRect(0,0,WIDTH,HEIGHT);
+				g.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+				g.setColor(Color.white);
+				
+				int length = (int) g.getFontMetrics().getStringBounds("Saving Score...", g).getWidth();
+				g.drawString("Saving Score...", (GamePanel.WIDTH-length)/2, (GamePanel.HEIGHT)/2);
+				gameDraw();
+
+				HighScoreUtils.addHighScore("SurvivalLevels", levelTitle, String.valueOf(waveNumber-1), username);
+
+			}
+
+			
+			
 			gameState = GameState.GAME_OVER;
 		}
 		
@@ -1527,14 +1573,32 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	//ENEMY WAVES
 	private void createNewEnemies(){
 		enemies.clear();
-		HashMap<Enemy, Integer> currWaveData = waveData.get(waveNumber-1);
-	    for (Map.Entry<Enemy, Integer> entry : currWaveData.entrySet()) {
-	        for(int i=0; i<entry.getValue(); i++) {
-	        	Enemy tmpEnemy = entry.getKey();
-	        	//Cannot instantiate tmpEnemy multiple times as it creates same enemy
-	        	enemies.add( new Enemy(tmpEnemy.getType(), tmpEnemy.getRank(), 1));
+		
+		//Default Mode
+		if(gameMode == GameMode.DEFAULT || gameMode == GameMode.TUTORIAL) {
+			HashMap<Enemy, Integer> currWaveData = waveData.get(waveNumber-1);
+		    for (Map.Entry<Enemy, Integer> entry : currWaveData.entrySet()) {
+		        for(int i=0; i<entry.getValue(); i++) {
+		        	Enemy tmpEnemy = entry.getKey();
+		        	//Cannot instantiate tmpEnemy multiple times as it creates same enemy
+		        	enemies.add( new Enemy(tmpEnemy.getType(), tmpEnemy.getRank(), 1));
+		        }
+		    }
+		} else if(gameMode == GameMode.SURVIVAL) {
+			int tmpEnemyType = 1;
+			switch(levelTitle) {
+				case "Bigger": tmpEnemyType = 7; break;
+				case "Charge": tmpEnemyType = 6; break;
+				case "Shooter": tmpEnemyType = 13; break;
+				default: break;
+			}
+			
+	        for(int i=0; i<waveNumber; i++) {
+	        	enemies.add( new Enemy(tmpEnemyType, 4, 1));
 	        }
-	    }
+	        enemies.add(new Enemy(8, 1, 1));
+		}
+
 	}
 
 	@Override

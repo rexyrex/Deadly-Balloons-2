@@ -42,6 +42,11 @@ public class Menu {
 	public Rectangle impossibleLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 400, btnLength, btnHeight);
 	public Rectangle backFromDefaultLvlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
 	
+	public Rectangle survivalBiggerLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
+	public Rectangle survivalChargeLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
+	public Rectangle survivalShooterLvlBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 400, btnLength, btnHeight);
+	public Rectangle backFromSurvivalLvlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
+	
 	public boolean loadedHighScores;
 	
 	public static ArrayList<Explosion> explosions;
@@ -167,8 +172,8 @@ public class Menu {
 			
 			//Draw highscores
 			g.setFont(new Font("Comic Sans MS", Font.BOLD,27));
-			length = (int) g.getFontMetrics().getStringBounds("Default Levels", g).getWidth();
-			g.drawString("Default Levels (Clear Time)", 20, 160);
+			length = (int) g.getFontMetrics().getStringBounds("Speed Mode (Clear Time)", g).getWidth();
+			g.drawString("Speed Mode (Clear Time)", 20, 160);
 
 			Color c = new Color(255,255,255,255);
 			Font f = new Font("Comic Sans MS", Font.PLAIN,20);
@@ -196,8 +201,8 @@ public class Menu {
 			
 			g.setColor(Color.white);
 			g.setFont(new Font("Comic Sans MS", Font.BOLD,27));
-			length = (int) g.getFontMetrics().getStringBounds("Default Levels", g).getWidth();
-			g.drawString("Survival (Max Wave)", 20, 400);
+			length = (int) g.getFontMetrics().getStringBounds("Survival Mode (Max Wave)", g).getWidth();
+			g.drawString("Survival Mode (Max Wave)", 20, 400);
 
 			HashMap<String, Map<String,String>> survivalLevels = gp.highScoreMap.get("SurvivalLevels");
 			
@@ -294,7 +299,7 @@ public class Menu {
 			g.drawString("Tutorial", tutorialModeBtn.x+20, tutorialModeBtn.y+35);
 			g2d.draw(tutorialModeBtn);
 			
-			g.drawString("Default", defaultModeBtn.x+20, defaultModeBtn.y+35);
+			g.drawString("Speed", defaultModeBtn.x+20, defaultModeBtn.y+35);
 			g2d.draw(defaultModeBtn);
 			
 			g.drawString("Survival", survivalModeBtn.x+20, survivalModeBtn.y+35);
@@ -307,7 +312,12 @@ public class Menu {
 		if(GamePanel.menuState == GamePanel.MenuState.DEFAULT_LEVELS) {
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
-			renderTitle("Default Levels", g);
+			renderTitle("Speed Mode", g);
+			
+			g.setFont(new Font("Comic Sans MS", Font.ITALIC,20));
+			String desc = "Defeat all waves as fast as possible!";
+			int length = (int) g.getFontMetrics().getStringBounds(desc,g).getWidth();
+			g.drawString(desc, (GamePanel.WIDTH-length)/2, 140);
 
 			g.setFont(menuBtnFont);
 			
@@ -326,6 +336,35 @@ public class Menu {
 			g.setColor(Color.white);
 			g.drawString("Back", backFromDefaultLvlsBtn.x+20, backFromDefaultLvlsBtn.y+35);
 			g2d.draw(backFromDefaultLvlsBtn);
+		}
+		
+		if(GamePanel.menuState == GamePanel.MenuState.SURVIVAL_LEVELS) {
+			g.setFont(menuTitleFont);
+			g.setColor(Color.white);
+			renderTitle("Survival Mode", g);
+			
+			g.setFont(new Font("Comic Sans MS", Font.ITALIC,20));
+			String desc = "Survive as many waves as possible!";
+			int length = (int) g.getFontMetrics().getStringBounds(desc,g).getWidth();
+			g.drawString(desc, (GamePanel.WIDTH-length)/2, 140);
+
+			g.setFont(menuBtnFont);
+			
+			g.setColor(Color.CYAN);
+			g.drawString("Bigger", survivalBiggerLvlBtn.x+20, survivalBiggerLvlBtn.y+35);
+			g2d.draw(survivalBiggerLvlBtn);
+			
+			g.setColor(Color.PINK);
+			g.drawString("Charge", survivalChargeLvlBtn.x+20, survivalChargeLvlBtn.y+35);
+			g2d.draw(survivalChargeLvlBtn);
+			
+			g.setColor(Color.MAGENTA);
+			g.drawString("Shooter", survivalShooterLvlBtn.x+20, survivalShooterLvlBtn.y+35);
+			g2d.draw(survivalShooterLvlBtn);
+			
+			g.setColor(Color.white);
+			g.drawString("Back", backFromSurvivalLvlsBtn.x+20, backFromSurvivalLvlsBtn.y+35);
+			g2d.draw(backFromSurvivalLvlsBtn);
 		}
 
 	}
