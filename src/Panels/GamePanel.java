@@ -99,6 +99,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<FootPrint> footPrints;
 	public static ArrayList<ParticleEffect> particleEffects;
 	
+	//highscores
+	public static HashMap<String, HashMap<String, Map<String,String>>> highScoreMap;
+	
 	//key presses
 	private Set<Integer> keysPressed = new HashSet<Integer>();
 	
@@ -184,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	
 	private BufferedImage img;
-	private BufferedImage pauseImg;
+	public BufferedImage pauseImg;
 	
 	public InfoPanel ip;
 	public ShopPanel sp;
@@ -214,7 +217,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public enum MenuState {
-		MAIN, HIGH_SCORES, CREDITS, PLAY_MODES, HELP, CONTROLS, DEFAULT_LEVELS, SURVIVAL_LEVELS
+		MAIN, HIGH_SCORES, CREDITS, PLAY_MODES, HELP, CONTROLS, DEFAULT_LEVELS, SURVIVAL_LEVELS, LOADING
 	}
 	
 	public enum GameMode {
@@ -299,6 +302,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		puDropRateMap = new HashMap<Integer, Double>();
 		puCountMap = new HashMap<Integer, Integer>();
 		puMinWaveMap = new HashMap<Integer, Integer>();
+		
+		highScoreMap = new HashMap<String, HashMap<String, Map<String,String>>>();
 
 		
 		//Populate dropRateMap

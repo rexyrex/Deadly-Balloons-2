@@ -1,4 +1,5 @@
 package Menu;
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -44,9 +45,13 @@ public class MouseInput implements MouseListener{
 					return;
 				}
 				
-				//play btn
+				//highscores btn
 				if(mouseIn(mx,my,menu.highScoresBtn)) {
 					gp.sfx.get("menu select").play();
+
+					GamePanel.menuState = GamePanel.MenuState.LOADING;
+					HighScoreUtils.populateAllHighScores();
+
 					GamePanel.menuState = GamePanel.MenuState.HIGH_SCORES;
 					return;
 				}
@@ -176,7 +181,6 @@ public class MouseInput implements MouseListener{
 			if(GamePanel.menuState == GamePanel.MenuState.HIGH_SCORES) {
 				//back btn
 				if(mouseIn(mx,my,menu.backFromHighScoresBtn)) {
-					HighScoreUtils.getHighscores("DefaultLevels", "MrYang");
 					gp.sfx.get("menu back").play();
 					GamePanel.menuState = GamePanel.MenuState.MAIN;
 					return;

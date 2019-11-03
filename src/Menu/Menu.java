@@ -87,6 +87,18 @@ public class Menu {
 			}
 		}
 		
+		if(GamePanel.menuState == GamePanel.MenuState.LOADING) {
+			g.setColor(new Color(0,0,0,0));
+			g.fillRect(0,0,gp.WIDTH,gp.HEIGHT);
+			g.setFont(menuTitleFont);
+			g.setColor(Color.white);
+			
+			int length = (int) g.getFontMetrics().getStringBounds("LOADING...", g).getWidth();
+			g.drawString("LOADING...", (GamePanel.WIDTH-length)/2, (GamePanel.HEIGHT)/2);
+			
+			
+		}
+		
 		if(GamePanel.menuState == GamePanel.MenuState.MAIN) {
 			
 			g.setFont(menuTitleFont);
@@ -149,14 +161,11 @@ public class Menu {
 			g.drawString("Back", backFromHighScoresBtn.x+20, backFromHighScoresBtn.y+35);
 			g2d.draw(backFromHighScoresBtn);
 			
-			if(!loadedHighScores) {
-				g.setFont(menuTitleFont);
-				g.setColor(Color.white);
-				renderTitle("LOADING", g);
-				//RestUtils.get("https://deadly-balloons-2.firebaseio.com/DefaultLevels/MrYang.json");
-			}
-			
-			loadedHighScores = true;
+			//Draw highscores
+			g.setFont(new Font("Comic Sans MS", Font.PLAIN,25));
+			int length = (int) g.getFontMetrics().getStringBounds("Default Levels", g).getWidth();
+			g.drawString("Default Levels", 20, 170);
+
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.HELP) {

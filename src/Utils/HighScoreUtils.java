@@ -12,9 +12,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import Panels.GamePanel;
+
 public class HighScoreUtils {
 	public static void addHighScore(String gameMode, String levelName, String timeStr, String userName) throws ParseException {
-		
 		int userScore = getScoreInSeconds(timeStr);
 		
 		//get current highscores
@@ -73,13 +74,33 @@ public class HighScoreUtils {
 		
 	}
 	
-	public static Map<String, String> getTopFive(String gameMode, String levelName) throws ParseException{
+	public static void populateAllHighScores() {
+		String[] defaultLevelNames = {"Classic", "MrYang", "Rex"};
+		
+		//Default Levels 
+		HashMap<String, Map<String,String>> defaultLevels = new HashMap<String, Map<String,String>>();
+		for(String lvlName : defaultLevelNames) {
+			defaultLevels.put(lvlName, getTopFive("DefaultLevels", lvlName));
+		}
+		
+		
+		GamePanel.highScoreMap.put("DefaultLevels", defaultLevels);
+	}
+	
+	public static Map<String, String> getTopFive(String gameMode, String levelName){
 		Map<String,String> topFiveMap = new LinkedHashMap<String,String>();
 		
 		//get current highscores
 		String top3Str = getHighscores(gameMode, levelName);
 		JSONParser parser = new JSONParser();
-		Object obj = parser.parse(top3Str);
+		Object obj = null;
+		try {
+			obj = parser.parse(top3Str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		JSONObject top3JSON = (JSONObject) obj;
 		
 		HashMap<String, Integer> scoreMap = new HashMap<String, Integer>();

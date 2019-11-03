@@ -80,18 +80,7 @@ public class Game {
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-		
 
-
-		
-//		System.out.println("HS: " + HighScoreUtils.getHighscores("DefaultLevels", "MrYang"));
-//		try {
-//			//HighScoreUtils.addHighScore("DefaultLevels", "MrYang", "12m 5s","n0");
-//			HighScoreUtils.getTopFive("DefaultLevels", "MrYang");
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 	
 }
