@@ -50,6 +50,7 @@ public class MouseInput implements MouseListener{
 					gp.sfx.get("menu select").play();
 
 					GamePanel.menuState = GamePanel.MenuState.LOADING;
+					HighScoreUtils.addHighScore("SurvivalLevels", "Charge", "9", "Jelly");
 					HighScoreUtils.populateAllHighScores();
 
 					GamePanel.menuState = GamePanel.MenuState.HIGH_SCORES;

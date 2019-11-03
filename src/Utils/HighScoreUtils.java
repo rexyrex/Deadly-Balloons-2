@@ -1,6 +1,7 @@
 package Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -15,13 +16,26 @@ import org.json.simple.parser.ParseException;
 import Panels.GamePanel;
 
 public class HighScoreUtils {
-	public static void addHighScore(String gameMode, String levelName, String timeStr, String userName) throws ParseException {
-		int userScore = getScoreInSeconds(timeStr);
+	public static void addHighScore(String gameMode, String levelName, String timeStr, String userName) {
+		
+		int userScore;
+		if(gameMode.equals("DefaultLevels")) {
+			userScore = getScoreInSeconds(timeStr);
+		} else {
+			userScore = Integer.parseInt(timeStr);
+		}
+		
 		
 		//get current highscores
 		String top3Str = getHighscores(gameMode, levelName);
 		JSONParser parser = new JSONParser();
-		Object obj = parser.parse(top3Str);
+		Object obj = null;
+		try {
+			obj = parser.parse(top3Str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JSONObject top3JSON = (JSONObject) obj;
 		
 		HashMap<String, Integer> scoreMap = new HashMap<String, Integer>();
@@ -31,8 +45,12 @@ public class HighScoreUtils {
 		while(keys.hasNext()) {
 			String key = keys.next();
 			String val = (String) top3JSON.get(key);
-			System.out.println("key/val = " + key + " = " + getScoreInSeconds(val));
-			scoreMap.put(key, getScoreInSeconds(val));
+			if(gameMode.equals("DefaultLevels")) {
+				scoreMap.put(key, getScoreInSeconds(val));
+			} else {
+				scoreMap.put(key, Integer.parseInt(val));
+			}
+			
 		}
 		
 		//if username already exists then update score only if better score
@@ -47,13 +65,16 @@ public class HighScoreUtils {
 			scoreMap.put(userName, userScore);
 		}
 		
+		Map<String,Integer> sortedScoreMap;
 		//sort new scores
-		Map<String,Integer> sortedScoreMap = sortByValue(scoreMap);
+		if(gameMode.equals("DefaultLevels")) {
+			sortedScoreMap = sortByValue(scoreMap);
+		} else {
+			sortedScoreMap = sortByValueReverse(scoreMap);
+		}		
 		
-		//convert hashMap to Json
-		
-		JSONObject newJson = new JSONObject();
-		
+		//convert hashMap to Json		
+		JSONObject newJson = new JSONObject();		
 		
 		System.out.println("-- sorted --");
 		ArrayList<String> keyList = new ArrayList(sortedScoreMap.keySet());		
@@ -65,8 +86,13 @@ public class HighScoreUtils {
 			int value = sortedScoreMap.get(key);
 			System.out.println("Value :: " + value);
 			System.out.println("--------------------------------");
+			if(gameMode.equals("DefaultLevels")){
+				newJson.put(key, secondsToScoreStr(value));
+			} else {
+				//survival
+				newJson.put(key, String.valueOf(value));
+			}
 			
-			newJson.put(key, secondsToScoreStr(value));
 		}	
 
 		//put to server
@@ -75,7 +101,7 @@ public class HighScoreUtils {
 	}
 	
 	public static void populateAllHighScores() {
-		String[] defaultLevelNames = {"Classic", "MrYang", "Rex"};
+		String[] defaultLevelNames = {"Rex","Classic", "MrYang"};
 		
 		//Default Levels 
 		HashMap<String, Map<String,String>> defaultLevels = new HashMap<String, Map<String,String>>();
@@ -84,7 +110,16 @@ public class HighScoreUtils {
 		}
 		
 		
+		String[] survivalLevelNames = {"Bigger","Charge", "Shooter"};
+		
+		//Survival Levels 
+		HashMap<String, Map<String,String>> survivalLevels = new HashMap<String, Map<String,String>>();
+		for(String lvlName : survivalLevelNames) {
+			survivalLevels.put(lvlName, getTopFive("SurvivalLevels", lvlName));
+		}
+		
 		GamePanel.highScoreMap.put("DefaultLevels", defaultLevels);
+		GamePanel.highScoreMap.put("SurvivalLevels", survivalLevels);
 	}
 	
 	public static Map<String, String> getTopFive(String gameMode, String levelName){
@@ -110,12 +145,23 @@ public class HighScoreUtils {
 		while(keys.hasNext()) {
 			String key = keys.next();
 			String val = (String) top3JSON.get(key);
-			System.out.println("key/val = " + key + " = " + getScoreInSeconds(val));
-			scoreMap.put(key, getScoreInSeconds(val));
+			//System.out.println("key/val = " + key + " = " + getScoreInSeconds(val));
+			if(gameMode.equals("DefaultLevels")) {
+				scoreMap.put(key, getScoreInSeconds(val));
+			} else {
+				//survival
+				scoreMap.put(key, Integer.parseInt(val));
+			}			
 		}
 		
 		//sort new scores
-		Map<String,Integer> sortedScoreMap = sortByValue(scoreMap);
+		Map<String,Integer> sortedScoreMap;
+		if(gameMode.equals("DefaultLevels")) {
+			sortedScoreMap = sortByValue(scoreMap);
+		} else {
+			sortedScoreMap = sortByValueReverse(scoreMap);
+		}
+		
 		
 		//convert hashMap to Json
 		
@@ -132,8 +178,11 @@ public class HighScoreUtils {
 			int value = sortedScoreMap.get(key);
 			System.out.println("Value :: " + value);
 			System.out.println("--------------------------------");
-			
-			topFiveMap.put(key, secondsToScoreStr(value));
+			if(gameMode.equals("DefaultLevels")) {
+				topFiveMap.put(key, secondsToScoreStr(value));
+			} else {
+				topFiveMap.put(key, String.valueOf(value));
+			}
 			if(i == 4) {
 				break;
 			}
@@ -170,6 +219,20 @@ public class HighScoreUtils {
         List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort(Entry.comparingByValue());
 
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
+    
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValueReverse(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+        
+        Collections.reverse(list);
+        
         Map<K, V> result = new LinkedHashMap<>();
         for (Entry<K, V> entry : list) {
             result.put(entry.getKey(), entry.getValue());

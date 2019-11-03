@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import Audio.AudioPlayer;
 import Panels.GamePanel;
@@ -28,7 +30,7 @@ public class Menu {
 	public Rectangle goToControlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	public Rectangle controlsToMainBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	
-	public Rectangle backFromHighScoresBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 500, btnLength, btnHeight);
+	public Rectangle backFromHighScoresBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	
 	public Rectangle tutorialModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
 	public Rectangle defaultModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
@@ -153,6 +155,8 @@ public class Menu {
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.HIGH_SCORES) {
+			int length=0;
+			
 			g.setFont(menuTitleFont);
 			g.setColor(Color.white);
 			renderTitle("High Scores", g);
@@ -162,9 +166,59 @@ public class Menu {
 			g2d.draw(backFromHighScoresBtn);
 			
 			//Draw highscores
-			g.setFont(new Font("Comic Sans MS", Font.PLAIN,25));
-			int length = (int) g.getFontMetrics().getStringBounds("Default Levels", g).getWidth();
-			g.drawString("Default Levels", 20, 170);
+			g.setFont(new Font("Comic Sans MS", Font.BOLD,27));
+			length = (int) g.getFontMetrics().getStringBounds("Default Levels", g).getWidth();
+			g.drawString("Default Levels (Clear Time)", 20, 160);
+
+			Color c = new Color(255,255,255,255);
+			Font f = new Font("Comic Sans MS", Font.PLAIN,20);
+			
+			HashMap<String, Map<String,String>> defaultLevels = gp.highScoreMap.get("DefaultLevels");
+			
+			int x = 20;
+			for (Entry<String, Map<String, String>> levelEntry : defaultLevels.entrySet()) {
+				switch(levelEntry.getKey()) {
+					case "Classic" : x = 20; c = Color.green; break;
+					case "MrYang" : x = 260; c = Color.yellow; break;
+					case "Rex" : x = 500; c = Color.red; break;
+					default : break;
+				}
+				renderText(c,new Font("Comic Sans MS", Font.BOLD,24),levelEntry.getKey(), x, 170);
+				int height = 210;
+				for (Map.Entry<String, String> entry : (levelEntry).getValue().entrySet()) {
+					renderText(c,f,entry.getKey(), x, height);
+					renderText(c,f, " : ", x+90, height);
+					renderText(c,f,entry.getValue(), x+110, height);
+					height+= 24;
+				}
+				x += 240;
+			}
+			
+			g.setColor(Color.white);
+			g.setFont(new Font("Comic Sans MS", Font.BOLD,27));
+			length = (int) g.getFontMetrics().getStringBounds("Default Levels", g).getWidth();
+			g.drawString("Survival (Max Wave)", 20, 400);
+
+			HashMap<String, Map<String,String>> survivalLevels = gp.highScoreMap.get("SurvivalLevels");
+			
+			x = 20;
+			for (Entry<String, Map<String, String>> levelEntry : survivalLevels.entrySet()) {
+				switch(levelEntry.getKey()) {
+					case "Bigger" : x = 20; c = Color.CYAN; break;
+					case "Charge" : x = 260; c = Color.PINK; break;
+					case "Shooter" : x = 500; c = Color.MAGENTA; break;
+					default : break;
+				}
+				renderText(c,new Font("Comic Sans MS", Font.BOLD,24),levelEntry.getKey(), x, 410);
+				int height = 450;
+				for (Map.Entry<String, String> entry : (levelEntry).getValue().entrySet()) {
+					renderText(c,f,entry.getKey(), x, height);
+					renderText(c,f, " : ", x+90, height);
+					renderText(c,f,entry.getValue(), x+110, height);
+					height+= 24;
+				}
+				x += 240;
+			}
 
 		}
 		
