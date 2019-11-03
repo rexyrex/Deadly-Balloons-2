@@ -46,6 +46,7 @@ import Entities.Turret;
 import Entities.Tutorial;
 import Menu.Menu;
 import Menu.MouseInput;
+import Utils.HighScoreUtils;
 import Utils.ImageUtils;
 import Utils.RandomUtils;
 import Utils.StringUtils;
@@ -987,6 +988,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				waveStartTimer = System.nanoTime();
 				
 				if(waveNumber > waveNames.size()) {
+					System.out.println("Starting to draw");
+					if(gameMode == GameMode.DEFAULT) {			
+						g.setColor(new Color(0,0,0,255));
+						g.fillRect(0,0,WIDTH,HEIGHT);
+						g.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+						g.setColor(Color.white);
+						
+						int length = (int) g.getFontMetrics().getStringBounds("Saving Score...", g).getWidth();
+						g.drawString("Saving Score...", (GamePanel.WIDTH-length)/2, (GamePanel.HEIGHT)/2);
+						gameDraw();
+						System.out.println("Done Drawing");
+						if(!victorious) {
+							System.out.println("Start Load");
+							HighScoreUtils.addHighScore("DefaultLevels", levelTitle, StringUtils.getTime(lvlElapsedTime), username);
+							System.out.println("Done Load");
+						}						
+					}
+					
+					System.out.println("change state");
+					
 					victorious = true;
 					gameState = GameState.GAME_OVER;
 				}
@@ -1685,7 +1706,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_F4) {
 			sp.dropRateBtn.doClick();
 		}
-		
+		if(keyCode == KeyEvent.VK_F5) {
+			waveNumber = 17;
+		}
+		if(keyCode == KeyEvent.VK_F6) {
+			enemies.clear();
+		}
 	}
 
 	@Override
