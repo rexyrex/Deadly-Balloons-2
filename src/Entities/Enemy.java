@@ -91,6 +91,11 @@ public class Enemy {
 	private int moneyEnemyAlpha;
 	private boolean moneyEnemyAlphaInc;
 	
+	private int pulseEnemyMinRadius;
+	private int pulseEnemyMaxRadius;
+	private boolean pulseEnemyRadiusInc;
+
+	
 	private double dropMultiplier;
 	
 	
@@ -373,6 +378,53 @@ public class Enemy {
 				maxHealth = 1000;
 				money = 0;
 			}
+		}
+		
+		//pulsing enemy
+		if(type ==9){
+			skillSet.put("change direction skill", 3.2);
+			skillSet.put("change speed skill", 3.2);
+			skillSet.put("health bar skill", 1.0);
+			skillSet.put("pulse skill", 1.0);
+			
+			color1 = new Color(12,222,122,200);
+
+			if(rank == 1){
+				speed = 6;
+				r = 18;
+				health = 25;
+				maxHealth = 25;
+				money = 4;
+			}
+			
+			if(rank == 2){
+				speed = 5;
+				r = 30;
+				health = 40;
+				maxHealth = 40;
+				money = 6;
+				dropMultiplier = 1.7;
+			}
+			if(rank == 3){
+				speed = 4;
+				r = 40;
+				health = 55;
+				maxHealth = 55;
+				money = 8;
+				dropMultiplier = 2.0;
+			}
+			
+			if(rank == 4){
+				speed = 3;
+				r = 50;
+
+				health = 70;
+				maxHealth = 70;
+				money = 9;
+				dropMultiplier = 2.5;
+			}	
+			pulseEnemyMaxRadius = (int)(r*1.4);
+			pulseEnemyMinRadius = (int)(r*0.7);
 		}
 		
 		//tutorial enemy
@@ -869,6 +921,31 @@ public class Enemy {
 			if(RandomUtils.runChance(skillSet.get("change direction skill"))) {
 				changeDirectionRandomly();
 			}
+		}
+		
+		if(skillSet.containsKey("change speed skill")) {
+			if(RandomUtils.runChance(skillSet.get("change speed skill"))) {
+				changeSpeedRandomly();
+			}
+		}
+		
+		if(skillSet.containsKey("pulse skill")) {
+			System.out.println("min: " + pulseEnemyMinRadius);
+			System.out.println("max: " + pulseEnemyMaxRadius);
+			System.out.println("r: " + r);
+			if(r<pulseEnemyMinRadius) {
+				pulseEnemyRadiusInc = true;
+			} else if(r>pulseEnemyMaxRadius){
+				pulseEnemyRadiusInc = false;
+			}
+			
+			System.out.println("inc: " + pulseEnemyRadiusInc);
+			if(pulseEnemyRadiusInc) {
+				r+=1;
+			} else {
+				r-=1;
+			}
+			System.out.println("R: " + r);
 		}
 		
 		if(skillSet.containsKey("money skill")) {

@@ -3,7 +3,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -35,6 +34,7 @@ import Entities.BlackHole;
 import Entities.Bomb;
 import Entities.Bullet;
 import Entities.Enemy;
+import Entities.EnemyBullet;
 import Entities.Friend;
 import Entities.Lightning;
 import Entities.Player;
@@ -99,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<SpawnIndicator> spawnIndicators;
 	public static ArrayList<FootPrint> footPrints;
 	public static ArrayList<ParticleEffect> particleEffects;
+	public static ArrayList<EnemyBullet> enemyBullets;
 	
 	//highscores
 	public static HashMap<String, HashMap<String, Map<String,String>>> highScoreMap;
@@ -294,6 +295,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		spawnIndicators = new ArrayList<SpawnIndicator>();
 		footPrints = new ArrayList<FootPrint>();
 		particleEffects = new ArrayList<ParticleEffect>();
+		enemyBullets = new ArrayList<EnemyBullet>();
 		
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
@@ -466,6 +468,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		footPrints.clear();
 		spawnIndicators.clear();
 		particleEffects.clear();
+		enemyBullets.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -718,7 +721,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 	//DRAW TO OFFSCREEN
 	private void gameRender() {	
-
 		
 		//draw background
 		g.setColor(new Color(122,155,155));
@@ -757,6 +759,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 
 		//draw bullets
+		for(int i=0; i<bullets.size(); i++){
+			bullets.get(i).draw(g);
+		}
+		
+		//draw enemy bullets
 		for(int i=0; i<bullets.size(); i++){
 			bullets.get(i).draw(g);
 		}
@@ -1086,6 +1093,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
+		//enemy bullet update
+		for(int i=0; i<enemyBullets.size(); i++){
+			boolean remove = enemyBullets.get(i).update();
+			if(remove){
+				enemyBullets.remove(i);
+				i--;
+			}
+		}
+		
 		//friend update
 		for(int i=0; i<friends.size(); i++) {
 			Friend f = friends.get(i);
@@ -1395,6 +1411,32 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					i--;
 					break;
 				}
+			}
+		}
+		
+		//enemyBullet-player collision
+		for(int i=0; i<bullets.size(); i++){
+			
+			EnemyBullet b = enemyBullets.get(i);
+			double bx = b.getx();
+			double by = b.gety();
+			double br = b.getr();
+			
+			
+			double ex = player.getx();
+			double ey = player.gety();
+			double er = player.getr();
+		
+			double dx = bx - ex;
+			double dy = by - ey;
+			double dist = Math.sqrt(dx * dx + dy * dy);
+			
+			if(dist < br + er){
+				//sfx.get("hit").play();
+				player.loseLife();
+				enemyBullets.remove(i);
+				i--;
+				break;
 			}
 		}
 		

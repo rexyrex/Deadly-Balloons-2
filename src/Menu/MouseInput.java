@@ -133,7 +133,9 @@ public class MouseInput implements MouseListener{
 				//survival btn
 				if(mouseIn(mx,my,menu.impossibleLvlBtn)) {
 					gp.sfx.get("menu select").play();
-
+					
+					gp.initNewLvl("Rex", GamePanel.GameMode.DEFAULT, false);
+					GamePanel.gameState = GamePanel.GameState.PLAY;	
 					return;
 				}
 				
