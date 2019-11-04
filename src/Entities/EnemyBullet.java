@@ -24,10 +24,12 @@ public class EnemyBullet {
 	private double[] yHistory = new double[20];
 	
 	
-	public EnemyBullet(double angle, double x, double y, double r, double speed) {
+	public EnemyBullet(double angle, double x, double y, int r, double speed) {
+		System.out.println("bulet creation");
 		color1 = Color.BLACK;
 		this.x = x;
 		this.y = y;
+		this.r = r;
 		this.speed = speed;
 		
 		rad = Math.toRadians(angle);		
@@ -79,6 +81,7 @@ public class EnemyBullet {
 		
 		if(x<-r || x > GamePanel.WIDTH + r ||
 				y<-r || y>GamePanel.HEIGHT + r){
+			System.out.println("remove");
 			return true;
 		}		
 		return false;
@@ -94,7 +97,7 @@ public class EnemyBullet {
 				g.setColor(Color.GRAY);
 			else
 				g.setColor(Color.DARK_GRAY);
-			g.fillOval((int)(xHistory[i]-r),(int)(yHistory[i]-r),2*r/(i/2+2),2*r/(i/2+2));
+			g.fillOval((int)(xHistory[i]-r/(i/2+2)),(int)(yHistory[i]-r/(i/2+2)),2*r/(i/2+2),2*r/(i/2+2));
 		}
 		
 		

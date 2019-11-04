@@ -94,7 +94,8 @@ public class Enemy {
 	private int pulseEnemyMinRadius;
 	private int pulseEnemyMaxRadius;
 	private boolean pulseEnemyRadiusInc;
-
+	
+	private long lastShootTime;
 	
 	private double dropMultiplier;
 	
@@ -112,6 +113,8 @@ public class Enemy {
 		stunnedElapsed = 0;
 		stunnedStart = System.nanoTime();
 		stunnedLength = 0;
+		
+		lastShootTime = System.nanoTime();
 
 		
 		this.canvas_height = GamePanel.HEIGHT;
@@ -387,7 +390,7 @@ public class Enemy {
 			skillSet.put("health bar skill", 1.0);
 			skillSet.put("pulse skill", 1.0);
 			
-			color1 = new Color(12,222,122,200);
+			color1 = new Color(12,12,122,200);
 
 			if(rank == 1){
 				speed = 6;
@@ -425,6 +428,54 @@ public class Enemy {
 			}	
 			pulseEnemyMaxRadius = (int)(r*1.4);
 			pulseEnemyMinRadius = (int)(r*0.7);
+		}
+		
+		//shooting enemy
+		if(type ==10){
+			//skillSet.put("change direction skill", 3.2);
+			//skillSet.put("change speed skill", 3.2);
+			//skillSet.put("health bar skill", 1.0);
+			//skillSet.put("pulse skill", 1.0);
+			
+			skillSet.put("shooting skill",4000.0);
+			
+			color1 = new Color(12,12,122,200);
+
+			if(rank == 1){
+				speed = 6;
+				r = 18;
+				health = 25;
+				maxHealth = 25;
+				money = 4;
+			}
+			
+			if(rank == 2){
+				speed = 5;
+				r = 30;
+				health = 40;
+				maxHealth = 40;
+				money = 6;
+				dropMultiplier = 1.7;
+			}
+			if(rank == 3){
+				speed = 4;
+				r = 40;
+				health = 55;
+				maxHealth = 55;
+				money = 8;
+				dropMultiplier = 2.0;
+			}
+			
+			if(rank == 4){
+				speed = 3;
+				r = 50;
+
+				health = 70;
+				maxHealth = 70;
+				money = 9;
+				dropMultiplier = 2.5;
+			}	
+
 		}
 		
 		//tutorial enemy
@@ -946,6 +997,17 @@ public class Enemy {
 				r-=1;
 			}
 			System.out.println("R: " + r);
+		}
+		
+		if(skillSet.containsKey("shooting skill")) {
+			long shootElapsed = (System.nanoTime() - lastShootTime) / 1000000;
+			double shootDelay = skillSet.get("shooting skill");
+			if(shootElapsed > (long)shootDelay) {
+				System.out.println("SHOOT");
+				lastShootTime = System.nanoTime();
+				GamePanel.enemyBullets.add(new EnemyBullet(Math.random() * 360, x, y, 15, 8));
+			}
+
 		}
 		
 		if(skillSet.containsKey("money skill")) {

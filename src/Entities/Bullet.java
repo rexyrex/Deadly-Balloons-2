@@ -378,7 +378,7 @@ public class Bullet {
 					g.setColor(Color.red);
 				else
 					g.setColor(Color.orange);
-				g.fillOval((int)(xHistory[i]-r),(int)(yHistory[i]-r),2*r/(i/2+2),2*r/(i/2+2));
+				g.fillOval((int)(xHistory[i]-r/(i/2+2)),(int)(yHistory[i]-r/(i/2+2)),2*r/(i/2+2),2*r/(i/2+2));
 			}
 		}
 		

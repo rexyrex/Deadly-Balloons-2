@@ -764,8 +764,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//draw enemy bullets
-		for(int i=0; i<bullets.size(); i++){
-			bullets.get(i).draw(g);
+		for(int i=0; i<enemyBullets.size(); i++){
+			enemyBullets.get(i).draw(g);
 		}
 		
 		//draw friend
@@ -1415,7 +1415,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		//enemyBullet-player collision
-		for(int i=0; i<bullets.size(); i++){
+		for(int i=0; i<enemyBullets.size(); i++){
 			
 			EnemyBullet b = enemyBullets.get(i);
 			double bx = b.getx();
