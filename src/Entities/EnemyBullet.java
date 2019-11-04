@@ -25,7 +25,6 @@ public class EnemyBullet {
 	
 	
 	public EnemyBullet(double angle, double x, double y, int r, double speed) {
-		System.out.println("bulet creation");
 		color1 = Color.BLACK;
 		this.x = x;
 		this.y = y;
@@ -81,7 +80,6 @@ public class EnemyBullet {
 		
 		if(x<-r || x > GamePanel.WIDTH + r ||
 				y<-r || y>GamePanel.HEIGHT + r){
-			System.out.println("remove");
 			return true;
 		}		
 		return false;
