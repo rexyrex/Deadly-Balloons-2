@@ -99,6 +99,8 @@ public class Enemy {
 	
 	private double dropMultiplier;
 	
+	private double fireAngle;
+	
 	
 	//constructor
 	public Enemy(int type, int rank, double moneyMult){
@@ -115,6 +117,8 @@ public class Enemy {
 		stunnedLength = 0;
 		
 		lastShootTime = System.nanoTime();
+		
+		fireAngle = Math.random() * 360;
 
 		
 		this.canvas_height = GamePanel.HEIGHT;
@@ -1005,7 +1009,8 @@ public class Enemy {
 			if(shootElapsed > (long)shootDelay) {
 				System.out.println("SHOOT");
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(Math.random() * 360, x, y, 15, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 15, 8));
+				fireAngle = Math.random() * 360;
 			}
 
 		}
@@ -1241,6 +1246,8 @@ public class Enemy {
 			}
 		}
 		
+		
+		
 		//draw name
 		if(type==6 || rank>3){
 			g.setColor(new Color(245,222,179));
@@ -1315,6 +1322,31 @@ public class Enemy {
 		if(regenMode){
 			g.setColor(new Color(0,255,0,144));
 			g.fillOval((int)(x-r),(int)(y-r), 2*r, 2*r);
+		}
+		
+		//Aim bar
+		if(skillSet.containsKey("shooting skill")) {
+			g.setColor(Color.BLACK);
+			
+			double aimDestX = 0;
+			double aimDestY = 0;
+			double aimBarLength = (double)r *1.2;
+			
+			
+			
+			double fireAngleRad = Math.toRadians(fireAngle);
+			aimDestX = x+Math.cos(fireAngleRad) * aimBarLength;
+			aimDestY = y+Math.sin(fireAngleRad) * aimBarLength;
+			
+			System.out.println("fireAngle: " + fireAngle);
+			System.out.println("aimBarLength: " + aimBarLength);
+			System.out.println("x: " + aimDestX);
+			System.out.println("y: " + aimDestY);
+						
+			g.setStroke(new BasicStroke(5));
+			g.draw(new Line2D.Double(x, y, aimDestX, aimDestY));
+			g.setStroke(new BasicStroke(1));
+
 		}
 		
 		//draw regen bar
