@@ -7,9 +7,9 @@
 	        "waveTitle":"Test",
 	        "waveEnemies":[  
 				{
-					"type": 10,
+					"type": 11,
 					"rank": 1,
-					"count": 8
+					"count": 4
 				}
 	        ]
 	    },

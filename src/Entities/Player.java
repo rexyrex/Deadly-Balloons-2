@@ -147,6 +147,11 @@ public class Player {
 	
 	private boolean immobalized;
 	
+	private boolean isStunned;
+	private long stunDuration;
+	private long stunStartTime;
+	private long stunElapsed;
+	
 	private int nWalls;	
 	
 	private int powerLevel;
@@ -314,6 +319,10 @@ public class Player {
 		invincible = false;
 		immobalized = false;
 		
+		stunDuration = 3000;
+		stunElapsed = System.nanoTime();
+		stunStartTime = 0;
+		
 		nWalls = 1;
 		
 		score = 1000;
@@ -453,6 +462,12 @@ public class Player {
 	public void setImmobalized(boolean b){ immobalized = b; }
 	
 	public boolean isImmobalized() {return immobalized;}
+	
+	public void stun(long stunDuration) {
+		this.stunDuration = stunDuration;
+		this.stunStartTime = System.nanoTime();
+		isStunned = true;
+	}
 	
 	public boolean isSuperSpeed() {
 		return isSuperSpeed;
@@ -843,7 +858,7 @@ public class Player {
 	}
 	
 	public void update(){
-		if(!immobalized){
+		if(!immobalized && !isStunned){
 			if(left){
 				dx = -speed;
 			}
@@ -855,6 +870,13 @@ public class Player {
 			}
 			if(down){
 				dy = speed;
+			}
+		}
+		
+		if(isStunned) {
+			stunElapsed = (System.nanoTime() - stunStartTime) / 1000000;
+			if(stunElapsed > stunDuration) {
+				isStunned = false;
 			}
 		}
 		
@@ -1205,6 +1227,20 @@ public class Player {
 			g.setColor(color1.darker());
 			g.drawOval(x-r, y-r, r*2, r*2);
 			g.setStroke(new BasicStroke(1));
+		}
+		
+		if(isStunned) {
+			double stunAlpha = 200 * (1-stunElapsed / stunDuration);
+			if(stunAlpha < 1) {
+				stunAlpha = 1;
+			}
+			if(stunAlpha > 200) {
+				stunAlpha = 200;
+			}
+			
+			g.setColor(new Color(12,23,56, (int)stunAlpha));
+			g.fillOval(x-(int)(r*1.5),y-(int)(r*1.5),2*(int)(r*1.5),2*(int)(r*1.5));
+
 		}
 		
 		if(recovering){

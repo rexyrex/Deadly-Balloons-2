@@ -1433,7 +1433,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			
 			if(dist < br + er){
 				//sfx.get("hit").play();
-				player.loseLife();
+				player.stun(3000);
 				enemyBullets.remove(i);
 				i--;
 				break;
