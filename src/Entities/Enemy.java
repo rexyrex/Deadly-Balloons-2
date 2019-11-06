@@ -101,6 +101,8 @@ public class Enemy {
 	
 	private double fireAngle;
 	
+	private double maxSpeed;
+	
 	
 	//constructor
 	public Enemy(int type, int rank, double moneyMult){
@@ -482,6 +484,54 @@ public class Enemy {
 
 		}
 		
+		//shotgun enemy
+		if(type ==11){
+			//skillSet.put("change direction skill", 3.2);
+			//skillSet.put("change speed skill", 3.2);
+			//skillSet.put("health bar skill", 1.0);
+			//skillSet.put("pulse skill", 1.0);
+			
+			skillSet.put("shotgun skill",4000.0);
+			maxSpeed = 8;
+			color1 = new Color(12,12,122,200);
+
+			if(rank == 1){
+				speed = 6;
+				r = 18;
+				health = 25;
+				maxHealth = 25;
+				money = 4;
+			}
+			
+			if(rank == 2){
+				speed = 5;
+				r = 30;
+				health = 40;
+				maxHealth = 40;
+				money = 6;
+				dropMultiplier = 1.7;
+			}
+			if(rank == 3){
+				speed = 4;
+				r = 40;
+				health = 55;
+				maxHealth = 55;
+				money = 8;
+				dropMultiplier = 2.0;
+			}
+			
+			if(rank == 4){
+				speed = 3;
+				r = 50;
+
+				health = 70;
+				maxHealth = 70;
+				money = 9;
+				dropMultiplier = 2.5;
+			}	
+
+		}
+		
 		//tutorial enemy
 		if(type ==1000){
 			color1 = new Color(50,205,50,241);
@@ -692,6 +742,9 @@ public class Enemy {
 	
 	public void changeSpeedRandomly(){
 		speed = Math.random() * 5 + 1;
+		
+		dx = Math.cos(rad) * speed;
+		dy = Math.sin(rad) * speed;
 	}
 	
 	public void changeColorRandomly(){
@@ -1009,10 +1062,29 @@ public class Enemy {
 			if(shootElapsed > (long)shootDelay) {
 				System.out.println("SHOOT");
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 15, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 8));
 				fireAngle = Math.random() * 360;
 			}
-
+		}
+		
+		if(skillSet.containsKey("shotgun skill")) {
+			long shootElapsed = (System.nanoTime() - lastShootTime) / 1000000;
+			double shootDelay = skillSet.get("shotgun skill");
+			
+			speed = maxSpeed * (1-(double)shootElapsed / shootDelay);
+			
+			dx = Math.cos(rad) * speed;
+			dy = Math.sin(rad) * speed;
+			
+			if(shootElapsed > (long)shootDelay) {
+				lastShootTime = System.nanoTime();
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 8));
+				
+				rad = Math.toRadians(fireAngle) + Math.PI;
+				fireAngle = Math.random() * 360;
+			}
 		}
 		
 		if(skillSet.containsKey("money skill")) {
@@ -1326,27 +1398,73 @@ public class Enemy {
 		
 		//Aim bar
 		if(skillSet.containsKey("shooting skill")) {
-			g.setColor(Color.BLACK);
+			
+			long shootElapsed = (System.nanoTime() - lastShootTime) / 1000000;
+			double shootDelay = skillSet.get("shooting skill");
 			
 			double aimDestX = 0;
 			double aimDestY = 0;
-			double aimBarLength = (double)r *1.2;
+			double aimBarLength = (double)r;
 			
-			
+			double aimChargeDestX = 0;
+			double aimChargeDestY = 0;
+			double aimChargeBarLength = (double)r * shootElapsed / shootDelay;
 			
 			double fireAngleRad = Math.toRadians(fireAngle);
 			aimDestX = x+Math.cos(fireAngleRad) * aimBarLength;
 			aimDestY = y+Math.sin(fireAngleRad) * aimBarLength;
 			
-			System.out.println("fireAngle: " + fireAngle);
-			System.out.println("aimBarLength: " + aimBarLength);
-			System.out.println("x: " + aimDestX);
-			System.out.println("y: " + aimDestY);
+			aimChargeDestX = x+Math.cos(fireAngleRad) * aimChargeBarLength;
+			aimChargeDestY = y+Math.sin(fireAngleRad) * aimChargeBarLength;
+			
+//			System.out.println("fireAngle: " + fireAngle);
+//			System.out.println("aimBarLength: " + aimBarLength);
+//			System.out.println("x: " + aimDestX);
+//			System.out.println("y: " + aimDestY);
 						
 			g.setStroke(new BasicStroke(5));
+			g.setColor(Color.WHITE);
 			g.draw(new Line2D.Double(x, y, aimDestX, aimDestY));
 			g.setStroke(new BasicStroke(1));
+			
+			g.setStroke(new BasicStroke(4));
+			g.setColor(Color.BLACK);
+			g.draw(new Line2D.Double(x, y, aimChargeDestX, aimChargeDestY));
+			g.setStroke(new BasicStroke(1));
 
+		}
+		
+		if(skillSet.containsKey("shotgun skill")) {
+			long shootElapsed = (System.nanoTime() - lastShootTime) / 1000000;
+			double shootDelay = skillSet.get("shotgun skill");
+			
+			for(int i=0; i<3; i++) {
+			
+				double aimDestX = 0;
+				double aimDestY = 0;
+				double aimBarLength = (double)r *1.2;
+				
+				double aimChargeDestX = 0;
+				double aimChargeDestY = 0;
+				double aimChargeBarLength = (double)r * shootElapsed / shootDelay;
+				
+				double fireAngleRad = Math.toRadians(fireAngle + (-25) + 25*i);
+				aimDestX = x+Math.cos(fireAngleRad) * aimBarLength;
+				aimDestY = y+Math.sin(fireAngleRad) * aimBarLength;
+				
+				aimChargeDestX = x+Math.cos(fireAngleRad) * aimChargeBarLength;
+				aimChargeDestY = y+Math.sin(fireAngleRad) * aimChargeBarLength;
+				
+				g.setStroke(new BasicStroke(5));
+				g.setColor(Color.WHITE);
+				g.draw(new Line2D.Double(x, y, aimDestX, aimDestY));
+				g.setStroke(new BasicStroke(1));
+				
+				g.setStroke(new BasicStroke(4));
+				g.setColor(Color.BLACK);
+				g.draw(new Line2D.Double(x, y, aimChargeDestX, aimChargeDestY));
+				g.setStroke(new BasicStroke(1));
+			}
 		}
 		
 		//draw regen bar
