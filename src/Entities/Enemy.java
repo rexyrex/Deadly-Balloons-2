@@ -528,8 +528,30 @@ public class Enemy {
 				maxHealth = 70;
 				money = 9;
 				dropMultiplier = 2.5;
-			}	
+			}
+		}
+		
+		//swarm enemy
+		if(type ==12){
+			color1 = new Color(77,77,122,200);
 
+			if(rank == 1){
+				speed = 8.5;
+				r = 10;
+				health = 5;
+				maxHealth = 5;
+				money = 1;
+			}
+			
+			if(rank == 2){
+				skillSet.put("health bar skill", 1.0);
+				speed = 1;
+				r = 100;
+				health = 10;
+				maxHealth = 200;
+				money = 40;
+				dropMultiplier = 3;
+			}
 		}
 		
 		//tutorial enemy
@@ -766,6 +788,11 @@ public class Enemy {
 				case 5: amount = 4; break;
 				case 6: amount = 2; break;
 				case 7: amount = 2; break;
+				case 8: amount = 2; break;
+				case 9: amount = 2; break;
+				case 10: amount = 2; break;
+				case 11: amount = 2; break;
+				case 12: amount = 20; break;
 				default : amount = 0; break;
 			}
 			
@@ -776,16 +803,11 @@ public class Enemy {
 				e.setGettingBombed(gettingBombed);
 				e.x = this.x;
 				e.y = this.y;
+				double angle = Math.random() * 360;
 				
-				double angle = 0;
-				if(!ready){
-					angle = Math.random()*140+20;
-				} else {
-					angle = Math.random() * 360;
-				}
 				e.rad = Math.toRadians(angle);
-				e.dx = Math.cos(e.rad) * speed;
-				e.dy = Math.sin(e.rad) * speed;
+				e.dx = Math.cos(e.rad) * e.speed;
+				e.dy = Math.sin(e.rad) * e.speed;
 				//e.money = money/amount;
 				
 				//Growing enemies radius based on previous size
@@ -1232,6 +1254,9 @@ public class Enemy {
 		}
 		
 		if(stunned) {
+			if(GamePanel.gameState == GamePanel.GameState.PAUSED) {
+				stunnedStart = System.nanoTime();
+			}
 			stunnedElapsed = (System.nanoTime() - stunnedStart)/1000000;
 			if(stunnedElapsed > stunnedLength) {
 				stunned = false;

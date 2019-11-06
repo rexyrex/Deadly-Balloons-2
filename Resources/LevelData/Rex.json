@@ -8,8 +8,8 @@
 	        "waveEnemies":[  
 				{
 					"type": 11,
-					"rank": 1,
-					"count": 4
+					"rank": 2,
+					"count": 1
 				}
 	        ]
 	    },
@@ -27,8 +27,8 @@
 	        "waveTitle":"They have names?",
 	        "waveEnemies":[  
 				{
-					"type": 1,
-					"rank": 4,
+					"type": 11,
+					"rank": 1,
 					"count": 2
 				}
 	        ]
