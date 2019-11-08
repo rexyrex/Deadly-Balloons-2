@@ -68,6 +68,7 @@ public class Enemy {
 	private long regenLength;
 	private long lastRegenTime;
 	private long regenDelay;
+	private long regenOnElapsed;
 	
 	private HashMap<String, Double> skillSet;
 	
@@ -940,6 +941,7 @@ public class Enemy {
 	}
 	
 	public void startRegenMode(){
+		
 		if(((System.nanoTime() - lastRegenTime)/1000000 > regenDelay) && regenMode==false) {
 			regenMode = true;
 			regenTimer = System.nanoTime();
@@ -1043,6 +1045,10 @@ public class Enemy {
 	
 	public boolean isDead(){
 		return dead;
+	}
+	
+	public void pauseUpdate() {
+		regenTimer = System.nanoTime() - regenOnElapsed * 1000000;
 	}
 	
 	public void update(Player player, ArrayList<Text> texts){
@@ -1312,8 +1318,8 @@ public class Enemy {
 		}
 		
 		if(regenMode){
-			long elapsed = (System.nanoTime() - regenTimer)/1000000;
-			if(elapsed > regenLength){
+			regenOnElapsed = (System.nanoTime() - regenTimer)/1000000;
+			if(regenOnElapsed > regenLength){
 				regenMode = false;
 				regenTimer = 0;
 				lastRegenTime = System.nanoTime();

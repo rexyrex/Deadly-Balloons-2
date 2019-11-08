@@ -648,7 +648,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	private void pauseUpdate(long pauseStartTick) {
+		
 		player.pauseUpdate();
+		
+		for(int i=0; i< enemies.size(); i++){
+			enemies.get(i).pauseUpdate();
+		}
 		
 		//spawn Indicator pause Update
 		if(gameMode != GameMode.TUTORIAL || currentTutorialStage > 10) {
