@@ -1,15 +1,15 @@
 	{
 	"levelName" : "Rex",
 	"levelNumber" : 3,
-	"background" : "gimpBack3.png",
+	"background" : "procreate1.png",
 	"waves" : [
 		{  
 	        "waveTitle":"Test",
 	        "waveEnemies":[  
 				{
-					"type": 11,
-					"rank": 2,
-					"count": 1
+					"type": 9,
+					"rank": 4,
+					"count": 2
 				}
 	        ]
 	    },
@@ -17,9 +17,9 @@
 	        "waveTitle":"Still a Noob",
 	        "waveEnemies":[  
 				{
-					"type": 1,
-					"rank": 2,
-					"count": 6
+					"type": 11,
+					"rank": 4,
+					"count": 2
 				}
 	        ]
 	    },
@@ -27,8 +27,8 @@
 	        "waveTitle":"They have names?",
 	        "waveEnemies":[  
 				{
-					"type": 11,
-					"rank": 1,
+					"type": 10,
+					"rank": 4,
 					"count": 2
 				}
 	        ]

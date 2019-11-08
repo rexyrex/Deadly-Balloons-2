@@ -401,35 +401,35 @@ public class Enemy {
 
 			if(rank == 1){
 				speed = 6;
-				r = 18;
-				health = 25;
-				maxHealth = 25;
+				r = 25;
+				health = 15;
+				maxHealth = 15;
 				money = 4;
 			}
 			
 			if(rank == 2){
 				speed = 5;
-				r = 30;
-				health = 40;
-				maxHealth = 40;
+				r = 34;
+				health = 25;
+				maxHealth = 25;
 				money = 6;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
 				speed = 4;
-				r = 40;
-				health = 55;
-				maxHealth = 55;
+				r = 44;
+				health = 35;
+				maxHealth = 35;
 				money = 8;
 				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
 				speed = 3;
-				r = 50;
+				r = 55;
 
-				health = 70;
-				maxHealth = 70;
+				health = 50;
+				maxHealth = 50;
 				money = 9;
 				dropMultiplier = 2.5;
 			}	
@@ -451,35 +451,35 @@ public class Enemy {
 			if(rank == 1){
 				speed = 6;
 				r = 18;
-				health = 25;
-				maxHealth = 25;
-				money = 4;
+				health = 15;
+				maxHealth = 15;
+				money = 6;
 			}
 			
 			if(rank == 2){
 				speed = 5;
-				r = 30;
-				health = 40;
-				maxHealth = 40;
-				money = 6;
+				r = 25;
+				health = 22;
+				maxHealth = 22;
+				money = 7;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
 				speed = 4;
-				r = 40;
-				health = 55;
-				maxHealth = 55;
-				money = 8;
+				r = 32;
+				health = 33;
+				maxHealth = 33;
+				money = 9;
 				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
 				speed = 3;
-				r = 50;
+				r = 40;
 
-				health = 70;
-				maxHealth = 70;
-				money = 9;
+				health = 47;
+				maxHealth = 47;
+				money = 10;
 				dropMultiplier = 2.5;
 			}	
 
@@ -498,26 +498,26 @@ public class Enemy {
 
 			if(rank == 1){
 				speed = 6;
-				r = 18;
-				health = 25;
-				maxHealth = 25;
-				money = 4;
+				r = 25;
+				health = 14;
+				maxHealth = 14;
+				money = 6;
 			}
 			
 			if(rank == 2){
 				speed = 5;
-				r = 30;
-				health = 40;
-				maxHealth = 40;
-				money = 6;
+				r = 35;
+				health = 24;
+				maxHealth = 24;
+				money = 8;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
 				speed = 4;
-				r = 40;
-				health = 55;
-				maxHealth = 55;
-				money = 8;
+				r = 42;
+				health = 34;
+				maxHealth = 34;
+				money = 10;
 				dropMultiplier = 2.0;
 			}
 			
@@ -525,9 +525,9 @@ public class Enemy {
 				speed = 3;
 				r = 50;
 
-				health = 70;
-				maxHealth = 70;
-				money = 9;
+				health = 45;
+				maxHealth = 45;
+				money = 12;
 				dropMultiplier = 2.5;
 			}
 		}
@@ -537,20 +537,20 @@ public class Enemy {
 			color1 = new Color(77,77,122,200);
 
 			if(rank == 1){
-				speed = 8.5;
+				speed = 7;
 				r = 10;
 				health = 5;
 				maxHealth = 5;
-				money = 1;
+				money = 2;
 			}
 			
 			if(rank == 2){
 				skillSet.put("health bar skill", 1.0);
-				speed = 1;
+				speed = 2;
 				r = 100;
-				health = 10;
+				health = 200;
 				maxHealth = 200;
-				money = 40;
+				money = 50;
 				dropMultiplier = 3;
 			}
 		}
@@ -793,7 +793,7 @@ public class Enemy {
 				case 9: amount = 2; break;
 				case 10: amount = 2; break;
 				case 11: amount = 2; break;
-				case 12: amount = 20; break;
+				case 12: amount = 27; break;
 				default : amount = 0; break;
 			}
 			
@@ -1090,7 +1090,7 @@ public class Enemy {
 			if(shootElapsed > (long)shootDelay) {
 				System.out.println("SHOOT");
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 17, 8));
 				fireAngle = Math.random() * 360;
 			}
 		}
@@ -1106,9 +1106,9 @@ public class Enemy {
 			
 			if(shootElapsed > (long)shootDelay) {
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 8));
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 8));
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 7));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 7));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 7));
 				
 				rad = Math.toRadians(fireAngle) + Math.PI;
 				fireAngle = Math.random() * 360;
@@ -1447,11 +1447,6 @@ public class Enemy {
 			
 			aimChargeDestX = x+Math.cos(fireAngleRad) * aimChargeBarLength;
 			aimChargeDestY = y+Math.sin(fireAngleRad) * aimChargeBarLength;
-			
-//			System.out.println("fireAngle: " + fireAngle);
-//			System.out.println("aimBarLength: " + aimBarLength);
-//			System.out.println("x: " + aimDestX);
-//			System.out.println("y: " + aimDestY);
 						
 			g.setStroke(new BasicStroke(5));
 			g.setColor(Color.WHITE);
@@ -1473,7 +1468,7 @@ public class Enemy {
 			
 				double aimDestX = 0;
 				double aimDestY = 0;
-				double aimBarLength = (double)r *1.2;
+				double aimBarLength = (double)r;
 				
 				double aimChargeDestX = 0;
 				double aimChargeDestY = 0;
