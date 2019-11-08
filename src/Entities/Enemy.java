@@ -1271,8 +1271,8 @@ public class Enemy {
 		
 		if(!stunned) {
 			if(slow){
-				x+= dx*0.7;
-				y+= dy *0.7;
+				x+= dx*0.5;
+				y+= dy *0.5;
 			} else {
 				x += dx;
 				y += dy;

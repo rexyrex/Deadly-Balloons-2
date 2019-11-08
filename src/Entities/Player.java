@@ -152,6 +152,8 @@ public class Player {
 	private long stunStartTime;
 	private long stunElapsed;
 	
+	private boolean isSlowed;
+	
 	private int nWalls;	
 	
 	private int powerLevel;
@@ -323,6 +325,8 @@ public class Player {
 		stunElapsed = System.nanoTime();
 		stunStartTime = 0;
 		
+		isSlowed = false;
+		
 		nWalls = 1;
 		
 		score = 1000;
@@ -468,6 +472,14 @@ public class Player {
 		this.stunStartTime = System.nanoTime();
 		isStunned = true;
 		System.out.println("original stun time : " + stunStartTime);
+	}
+	
+	public void slowOn() {
+		isSlowed = true;
+	}
+	
+	public void slowOff() {
+		isSlowed = false;
 	}
 	
 	public boolean isSuperSpeed() {
@@ -891,9 +903,14 @@ public class Player {
 			}
 		}
 		
+		if(!isSlowed) {
+			x+= dx;
+			y += dy;
+		} else {
+			x+= (int)(dx / 2);
+			y += (int)(dy / 2);
+		}
 		
-		x+= dx;
-		y += dy;
 		
 		if(x<0) x=GamePanel.WIDTH;
 		if(y<0) y=GamePanel.HEIGHT;
