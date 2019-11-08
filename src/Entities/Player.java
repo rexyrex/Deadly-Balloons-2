@@ -467,6 +467,7 @@ public class Player {
 		this.stunDuration = stunDuration;
 		this.stunStartTime = System.nanoTime();
 		isStunned = true;
+		System.out.println("original stun time : " + stunStartTime);
 	}
 	
 	public boolean isSuperSpeed() {
@@ -857,6 +858,14 @@ public class Player {
 		spazLength += 300;
 	}
 	
+	public void pauseUpdate() {
+		if(isStunned) {
+			stunStartTime = System.nanoTime() - stunElapsed * 1000000;
+			System.out.println("pause updated stun start time: " + stunStartTime);
+			
+		}
+	}
+	
 	public void update(){
 		if(!immobalized && !isStunned){
 			if(left){
@@ -875,6 +884,8 @@ public class Player {
 		
 		if(isStunned) {
 			stunElapsed = (System.nanoTime() - stunStartTime) / 1000000;
+			System.out.println("update stunStartTime: " + stunStartTime);
+			System.out.println("stunElapsed: " + stunElapsed);
 			if(stunElapsed > stunDuration) {
 				isStunned = false;
 			}

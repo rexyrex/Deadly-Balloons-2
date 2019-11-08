@@ -380,10 +380,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			requestFocus();
 			startTime = System.nanoTime();
 			if(gameState == GameState.PAUSED) {				
+				long pStartTick = System.nanoTime();
 				pauseElapsedTime = (System.nanoTime() - pauseStartTime)/ 1000000;
 				gameRender();
 				pauseRender();
 				gameDraw();
+				pauseUpdate(pStartTick);
 			}
 			
 			if(gameState == GameState.GAME_OVER) {
@@ -637,6 +639,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.drawString("Main Menu", backFromGameOverBtn.x+18, backFromGameOverBtn.y+33);
 		g.draw(backFromGameOverBtn);
 		
+	}
+	
+	private void pauseUpdate(long pauseStartTick) {
+		player.pauseUpdate();
+		
+		//spawn Indicator pause Update
+		if(gameMode != GameMode.TUTORIAL || currentTutorialStage > 10) {
+		    for (Map.Entry<Integer, Long> puDropRateEntry : puLastDropTimeMap.entrySet()) {
+		    	int powerUpType = puDropRateEntry.getKey();
+		    	long powerUpLastDropTime = puDropRateEntry.getValue();
+		    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
+		    	long newPowerUpLastDropTime = System.nanoTime() - puElapsed * 1000000;
+		    	puLastDropTimeMap.put(puDropRateEntry.getKey(), newPowerUpLastDropTime);
+		    }
+
+		}
 	}
 
 	private void pauseRender() {
