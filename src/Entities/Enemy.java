@@ -397,7 +397,7 @@ public class Enemy {
 			skillSet.put("health bar skill", 1.0);
 			skillSet.put("pulse skill", 1.0);
 			
-			color1 = new Color(12,12,122,200);
+			color1 = new Color(176,196,222,200);
 
 			if(rank == 1){
 				speed = 6;
@@ -446,7 +446,7 @@ public class Enemy {
 			
 			skillSet.put("shooting skill",4000.0);
 			
-			color1 = new Color(12,12,122,200);
+			color1 = new Color(112,128,144,200);
 
 			if(rank == 1){
 				speed = 6;
@@ -494,7 +494,7 @@ public class Enemy {
 			
 			skillSet.put("shotgun skill",4000.0);
 			maxSpeed = 8;
-			color1 = new Color(12,12,122,200);
+			color1 = new Color(112,128,144,200);
 
 			if(rank == 1){
 				speed = 6;
@@ -534,7 +534,7 @@ public class Enemy {
 		
 		//swarm enemy
 		if(type ==12){
-			color1 = new Color(77,77,122,200);
+			color1 = new Color(255,105,180,200);
 
 			if(rank == 1){
 				speed = 7;

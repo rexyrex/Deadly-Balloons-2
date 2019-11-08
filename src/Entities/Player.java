@@ -907,8 +907,8 @@ public class Player {
 			x+= dx;
 			y += dy;
 		} else {
-			x+= (int)(dx / 2);
-			y += (int)(dy / 2);
+			x+= (int)(dx / 3);
+			y += (int)(dy / 3);
 		}
 		
 		

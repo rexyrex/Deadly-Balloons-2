@@ -40,6 +40,7 @@ import Entities.Lightning;
 import Entities.Player;
 import Entities.PowerUp;
 import Entities.Shelter;
+import Entities.SlowField;
 import Entities.SpawnIndicator;
 import Entities.Torpedo;
 import Entities.Turret;
@@ -100,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<FootPrint> footPrints;
 	public static ArrayList<ParticleEffect> particleEffects;
 	public static ArrayList<EnemyBullet> enemyBullets;
+	public static ArrayList<SlowField> slowFields;
 	
 	//highscores
 	public static HashMap<String, HashMap<String, Map<String,String>>> highScoreMap;
@@ -297,6 +299,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		footPrints = new ArrayList<FootPrint>();
 		particleEffects = new ArrayList<ParticleEffect>();
 		enemyBullets = new ArrayList<EnemyBullet>();
+		slowFields = new ArrayList<SlowField>();
 		
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
@@ -473,6 +476,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		spawnIndicators.clear();
 		particleEffects.clear();
 		enemyBullets.clear();
+		slowFields.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -796,6 +800,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw enemy bullets
 		for(int i=0; i<enemyBullets.size(); i++){
 			enemyBullets.get(i).draw(g);
+		}
+		
+		//draw slow fields
+		for(int i=0; i<slowFields.size(); i++){
+			slowFields.get(i).draw(g);
 		}
 		
 		//draw friend
@@ -1132,6 +1141,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
+		//slow fields update
+		for(int i=0; i<slowFields.size(); i++){
+			boolean remove = slowFields.get(i).update();
+			if(remove){
+				slowFields.remove(i);
+				i--;
+			}
+		}
+		
 		//friend update
 		for(int i=0; i<friends.size(); i++) {
 			Friend f = friends.get(i);
@@ -1248,6 +1266,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 			
 		}
+		
+		//slow Field update
+		boolean playerInAtLeastOneSlowField = false;
+		
+		for(int i=0; i<slowFields.size(); i++) {
+			SlowField sf = slowFields.get(i);
+			if(sf.isStart()) {
+				if(player.isInRange(sf.getX(), sf.getY(), sf.getMaxR())){
+					playerInAtLeastOneSlowField = true;
+				}
+			}			
+		}
+		
+		if(playerInAtLeastOneSlowField) {
+			player.slowOn();
+		} else {
+			player.slowOff();
+		}
+		
+		
 		
 		if(playerInAtLeastOneBlackHole == false){
 			player.setImmobalized(false);
@@ -1591,36 +1629,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		//seeker bullet
-		/*
-		int listPos;
-		double[] list = new double[enemies.size()];
-		for(int i=0; i<bullets.size(); i++){
-			double bx = bullets.get(i).getx();
-			double by = bullets.get(i).gety();
-			for(int j=0; j<enemies.size();j++){
-				double ex = enemies.get(j).getx();
-				double ey = enemies.get(j).gety();
-				list[j] = Math.sqrt((bx-ex)*(bx-ex) + (by-ey)*(by-ey));				
-			}
-			
-			int enemy = (int) smallestDistance(list)[1];
-			if(enemies.get(enemy).getx() > bx){
-				bullets.get(i).setdx(bullets.get(i).getSpeed());
-			} else {
-				bullets.get(i).setdx(-bullets.get(i).getSpeed());
-			}
-			
-			if(enemies.get(enemy).gety() > by){
-				bullets.get(i).setdy(bullets.get(i).getSpeed());
-			} else {
-				bullets.get(i).setdy(-bullets.get(i).getSpeed());
-			}
-			
-			
-		}*/
-		
-		
 	}
 	
 	public void removeTurret(int index){
@@ -1849,6 +1857,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		if(keyCode == KeyEvent.VK_F6) {
 			enemies.clear();
+		}
+		if(keyCode == KeyEvent.VK_F7) {
+			slowFields.add(new SlowField(player.getx(), player.gety(), 250, 15000));
 		}
 	}
 
