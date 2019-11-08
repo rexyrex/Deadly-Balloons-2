@@ -108,6 +108,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private Set<Integer> keysPressed = new HashSet<Integer>();
 	
 	//Drop related
+	public static HashMap<Integer, Long> puDropElapsedMap;
 	public static HashMap<Integer, Long> puLastDropTimeMap;
 	public static HashMap<Integer, Long> puDropTimeMap;
 	public static HashMap<Integer, Double> puDropRateMap;
@@ -300,6 +301,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
 		
+		puDropElapsedMap = new HashMap<Integer, Long>();
 		puLastDropTimeMap = new HashMap<Integer, Long>();
 		puDropTimeMap = new HashMap<Integer, Long>();
 		puDropRateMap = new HashMap<Integer, Double>();
@@ -498,7 +500,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//Init last pu drop times
 		for(int i=0; i<puDropTimes.length; i++) {
 			puLastDropTimeMap.put(i+101, System.nanoTime());
+			puDropElapsedMap.put(i+101, 0l);
 		}
+		
+		
+		
 		
 		//Init pu count map
 	    for(int i=0; i<puDropTimes.length; i++) {
@@ -646,14 +652,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//spawn Indicator pause Update
 		if(gameMode != GameMode.TUTORIAL || currentTutorialStage > 10) {
-		    for (Map.Entry<Integer, Long> puDropRateEntry : puLastDropTimeMap.entrySet()) {
-		    	int powerUpType = puDropRateEntry.getKey();
-		    	long powerUpLastDropTime = puDropRateEntry.getValue();
-		    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
+		    for (Map.Entry<Integer, Long> puLastDropEntry : puLastDropTimeMap.entrySet()) {
+		    	int powerUpType = puLastDropEntry.getKey();
+		    	long powerUpLastDropTime = puLastDropEntry.getValue();
+		    	long puElapsed = puDropElapsedMap.get(powerUpType);
+		    	
 		    	long newPowerUpLastDropTime = System.nanoTime() - puElapsed * 1000000;
-		    	puLastDropTimeMap.put(puDropRateEntry.getKey(), newPowerUpLastDropTime);
+		    	puLastDropTimeMap.put(puLastDropEntry.getKey(), newPowerUpLastDropTime);
 		    }
-
 		}
 	}
 
@@ -1362,6 +1368,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		    	int powerUpType = puDropRateEntry.getKey();
 		    	long powerUpLastDropTime = puDropRateEntry.getValue();
 		    	long puElapsed = (System.nanoTime() - powerUpLastDropTime) / 1000000;
+		    	puDropElapsedMap.put(powerUpType, puElapsed);
 		    	double dropTime = (puDropTimeMap.get(powerUpType) * player.getSpawnTimeMultiplier());
 		    	//Check min wave requirements for each powerup (ignore if tutorial mode)
 		    	if(waveNumber >= puMinWaveMap.get(powerUpType) || gameMode == GameMode.TUTORIAL) {
