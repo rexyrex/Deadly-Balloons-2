@@ -468,10 +468,11 @@ public class Player {
 	public boolean isImmobalized() {return immobalized;}
 	
 	public void stun(long stunDuration) {
-		this.stunDuration = stunDuration;
-		this.stunStartTime = System.nanoTime();
-		isStunned = true;
-		System.out.println("original stun time : " + stunStartTime);
+		if(!invincible && !recovering) {
+			this.stunDuration = stunDuration;
+			this.stunStartTime = System.nanoTime();
+			isStunned = true;
+		}		
 	}
 	
 	public void slowOn() {
@@ -668,7 +669,7 @@ public class Player {
 	public void addScore(int i) { score+=i; };
 	
 	public void loseLife(){
-		if(!invincible){
+		if(!invincible && !recovering){
 			lives--;
 			recovering = true;
 			recoveryTimer = System.nanoTime();
@@ -872,9 +873,7 @@ public class Player {
 	
 	public void pauseUpdate() {
 		if(isStunned) {
-			stunStartTime = System.nanoTime() - stunElapsed * 1000000;
-			System.out.println("pause updated stun start time: " + stunStartTime);
-			
+			stunStartTime = System.nanoTime() - stunElapsed * 1000000;			
 		}
 	}
 	
@@ -896,8 +895,6 @@ public class Player {
 		
 		if(isStunned) {
 			stunElapsed = (System.nanoTime() - stunStartTime) / 1000000;
-			System.out.println("update stunStartTime: " + stunStartTime);
-			System.out.println("stunElapsed: " + stunElapsed);
 			if(stunElapsed > stunDuration) {
 				isStunned = false;
 			}

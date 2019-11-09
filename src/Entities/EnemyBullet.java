@@ -23,9 +23,24 @@ public class EnemyBullet {
 	private double[] xHistory = new double[20];
 	private double[] yHistory = new double[20];
 	
+	private boolean lethal;
 	
-	public EnemyBullet(double angle, double x, double y, int r, double speed) {
-		color1 = Color.BLACK;
+	
+	public boolean isLethal() {
+		return lethal;
+	}
+
+	public void setLethal(boolean lethal) {
+		this.lethal = lethal;
+	}
+
+	public EnemyBullet(double angle, double x, double y, int r, double speed, boolean lethal) {
+		if(lethal) {
+			color1 = Color.RED;
+		} else {
+			color1 = Color.BLACK;
+		}
+		
 		this.x = x;
 		this.y = y;
 		this.r = r;
@@ -35,7 +50,9 @@ public class EnemyBullet {
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 		dya = 0;
-		dxa = 0;		
+		dxa = 0;
+		
+		this.lethal = lethal;
 	}
 	
 	public double getx(){ return x; }
@@ -92,10 +109,21 @@ public class EnemyBullet {
 		for(int i=0; i<getHistoryLength(); i++){
 			
 			if(i>(int)(getHistoryLength()/7))
-				g.setColor(Color.GRAY);
-			else
-				g.setColor(Color.DARK_GRAY);
+				if(lethal) {
+					g.setColor(Color.orange);
+				} else {
+					g.setColor(Color.GRAY);
+				}				
+			else {
+				if(lethal) {
+					g.setColor(Color.yellow);
+				} else {
+					g.setColor(Color.DARK_GRAY);
+				}
+			}
+			
 			g.fillOval((int)(xHistory[i]-r/(i/2+2)),(int)(yHistory[i]-r/(i/2+2)),2*r/(i/2+2),2*r/(i/2+2));
+				
 		}
 		
 		

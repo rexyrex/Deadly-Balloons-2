@@ -1066,31 +1066,25 @@ public class Enemy {
 		}
 		
 		if(skillSet.containsKey("pulse skill")) {
-			System.out.println("min: " + pulseEnemyMinRadius);
-			System.out.println("max: " + pulseEnemyMaxRadius);
-			System.out.println("r: " + r);
 			if(r<pulseEnemyMinRadius) {
 				pulseEnemyRadiusInc = true;
 			} else if(r>pulseEnemyMaxRadius){
 				pulseEnemyRadiusInc = false;
 			}
 			
-			System.out.println("inc: " + pulseEnemyRadiusInc);
 			if(pulseEnemyRadiusInc) {
 				r+=1;
 			} else {
 				r-=1;
 			}
-			System.out.println("R: " + r);
 		}
 		
 		if(skillSet.containsKey("shooting skill")) {
 			long shootElapsed = (System.nanoTime() - lastShootTime) / 1000000;
 			double shootDelay = skillSet.get("shooting skill");
 			if(shootElapsed > (long)shootDelay) {
-				System.out.println("SHOOT");
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 17, 8));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 17, 8, true));
 				fireAngle = Math.random() * 360;
 			}
 		}
@@ -1106,9 +1100,9 @@ public class Enemy {
 			
 			if(shootElapsed > (long)shootDelay) {
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 7));
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 7));
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 7));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 7, false));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 7, false));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 7, false));
 				
 				rad = Math.toRadians(fireAngle) + Math.PI;
 				fireAngle = Math.random() * 360;
