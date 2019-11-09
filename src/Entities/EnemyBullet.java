@@ -16,6 +16,14 @@ public class EnemyBullet {
 	private double dya;
 	
 	private double rad;
+	public double getRad() {
+		return rad;
+	}
+
+	public void setRad(double rad) {
+		this.rad = rad;
+	}
+
 	private double speed;
 	
 	Color color1;

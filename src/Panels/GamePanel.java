@@ -1280,6 +1280,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}			
 		}
 		
+		for(int i=0; i<enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			if(e.getSlowFieldRadius() > 0) {
+				if(player.isInRange(e.getx(), e.gety(), e.getSlowFieldRadius())){
+					playerInAtLeastOneSlowField = true;
+				}
+			}
+		}
+		
 		if(playerInAtLeastOneSlowField) {
 			player.slowOn();
 		} else {

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import Panels.GamePanel;
 import Utils.MathUtils;
@@ -72,6 +73,12 @@ public class Enemy {
 	
 	private HashMap<String, Double> skillSet;
 	
+	private enum RexBossModes{
+		NORMAL, FIRING, SLOWHEAL, CHARGE
+	}
+	
+	private RexBossModes rexBossMode;
+	
 	//charge enemy related vars
 	private enum ChargeState{
 		STATIONARY, CHARGING
@@ -105,6 +112,13 @@ public class Enemy {
 	private double maxSpeed;
 	
 	
+	private double slowFieldRadius;
+	private double maxSlowFieldRadius;
+	
+	private HashMap<Long, EnemyBullet> rexBulletStartMap;
+	private HashMap<Long, Long> rexBulletElapsedMap;
+	
+	
 	//constructor
 	public Enemy(int type, int rank, double moneyMult){
 		this.type = type;
@@ -136,6 +150,13 @@ public class Enemy {
 		skillSet = new HashMap<String, Double>();
 		
 		dropMultiplier = 1.0;
+		
+		slowFieldRadius = 0;
+		maxSlowFieldRadius = 0;
+		
+		rexBossMode = RexBossModes.NORMAL;
+		rexBulletStartMap = new HashMap<>();
+		rexBulletElapsedMap = new HashMap<>();
 		
 		//default
 		if(type ==1){
@@ -581,21 +602,6 @@ public class Enemy {
 			}
 		}
 		
-		//Rex Level 1st boss
-		if(type == 1000000) {
-			skillSet.put("boss 1 skill", 3.0);
-			skillSet.put("health bar skill", 1.0);
-			
-			name = "Rexyrex";
-			if(rank == 1){
-				speed = 6;
-				r = 90;
-				health = 1000;
-				maxHealth = 1000;
-				money = 500;
-			}	
-		}
-		
 		if(type ==100){
 			skillSet.put("boss 1 skill", 3.0);
 			skillSet.put("health bar skill", 1.0);
@@ -647,6 +653,25 @@ public class Enemy {
 			}	
 		}
 		
+		//Rex Level 1st boss
+		if(type == 1000000) {
+			skillSet.put("rex boss 1 skill", 3.0);
+			skillSet.put("health bar skill", 1.0);
+			color1 = new Color(255,255,255,0);
+			
+			name = "Rexyrex";
+			if(rank == 1){
+				speed = 6;
+				r = 80;
+				health = 7000;
+				maxHealth = 7000;
+				money = 500;
+				
+				slowFieldRadius = 0;
+				maxSlowFieldRadius = 220;
+			}	
+		}
+		
 		money = (int) (money * moneyMult);
 		
 		x = Math.random() * GamePanel.WIDTH /2 + GamePanel.WIDTH/4;
@@ -677,6 +702,14 @@ public class Enemy {
 		
 	}
 	
+	public double getSlowFieldRadius() {
+		return slowFieldRadius;
+	}
+
+	public void setSlowFieldRadius(double slowFieldRadius) {
+		this.slowFieldRadius = slowFieldRadius;
+	}
+
 	public void chargingEnemyInit() {
 		lastChargeCompleteTime = System.nanoTime();
 		chargeState = ChargeState.STATIONARY;
@@ -939,7 +972,7 @@ public class Enemy {
 			}
 		}
 				
-		// collide form the sides
+		// collide from the sides
 		if ((y <= (wy1) && y >= wy)) {
 			// left to right collide
 			if (dx >= 0 && (x + r) >= wx && (x-r) <= (wx1)) {
@@ -1071,6 +1104,66 @@ public class Enemy {
 	}
 	
 	public void update(Player player, ArrayList<Text> texts){
+		
+		if(skillSet.containsKey("rex boss 1 skill")) {
+			//change direction
+			if(RandomUtils.runChance(3)) {
+				changeDirectionRandomly();
+			}
+			
+			//change speed
+			if(RandomUtils.runChance(2)) {
+				changeSpeedRandomly(7,4);
+			}
+			
+			//change modes
+			
+			//add bullet
+			if(RandomUtils.runChance(17)) {
+				
+				double fireAngleDeg = 360 * Math.random();
+				boolean lethal = false;
+				if(RandomUtils.runChance(33)) {
+					lethal=true;
+				}
+				rexBulletStartMap.put(System.nanoTime(), new EnemyBullet(fireAngleDeg, 0, 0, 0, 0, lethal));
+			}
+			
+			//update bullet elapsed
+			ArrayList<Long> rexBulletsToRemove = new ArrayList();
+			for (Map.Entry<Long, EnemyBullet> entry : rexBulletStartMap.entrySet()) {
+				long rexBulletElapsed = 0;
+				
+				if(rexBulletElapsedMap.containsKey(entry.getKey())) {
+					rexBulletElapsed = rexBulletElapsedMap.get(entry.getKey());
+				}
+				
+				rexBulletElapsed = (System.nanoTime() - entry.getKey()) / 1000000;
+				rexBulletElapsedMap.put(entry.getKey(),  rexBulletElapsed);
+				
+				//shoot bullet
+				if(rexBulletElapsed > 4000) {
+					EnemyBullet tmpEb = entry.getValue();
+					
+					double fireAngleRad = tmpEb.getRad();
+					double aimDestX = x+Math.cos(fireAngleRad) * r;
+					double aimDestY = y+Math.sin(fireAngleRad) * r;
+					
+
+					EnemyBullet eb = new EnemyBullet(Math.toDegrees(tmpEb.getRad()), aimDestX, aimDestY, 20, 10, tmpEb.isLethal());
+					GamePanel.enemyBullets.add(eb);
+					rexBulletsToRemove.add(entry.getKey());
+				
+				}
+			}	
+			
+			for(int j=0; j<rexBulletsToRemove.size(); j++) {
+				rexBulletStartMap.remove(rexBulletsToRemove.get(j));
+				rexBulletElapsedMap.remove(rexBulletsToRemove.get(j));	
+			}
+			
+			
+		}
 		
 		if(skillSet.containsKey("change direction skill")) {
 			if(RandomUtils.runChance(skillSet.get("change direction skill"))) {
@@ -1375,6 +1468,88 @@ public class Enemy {
 			g.setStroke(new BasicStroke(1));
 		}
 		
+		
+		if(skillSet.containsKey("rex boss 1 skill")) {
+			//draw rainbow
+			int layerCounter = 0;
+			//purple
+			g.setColor(new Color(128,0,128, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+			layerCounter++;
+			//dark blue
+			g.setColor(new Color(0,0,139, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+			layerCounter++;
+			//blue
+			g.setColor(new Color(0,0,255, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+			layerCounter++;
+			//green
+			g.setColor(new Color(0,128,0, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+			layerCounter++;
+			//yellow
+			g.setColor(new Color(255,255,0, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+			layerCounter++;
+			//orange
+			g.setColor(new Color(255,165,0, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));			
+			layerCounter++;
+			//red
+			g.setColor(new Color(255,0,0, 100));
+			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+			
+			//draw slow field around boss			
+			if(rexBossMode == RexBossModes.SLOWHEAL) {
+				g.setColor(new Color(135,206,250,120));
+				g.setStroke(new BasicStroke(2));
+				
+				g.drawOval((int)(x-slowFieldRadius),(int)(y-slowFieldRadius), (int)(2*slowFieldRadius), (int)(2*slowFieldRadius));
+				
+				g.setColor(new Color(135,206,250,47));
+				g.fillOval((int)(x-slowFieldRadius),(int)(y-slowFieldRadius), (int)(2*slowFieldRadius), (int)(2*slowFieldRadius));
+			}
+			
+			//draw shoot bullet
+			for (Map.Entry<Long, EnemyBullet> entry : rexBulletStartMap.entrySet()) {
+				long rexBulletElapsed = rexBulletElapsedMap.get(entry.getKey());
+				long rexBulletDelay = 4000;
+				
+				double aimDestX = 0;
+				double aimDestY = 0;
+				double aimBarLength = (double)r;
+				
+				double aimChargeDestX = 0;
+				double aimChargeDestY = 0;
+				double aimChargeBarLength = (double)r * rexBulletElapsed / rexBulletDelay;
+				
+				double fireAngleRad = entry.getValue().getRad();
+				aimDestX = x+Math.cos(fireAngleRad) * aimBarLength;
+				aimDestY = y+Math.sin(fireAngleRad) * aimBarLength;
+				
+				aimChargeDestX = x+Math.cos(fireAngleRad) * aimChargeBarLength;
+				aimChargeDestY = y+Math.sin(fireAngleRad) * aimChargeBarLength;
+							
+				g.setStroke(new BasicStroke(5));
+				g.setColor(Color.WHITE);
+				g.draw(new Line2D.Double(x, y, aimDestX, aimDestY));
+				g.setStroke(new BasicStroke(1));
+				
+				g.setStroke(new BasicStroke(4));
+				if(entry.getValue().isLethal()) {
+					g.setColor(Color.RED);
+				} else {
+					g.setColor(Color.BLACK);
+				}
+				
+				g.draw(new Line2D.Double(x, y, aimChargeDestX, aimChargeDestY));
+				
+				g.setStroke(new BasicStroke(1));
+			}			
+			g.setStroke(new BasicStroke(1));
+		}
+		
 		//render enemy circle
 		if(skillSet.containsKey("money skill")) {
 			if(moneyEnemyAlpha<77) {
@@ -1467,7 +1642,7 @@ public class Enemy {
 			g.setStroke(new BasicStroke(1));
 			
 			g.setStroke(new BasicStroke(4));
-			g.setColor(Color.BLACK);
+			g.setColor(Color.RED);
 			g.draw(new Line2D.Double(x, y, aimChargeDestX, aimChargeDestY));
 			g.setStroke(new BasicStroke(1));
 

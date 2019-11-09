@@ -232,7 +232,7 @@
 	        "waveTitle":"Donald",
 	        "waveEnemies":[  
 				{
-					"type": 91,
+					"type": 1000000,
 					"rank": 1,
 					"count": 1
 				}
