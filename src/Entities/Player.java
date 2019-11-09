@@ -310,7 +310,7 @@ public class Player {
 		
 		maxStamina = 1200;
 		currentStamina = 1200;
-		staminaRegen = 7.7;
+		staminaRegen = 8.2;
 		staminaTimer = System.nanoTime();
 		staminaGainDelay = 50;
 		

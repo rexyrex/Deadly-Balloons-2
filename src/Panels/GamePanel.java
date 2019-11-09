@@ -49,6 +49,7 @@ import Menu.Menu;
 import Menu.MouseInput;
 import Utils.HighScoreUtils;
 import Utils.ImageUtils;
+import Utils.MathUtils;
 import Utils.RandomUtils;
 import Utils.StringUtils;
 import VFX.Explosion;
@@ -1322,6 +1323,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			for(int j=0; j<enemies.size(); j++){
 				if(enemies.get(j).pointCollide(shelters.get(i).getx(), shelters.get(i).gety(), shelters.get(i).getr())){
 					shelters.get(i).hit();
+				}
+			}
+			
+			//enemy bullet collision
+			for(int j=0; j<enemyBullets.size(); j++) {
+				if(MathUtils.getDist(l.getx(), l.gety(), enemyBullets.get(j).getx(), enemyBullets.get(j).gety()) < l.getr() + enemyBullets.get(j).getr()) {
+					enemyBullets.remove(j);
 				}
 			}
 						

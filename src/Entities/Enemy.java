@@ -581,6 +581,21 @@ public class Enemy {
 			}
 		}
 		
+		//Rex Level 1st boss
+		if(type == 1000000) {
+			skillSet.put("boss 1 skill", 3.0);
+			skillSet.put("health bar skill", 1.0);
+			
+			name = "Rexyrex";
+			if(rank == 1){
+				speed = 6;
+				r = 90;
+				health = 1000;
+				maxHealth = 1000;
+				money = 500;
+			}	
+		}
+		
 		if(type ==100){
 			skillSet.put("boss 1 skill", 3.0);
 			skillSet.put("health bar skill", 1.0);
@@ -763,8 +778,8 @@ public class Enemy {
 		dy = Math.sin(rad) * speed;
 	}
 	
-	public void changeSpeedRandomly(){
-		speed = Math.random() * 5 + 1;
+	public void changeSpeedRandomly(double min, double max){
+		speed = Math.random() * (max-min) + min;
 		
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
@@ -960,7 +975,11 @@ public class Enemy {
 			else if(yDiff<0)
 				rad = Math.atan((yDiff)/(xDiff))+Math.toRadians(360);
 			else
-				rad = Math.atan((yDiff)/(xDiff));			
+				rad = Math.atan((yDiff)/(xDiff));	
+			
+			if(skillSet.containsKey("shotgun skill")) {
+				rad += Math.PI;
+			}
 			
 			dx = -Math.cos(rad) * speed;
 			dy = -Math.sin(rad) * speed;
@@ -1061,7 +1080,7 @@ public class Enemy {
 		
 		if(skillSet.containsKey("change speed skill")) {
 			if(RandomUtils.runChance(skillSet.get("change speed skill"))) {
-				changeSpeedRandomly();
+				changeSpeedRandomly(7,2);
 			}
 		}
 		
@@ -1189,7 +1208,7 @@ public class Enemy {
 			}
 			
 			if(RandomUtils.runChance(0.5)){
-				changeSpeedRandomly();
+				changeSpeedRandomly(6,1);
 			}
 			
 			if(RandomUtils.runChance(1.2)){
@@ -1212,7 +1231,7 @@ public class Enemy {
 			}
 			
 			if(RandomUtils.runChance(0.5)){
-				changeSpeedRandomly();
+				changeSpeedRandomly(6,1);
 			}
 			
 			if(RandomUtils.runChance(1.5)){
@@ -1235,7 +1254,7 @@ public class Enemy {
 			}
 			
 			if(RandomUtils.runChance(0.7)){
-				changeSpeedRandomly();
+				changeSpeedRandomly(7,1);
 			}
 			
 			if(RandomUtils.runChance(2.0)){
