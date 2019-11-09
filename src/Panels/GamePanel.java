@@ -1688,7 +1688,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		        }
 		    }
 		} else if(gameMode == GameMode.SURVIVAL) {
-			player.addScore((int)(500 * Math.pow(waveNumber, 1.4)));
+			player.addScore((int)(1000));
 			int tmpEnemyType = 1;
 			switch(levelTitle) {
 				case "Bigger": tmpEnemyType = 7; break;

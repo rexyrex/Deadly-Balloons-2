@@ -74,10 +74,15 @@ public class Enemy {
 	private HashMap<String, Double> skillSet;
 	
 	private enum RexBossModes{
-		NORMAL, FIRING, SLOWHEAL, CHARGE
-	}
+		NORMAL, FIRING, HEALSPAWN, CHARGE
+	}	
 	
 	private RexBossModes rexBossMode;
+	
+	private long lastModeChangeStartTime;
+	private long lastModeChangeElapsed;
+	private long modeDuration;
+	
 	
 	//charge enemy related vars
 	private enum ChargeState{
@@ -140,6 +145,10 @@ public class Enemy {
 		
 		this.canvas_height = GamePanel.HEIGHT;
 		this.canvas_width = GamePanel.WIDTH;
+		
+		lastModeChangeElapsed = 0;
+		lastModeChangeStartTime = System.nanoTime();
+		modeDuration = 30000;
 
 		
 		int fn = (int) (Math.random() * fnames.length);
@@ -353,42 +362,47 @@ public class Enemy {
 			}	
 		}
 		
+		//growing
 		if(type ==7){
 			dropMultiplier = 1.5;
 			skillSet.put("growing skill", 2.47);
-			color1 = new Color(102,222,255,128);
+			
 			skillSet.put("health bar skill", 1.0);
 			//name = "haha";
 			if(rank == 1){
-				speed = 6;
+				color1 = new Color(102,222,200,60);
+				speed = 4;
 				r = 10;
-				health = 25;
-				maxHealth = 25;
+				health = 20;
+				maxHealth = 20;
 				money = 4;
 			}
 			
 			if(rank == 2){
-				speed = 5;
+				color1 = new Color(102,222,220,80);
+				speed = 3.7;
 				r = 20;
-				health = 40;
-				maxHealth = 40;
+				health = 32;
+				maxHealth = 32;
 				money = 6;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
-				speed = 4;
+				color1 = new Color(102,222,240,100);
+				speed = 3.4;
 				r = 30;
-				health = 55;
-				maxHealth = 55;
+				health = 45;
+				maxHealth = 45;
 				money = 8;
 				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
+				color1 = new Color(102,222,255,128);
 				speed = 3;
 				r = 40;
-				health = 70;
-				maxHealth = 70;
+				health = 55;
+				maxHealth = 55;
 				money = 9;
 				dropMultiplier = 2.5;
 			}	
@@ -662,7 +676,7 @@ public class Enemy {
 			name = "Rexyrex";
 			if(rank == 1){
 				speed = 6;
-				r = 80;
+				r = 72;
 				health = 7000;
 				maxHealth = 7000;
 				money = 500;
@@ -861,7 +875,7 @@ public class Enemy {
 				
 				//Growing enemies radius based on previous size
 				if(skillSet.containsKey("growing skill")) {
-					e.r = (int) (this.r * 0.7);
+					e.r = (int) (this.r);
 				}
 				
 				//Charging enemies charge state reset
@@ -1103,27 +1117,54 @@ public class Enemy {
 		regenTimer = System.nanoTime() - regenOnElapsed * 1000000;
 	}
 	
+	public void changeRexMode() {
+		switch(rexBossMode) {
+			case NORMAL : rexBossMode = RexBossModes.FIRING; break;
+			case FIRING : rexBossMode = RexBossModes.HEALSPAWN; break;
+			case HEALSPAWN : rexBossMode = RexBossModes.CHARGE; break;
+			case CHARGE : rexBossMode = RexBossModes.NORMAL; break;
+			default : rexBossMode = RexBossModes.NORMAL; break;
+		}
+	}
+	
 	public void update(Player player, ArrayList<Text> texts){
 		
 		if(skillSet.containsKey("rex boss 1 skill")) {
 			//change direction
-			if(RandomUtils.runChance(3)) {
+			if(RandomUtils.runChance(2.7)) {
 				changeDirectionRandomly();
 			}
 			
 			//change speed
-			if(RandomUtils.runChance(2)) {
-				changeSpeedRandomly(7,4);
+			if(RandomUtils.runChance(1)) {
+				changeSpeedRandomly(8,4);
 			}
 			
 			//change modes
+			lastModeChangeElapsed = (System.nanoTime() - lastModeChangeStartTime) / 1000000;
+			if(lastModeChangeElapsed > modeDuration) {
+				changeRexMode();
+				lastModeChangeStartTime = System.nanoTime();
+			}
+			
+			//slow field on when charging
+			if(rexBossMode == RexBossModes.CHARGE) {
+				slowFieldRadius = maxSlowFieldRadius;
+			} else {
+				slowFieldRadius = 0;
+			}
+			
+			//charge at player
+			if(rexBossMode == RexBossModes.CHARGE && RandomUtils.runChance(7.2)) {
+				goTowards(player.getx(), player.gety());
+			}
 			
 			//add bullet
-			if(RandomUtils.runChance(17)) {
+			if(rexBossMode == RexBossModes.FIRING && RandomUtils.runChance(22.7)) {
 				
 				double fireAngleDeg = 360 * Math.random();
 				boolean lethal = false;
-				if(RandomUtils.runChance(33)) {
+				if(RandomUtils.runChance(27.2)) {
 					lethal=true;
 				}
 				rexBulletStartMap.put(System.nanoTime(), new EnemyBullet(fireAngleDeg, 0, 0, 0, 0, lethal));
@@ -1469,45 +1510,37 @@ public class Enemy {
 		}
 		
 		
-		if(skillSet.containsKey("rex boss 1 skill")) {
-			//draw rainbow
-			int layerCounter = 0;
-			//purple
-			g.setColor(new Color(128,0,128, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
-			layerCounter++;
-			//dark blue
-			g.setColor(new Color(0,0,139, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
-			layerCounter++;
-			//blue
-			g.setColor(new Color(0,0,255, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
-			layerCounter++;
-			//green
-			g.setColor(new Color(0,128,0, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
-			layerCounter++;
-			//yellow
-			g.setColor(new Color(255,255,0, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
-			layerCounter++;
-			//orange
-			g.setColor(new Color(255,165,0, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));			
-			layerCounter++;
-			//red
-			g.setColor(new Color(255,0,0, 100));
-			g.fillOval((int)(x-r * (7-layerCounter) / 7),(int)(y-r * (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7), (int)(2*r* (7-layerCounter) / 7));
+		if(skillSet.containsKey("rex boss 1 skill")) {			
+			//Boss tint depending on mode
+			Color rexBossTintColor = new Color(255,255,255,255);
+			switch(rexBossMode) {
+				case NORMAL : rexBossTintColor = new Color(255,255,255,50); break;
+				case FIRING : rexBossTintColor = new Color(255,0,0,50); break;
+				case HEALSPAWN : rexBossTintColor = new Color(210,105,30,50); break;
+				case CHARGE : rexBossTintColor = new Color(30,144,255,50); break;
+				default: rexBossTintColor = new Color(255,255,255,50); break;
+			}
+			color1 = rexBossTintColor;
+			g.setColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 255));
+			//g.fillOval((int)(x-slowFieldRadius),(int)(y-slowFieldRadius), (int)(2*slowFieldRadius), (int)(2*slowFieldRadius));
+			
+			//Mode progress bar
+			int modeBarLength = (int) r;
+			double modeProgress = 1 - (double)lastModeChangeElapsed/(double)modeDuration;
+			if(modeProgress < 0) {
+				modeProgress = 0;
+			}			
+			g.drawRect((int)(x-modeBarLength/2), (int)(y+modeBarLength * 3/5), modeBarLength, modeBarLength/7);
+			g.fillRect((int)(x-modeBarLength/2), (int)(y+modeBarLength * 3/5), (int)(modeBarLength*modeProgress), modeBarLength/7);
 			
 			//draw slow field around boss			
-			if(rexBossMode == RexBossModes.SLOWHEAL) {
+			if(rexBossMode == RexBossModes.CHARGE) {
 				g.setColor(new Color(135,206,250,120));
 				g.setStroke(new BasicStroke(2));
 				
 				g.drawOval((int)(x-slowFieldRadius),(int)(y-slowFieldRadius), (int)(2*slowFieldRadius), (int)(2*slowFieldRadius));
 				
-				g.setColor(new Color(135,206,250,47));
+				g.setColor(new Color(135,206,250,40));
 				g.fillOval((int)(x-slowFieldRadius),(int)(y-slowFieldRadius), (int)(2*slowFieldRadius), (int)(2*slowFieldRadius));
 			}
 			
