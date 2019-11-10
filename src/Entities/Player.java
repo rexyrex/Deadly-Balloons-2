@@ -672,6 +672,7 @@ public class Player {
 		if(!invincible && !recovering){
 			lives--;
 			recovering = true;
+			isStunned = false;
 			recoveryTimer = System.nanoTime();
 		}
 	}
@@ -904,8 +905,8 @@ public class Player {
 			x+= dx;
 			y += dy;
 		} else {
-			x+= (int)(dx / 3);
-			y += (int)(dy / 3);
+			x+= (int)(dx / 2);
+			y += (int)(dy / 2);
 		}
 		
 		
@@ -1265,7 +1266,6 @@ public class Player {
 			
 			g.setColor(new Color(12,23,56, (int)stunAlpha));
 			g.fillOval(x-(int)(r*1.5),y-(int)(r*1.5),2*(int)(r*1.5),2*(int)(r*1.5));
-
 		}
 		
 		if(recovering){

@@ -41,11 +41,23 @@ public class EnemyBullet {
 	public void setLethal(boolean lethal) {
 		this.lethal = lethal;
 	}
+	
+	private boolean heal;
 
-	public EnemyBullet(double angle, double x, double y, int r, double speed, boolean lethal) {
+	public boolean isHeal() {
+		return heal;
+	}
+
+	public void setHeal(boolean heal) {
+		this.heal = heal;
+	}
+
+	public EnemyBullet(double angle, double x, double y, int r, double speed, boolean lethal, boolean heal) {
 		if(lethal) {
 			color1 = Color.RED;
-		} else {
+		} else if(heal){
+			color1 = Color.green;
+		} else {		
 			color1 = Color.BLACK;
 		}
 		
@@ -60,6 +72,7 @@ public class EnemyBullet {
 		dya = 0;
 		dxa = 0;
 		
+		this.heal = heal;
 		this.lethal = lethal;
 	}
 	
@@ -95,12 +108,49 @@ public class EnemyBullet {
 		return l;
 	}
 	
+	public void goTowards(double px, double py){
+		double xDiff = px-x;
+		double yDiff = py-y;
+		
+			//double angle = Math.atan((y-py)/(x-px));
+			if(xDiff<0)
+				rad = Math.atan((yDiff)/(xDiff))+Math.toRadians(180);
+			else if(yDiff<0)
+				rad = Math.atan((yDiff)/(xDiff))+Math.toRadians(360);
+			else
+				rad = Math.atan((yDiff)/(xDiff));			
+			
+			dx = Math.cos(rad) * speed;
+			dy = Math.sin(rad) * speed;
+	}
+	
 	public boolean update(){
 		historyUpdate(x,y);
 		x += dx;
 		y += dy;
 		dx += dxa;
 		dy += dya;
+		
+		if(heal) {
+			//Check if rex boss exists
+			boolean rexBossExists = false;
+			double rexBossX = 0;
+			double rexBossY = 0;
+			for(int i=0; i<GamePanel.enemies.size(); i++) {
+				Enemy e = GamePanel.enemies.get(i);
+				if(e.getType() == 1000000) {
+					//rexboss exists
+					rexBossExists = true;
+					rexBossX = e.getx();
+					rexBossY = e.gety();
+				}
+			}
+			if(rexBossExists) {
+				goTowards(rexBossX, rexBossY);
+			} else {
+				return true;
+			}
+		}
 		
 		
 		if(x<-r || x > GamePanel.WIDTH + r ||
@@ -119,12 +169,16 @@ public class EnemyBullet {
 			if(i>(int)(getHistoryLength()/7))
 				if(lethal) {
 					g.setColor(Color.orange);
+				} else if(heal){
+					g.setColor(new Color(124,252,0,255));
 				} else {
 					g.setColor(Color.GRAY);
 				}				
 			else {
 				if(lethal) {
 					g.setColor(Color.yellow);
+				}  else if(heal){
+					g.setColor(new Color(173,255,47,255));
 				} else {
 					g.setColor(Color.DARK_GRAY);
 				}

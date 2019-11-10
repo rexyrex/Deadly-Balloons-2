@@ -45,6 +45,9 @@ public class Enemy {
 	private boolean hit;
 	private long hitTimer;
 	
+	private boolean healHit;
+	private long healHitTimer;
+	
 	private boolean isPulled = false;
 	
 	private double dxStore;
@@ -673,6 +676,8 @@ public class Enemy {
 			skillSet.put("health bar skill", 1.0);
 			color1 = new Color(255,255,255,0);
 			
+			rexBossMode = RexBossModes.HEALSPAWN;
+			
 			name = "Rexyrex";
 			if(rank == 1){
 				speed = 6;
@@ -709,6 +714,9 @@ public class Enemy {
 		
 		hit = false;
 		hitTimer = 0;
+		
+		healHit = false;
+		healHitTimer = 0;
 		
 		gettingBombed = false;
 		gettingBombedTimer = System.nanoTime();
@@ -807,14 +815,15 @@ public class Enemy {
 	}
 
 	
-	public void heal(){
-		int healAmount = (int)(Math.random() * 500);
-		if(health+healAmount > maxHealth){
+	public void rexHeal(){
+		int healAmount = (int)(Math.random() * 20);
+		health += healAmount;
+		if(health > maxHealth) {
 			health = maxHealth;
-		} else {
-			GamePanel.texts.add(new Text(x, y, 1700, "healed " + healAmount));
-			health += healAmount;
-		}
+		}		
+		healHit = true;
+		healHitTimer = System.nanoTime();
+		
 	}
 	
 	public void changeDirectionRandomly(){
@@ -1159,6 +1168,11 @@ public class Enemy {
 				goTowards(player.getx(), player.gety());
 			}
 			
+			//spawn turrets
+			if(rexBossMode == RexBossModes.HEALSPAWN && RandomUtils.runChance(1)) {
+				GamePanel.enemyTurrets.add(new EnemyTurret(x,y,20,true));
+			}
+			
 			//add bullet
 			if(rexBossMode == RexBossModes.FIRING && RandomUtils.runChance(22.7)) {
 				
@@ -1167,7 +1181,7 @@ public class Enemy {
 				if(RandomUtils.runChance(27.2)) {
 					lethal=true;
 				}
-				rexBulletStartMap.put(System.nanoTime(), new EnemyBullet(fireAngleDeg, 0, 0, 0, 0, lethal));
+				rexBulletStartMap.put(System.nanoTime(), new EnemyBullet(fireAngleDeg, 0, 0, 0, 0, lethal, false));
 			}
 			
 			//update bullet elapsed
@@ -1191,7 +1205,7 @@ public class Enemy {
 					double aimDestY = y+Math.sin(fireAngleRad) * r;
 					
 
-					EnemyBullet eb = new EnemyBullet(Math.toDegrees(tmpEb.getRad()), aimDestX, aimDestY, 20, 10, tmpEb.isLethal());
+					EnemyBullet eb = new EnemyBullet(Math.toDegrees(tmpEb.getRad()), aimDestX, aimDestY, 20, 10, tmpEb.isLethal(), false);
 					GamePanel.enemyBullets.add(eb);
 					rexBulletsToRemove.add(entry.getKey());
 				
@@ -1237,7 +1251,7 @@ public class Enemy {
 			double shootDelay = skillSet.get("shooting skill");
 			if(shootElapsed > (long)shootDelay) {
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 17, 8, true));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 17, 8, true, false));
 				fireAngle = Math.random() * 360;
 			}
 		}
@@ -1253,9 +1267,9 @@ public class Enemy {
 			
 			if(shootElapsed > (long)shootDelay) {
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 7, false));
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 7, false));
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 7, false));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 12, 7, false, false));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle+25, x, y, 12, 7, false, false));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle-25, x, y, 12, 7, false, false));
 				
 				rad = Math.toRadians(fireAngle) + Math.PI;
 				fireAngle = Math.random() * 360;
@@ -1464,6 +1478,15 @@ public class Enemy {
 			}
 		}
 		
+		if(healHit) {
+			long elapsed = (System.nanoTime()-healHitTimer)/1000000;
+			if(elapsed > 50){
+
+				healHit = false;
+				healHitTimer = 0;
+			}
+		}
+		
 		if(regenMode){
 			regenOnElapsed = (System.nanoTime() - regenTimer)/1000000;
 			if(regenOnElapsed > regenLength){
@@ -1494,9 +1517,7 @@ public class Enemy {
 			if(newAlpha > 0) {			
 				color1 = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(),  newAlpha);
 			}
-		}
-		
-		
+		}	
 		
 		//draw name
 		if(type==6 || rank>3){
@@ -1731,6 +1752,9 @@ public class Enemy {
 		if(skillSet.containsKey("health bar skill")){
 			int healthBarLength = (int) r;
 			g.setColor(Color.black);
+			if(healHit) {
+				g.setColor(Color.GREEN);
+			}
 			g.drawRect((int)(x-healthBarLength/2), (int)(y-healthBarLength/2), healthBarLength, healthBarLength/5);
 			g.fillRect((int)(x-healthBarLength/2), (int)(y-healthBarLength/2), (int)(healthBarLength*(double)health/(double)maxHealth), healthBarLength/5);
 		}

@@ -35,6 +35,7 @@ import Entities.Bomb;
 import Entities.Bullet;
 import Entities.Enemy;
 import Entities.EnemyBullet;
+import Entities.EnemyTurret;
 import Entities.Friend;
 import Entities.Lightning;
 import Entities.Player;
@@ -103,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<ParticleEffect> particleEffects;
 	public static ArrayList<EnemyBullet> enemyBullets;
 	public static ArrayList<SlowField> slowFields;
+	public static ArrayList<EnemyTurret> enemyTurrets;
 	
 	//highscores
 	public static HashMap<String, HashMap<String, Map<String,String>>> highScoreMap;
@@ -301,6 +303,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		particleEffects = new ArrayList<ParticleEffect>();
 		enemyBullets = new ArrayList<EnemyBullet>();
 		slowFields = new ArrayList<SlowField>();
+		enemyTurrets = new ArrayList<EnemyTurret>();
 		
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
@@ -478,6 +481,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		particleEffects.clear();
 		enemyBullets.clear();
 		slowFields.clear();
+		enemyTurrets.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -824,6 +828,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			turrets.get(i).draw(g);
 		}
 		
+		//draw enemy turrets
+		for(int i=0; i< enemyTurrets.size(); i++) {
+			enemyTurrets.get(i).draw(g);
+		}
+		
 		//draw bomb
 		for(int i=0; i<bombs.size(); i++){
 			bombs.get(i).draw(g);
@@ -945,7 +954,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Shelters : " + player.getShelterCount(), WIDTH-135, 110);
 		
-		//draw player turrets
+		//draw player turret count
 		g.setColor(Color.RED);
 		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
 		g.drawString("Turrets : " + (5-turrets.size()) + "/5", WIDTH-135, 130);
@@ -1192,25 +1201,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//time bomb update
 		for(int i=0; i<bombs.size(); i++){
 			boolean remove = bombs.get(i).update();
-			for(int j=0; j< enemies.size(); j++){
-				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile() && enemies.get(j).isInRange(bombs.get(i).getx(), bombs.get(i).gety(), bombs.get(i).getmaxr())){
-					enemies.get(j).setGettingBombed(true);							
-				}
-			}
+//			for(int j=0; j< enemies.size(); j++){
+//				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile() && enemies.get(j).isInRange(bombs.get(i).getx(), bombs.get(i).gety(), bombs.get(i).getmaxr())){
+//					enemies.get(j).setGettingBombed(true);							
+//				}
+//			}
 			if(remove){
 				bombs.remove(i);
 				i--;
 			}
 		}
 		
+		//bomb enemies
 		boolean inRangeOfAtLeastOneBomb = false;		
 		for(int j=0; j<enemies.size(); j++){
 			for(int i=0; i<bombs.size(); i++){
 				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile()){
 					if(enemies.get(j).isInRange(bombs.get(i).getx(), bombs.get(i).gety(), bombs.get(i).getmaxr())){
 						inRangeOfAtLeastOneBomb = true;
-					}
-					
+						enemies.get(j).setGettingBombed(true);
+					}					
 				}			
 			}
 			
@@ -1218,6 +1228,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				enemies.get(j).setGettingBombed(false);	
 			}
 		}
+		
+		//bomb enemy turrets
+		boolean turretInRangeOfAtLeastOneBomb = false;		
+		for(int j=0; j<enemyTurrets.size(); j++){
+			for(int i=0; i<bombs.size(); i++){
+				if(bombs.get(i).getIsBombing() && !bombs.get(i).isHostile()){
+					if(enemyTurrets.get(j).isInRange(bombs.get(i).getx(), bombs.get(i).gety(), bombs.get(i).getmaxr())){
+						turretInRangeOfAtLeastOneBomb = true;
+						enemyTurrets.get(j).setGettingBombed(true);
+					}					
+				}			
+			}
+			
+			if(turretInRangeOfAtLeastOneBomb == false){
+				enemyTurrets.get(j).setGettingBombed(false);	
+			}
+		}
+		
+		
 		
 		//hostile time bomb update
 		for(int i=0; i<bombs.size(); i++){
@@ -1413,6 +1442,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
+		//enemy turret update
+		for(int i=0; i<enemyTurrets.size(); i++){
+			EnemyTurret et = enemyTurrets.get(i);
+			
+			//Check bullet - enemy turret collision
+			for(int j=0; j<bullets.size(); j++) {
+				Bullet b = bullets.get(j);
+				if(MathUtils.getDist(b.getx(), b.gety(), et.getX(), et.getY()) <= b.getr() + et.getR()) {
+					et.hit(b.getDmg());
+					bullets.remove(j);
+					j--;
+				}
+			}
+			
+			
+			boolean remove = et.update();			
+			if(remove){
+				explosions.add(new Explosion(et.getX(), et.getY(),(int)et.getR(), (int)et.getR()+30));
+				enemyTurrets.remove(i);
+				i--;
+			}
+			
+		}
+		
 		//powerup update
 		for(int i=0; i<powerups.size(); i++){
 			boolean remove = powerups.get(i).update();
@@ -1500,9 +1553,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			}
 		}
 		
-		//enemyBullet-player collision
-		for(int i=0; i<enemyBullets.size(); i++){
-			
+		//enemyBullet player collision
+		for(int i=0; i<enemyBullets.size(); i++){			
 			EnemyBullet b = enemyBullets.get(i);
 			double bx = b.getx();
 			double by = b.gety();
@@ -1517,17 +1569,44 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			double dy = by - ey;
 			double dist = Math.sqrt(dx * dx + dy * dy);
 			
+			//player collision
 			if(dist < br + er){
 				//sfx.get("hit").play();
 				if(b.isLethal()) {
 					player.loseLife();
-				} else {
+				} else if(!b.isHeal()){
 					player.stun(3000);
 				}
 				
 				enemyBullets.remove(i);
 				i--;
 				break;
+			}
+		}
+		
+		//Check if rexBoss exists
+		boolean rexBossExists = false;
+		Enemy rexBoss = null;
+		
+		for(int j=0; j<GamePanel.enemies.size(); j++) {
+			Enemy e = GamePanel.enemies.get(j);
+			if(e.getType() == 1000000) {
+				rexBossExists = true;
+				rexBoss = e;
+			}
+		}
+		
+		//Rex boss heal
+		if(rexBossExists) {
+			for(int i=0; i<enemyBullets.size(); i++) {
+				EnemyBullet eb = enemyBullets.get(i);
+				if(eb.isHeal()) {
+					if(rexBoss.isInRange(eb.getx(), eb.gety(), eb.getr())){
+						rexBoss.rexHeal();
+						enemyBullets.remove(i);
+						i--;
+					}
+				}
 			}
 		}
 		

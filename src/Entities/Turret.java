@@ -1,4 +1,5 @@
 package Entities;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -105,7 +106,6 @@ public class Turret {
 	
 	public boolean update(){
 		//update Angle
-
 		angle = targetAngle;
 		
 		if(angle>359){
@@ -119,8 +119,6 @@ public class Turret {
 		if(superCharged && (System.nanoTime() - superChargedStartTime)/1000000 > superChargedDuration) {
 			setSuperCharged(false);
 		}
-		
-
 		
 		//fire
 		long elapsed = (System.nanoTime() - bulletTimer)/1000000;
@@ -142,6 +140,7 @@ public class Turret {
 
 
 	public void draw(Graphics2D g){
+		g.setStroke(new BasicStroke(1));	
 		if(superCharged) {
 			g.setColor(Color.RED);
 		} else {
@@ -165,7 +164,7 @@ public class Turret {
 		g.setColor(Color.white);
 		g.setFont(new Font("Gulim", Font.BOLD,25));
 		g.drawString(Integer.toString(thisCount+1), (int)(x+r*1.5), (int)(y+r));
-		
+		g.setStroke(new BasicStroke(1));	
 	}
 	
 }
