@@ -63,21 +63,6 @@ stamina bar should flash when not enough stamina
 
 harder enemies should have higher drop rates
 
-
---TODO--
-
-Add better backgrounds
-
-BGM
-
-Create hard level (Rex)
-
-Create Survival Mode Levels
-
-High score system
-
-scale to bigger screens?
-
 New Enemy:
 1. Randomize speed, randomize direction often
 2. Projectile shooting enemy (color darker when about to fire)
@@ -89,6 +74,26 @@ New Enemy:
 	- Spawn Enemies
 	- Spawn Projectiles
 	- Regen Mode
+
+
+High score system
+
+
+Create Survival Mode Levels
+
+--TODO--
+
+Add better backgrounds
+
+BGM
+
+Create hard level (Rex)
+	- balancing
+
+Rex Boss : 
+	- spawn dividers 
+	- heal turrets should spawn evenly
+
 
 
 
