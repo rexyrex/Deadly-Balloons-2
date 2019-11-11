@@ -634,6 +634,9 @@ public class Player {
 			
 			dx = (int) (-Math.cos(rad) * speed);
 			dy = (int) (-Math.sin(rad) * speed);
+			
+			x += dx;
+			y += dy;
 	}
 	
 	public void changeDirectionRandomly(){

@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import Panels.GamePanel;
 import Utils.MathUtils;
@@ -683,7 +684,7 @@ public class Enemy {
 			skillSet.put("health bar skill", 1.0);
 			color1 = new Color(255,255,255,0);
 			
-			rexBossMode = RexBossModes.HEALSPAWN;
+			rexBossMode = RexBossModes.NORMAL;
 			
 			name = "Rexyrex";
 			if(rank == 1){
@@ -1165,6 +1166,44 @@ public class Enemy {
 				lastModeChangeStartTime = System.nanoTime();
 			}
 			
+			//spawn divider
+			if(rexBossMode == RexBossModes.NORMAL) {
+				if(RandomUtils.runChance(2.7)) {
+					int choice = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+					double width1 = RandomUtils.getNumBetween(0, GamePanel.WIDTH);
+					double width2 = RandomUtils.getNumBetween(0, GamePanel.WIDTH);
+					double height1 = RandomUtils.getNumBetween(0, GamePanel.HEIGHT);
+					double height2 = RandomUtils.getNumBetween(0, GamePanel.HEIGHT);
+					
+					switch(choice) {
+						case 1: 
+							//Bot - Top
+							GamePanel.dividers.add(new Divider(width1, GamePanel.HEIGHT, width2, 0));
+							break;
+						case 2: 
+							//Bot - Right
+							GamePanel.dividers.add(new Divider(width1, GamePanel.HEIGHT, GamePanel.WIDTH, height2));
+							break;
+						case 3:
+							//Bot - Left
+							GamePanel.dividers.add(new Divider(width1, GamePanel.HEIGHT, 0, height2));
+							break;
+						case 4: 
+							//Top - Left
+							GamePanel.dividers.add(new Divider(width1, 0, 0, height2));
+							break;
+						case 5: 
+							//Top - Right
+							GamePanel.dividers.add(new Divider(width1, 0, GamePanel.WIDTH, height2));
+							break;
+						case 6: 
+							//Left - Right
+							GamePanel.dividers.add(new Divider(0, height1, GamePanel.WIDTH, height2));
+							break;
+					}
+				}
+			}
+			
 			//slow field on when charging
 			if(rexBossMode == RexBossModes.CHARGE) {
 				slowFieldRadius = maxSlowFieldRadius;
@@ -1213,7 +1252,7 @@ public class Enemy {
 			}
 			
 			//add bullet
-			if(rexBossMode == RexBossModes.FIRING && RandomUtils.runChance(22.7)) {
+			if(rexBossMode == RexBossModes.FIRING && RandomUtils.runChance(27.2)) {
 				
 				double fireAngleDeg = 360 * Math.random();
 				boolean lethal = false;

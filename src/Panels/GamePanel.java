@@ -33,6 +33,8 @@ import Audio.AudioPlayer;
 import Entities.BlackHole;
 import Entities.Bomb;
 import Entities.Bullet;
+import Entities.Divider;
+import Entities.DividerBlock;
 import Entities.Enemy;
 import Entities.EnemyBullet;
 import Entities.EnemyTurret;
@@ -105,6 +107,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static ArrayList<EnemyBullet> enemyBullets;
 	public static ArrayList<SlowField> slowFields;
 	public static ArrayList<EnemyTurret> enemyTurrets;
+	public static ArrayList<DividerBlock> dividerBlocks;
+	public static ArrayList<Divider> dividers;
 	
 	//highscores
 	public static HashMap<String, HashMap<String, Map<String,String>>> highScoreMap;
@@ -304,6 +308,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		enemyBullets = new ArrayList<EnemyBullet>();
 		slowFields = new ArrayList<SlowField>();
 		enemyTurrets = new ArrayList<EnemyTurret>();
+		dividerBlocks = new ArrayList<DividerBlock>();
+		dividers = new ArrayList<Divider>();
 		
 		waveNames= new ArrayList<String>();
 		waveData = new ArrayList<HashMap<Enemy, Integer>>();
@@ -482,6 +488,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		enemyBullets.clear();
 		slowFields.clear();
 		enemyTurrets.clear();
+		dividerBlocks.clear();
+		dividers.clear();
 		
 		player.init();
 		waveStartTimer = 0;
@@ -665,6 +673,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			enemies.get(i).pauseUpdate();
 		}
 		
+		for(int i=0; i< dividerBlocks.size(); i++) {
+			dividerBlocks.get(i).pauseUpdate();
+		}
+		
+		for(int i=0; i< dividers.size(); i++) {
+			dividers.get(i).pauseUpdate();
+		}
+		
 		//spawn Indicator pause Update
 		if(gameMode != GameMode.TUTORIAL || currentTutorialStage > 10) {
 		    for (Map.Entry<Integer, Long> puLastDropEntry : puLastDropTimeMap.entrySet()) {
@@ -831,6 +847,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		//draw enemy turrets
 		for(int i=0; i< enemyTurrets.size(); i++) {
 			enemyTurrets.get(i).draw(g);
+		}
+		
+		//draw divider blocks
+		for(int i=0; i< dividerBlocks.size(); i++) {
+			dividerBlocks.get(i).draw(g);
+		}
+		
+		//draw dividers
+		for(int i=0; i< dividers.size(); i++) {
+			dividers.get(i).draw(g);
 		}
 		
 		//draw bomb
@@ -1373,6 +1399,42 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 						
 			if(remove){
 				shelters.remove(i);
+				i--;
+			}
+		}
+		
+		//Divider update
+		for(int i=0; i<dividers.size(); i++){
+			boolean remove = dividers.get(i).update();
+			
+			if(remove){
+				dividers.remove(i);
+				i--;
+			}
+		}
+		
+		//Divider blocks update
+		for(int i=0; i<dividerBlocks.size(); i++){
+			boolean remove = dividerBlocks.get(i).update();
+			DividerBlock l = dividerBlocks.get(i);
+			//enemy collision
+
+			if(player.isInRange(l.getx(), l.gety(), l.getr())){
+				dividerBlocks.get(i).hit();
+				//player.stun(50);
+				player.moveAwayFrom(l.getx(), l.gety());
+			}
+
+			
+			//bullet collision
+			for(int j=0; j<bullets.size(); j++) {
+				if(MathUtils.getDist(l.getx(), l.gety(), bullets.get(j).getx(), bullets.get(j).gety()) < l.getr() + bullets.get(j).getr()) {
+					bullets.remove(j);
+				}
+			}
+						
+			if(remove){
+				dividerBlocks.remove(i);
 				i--;
 			}
 		}
@@ -1961,6 +2023,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		if(keyCode == KeyEvent.VK_F7) {
 			slowFields.add(new SlowField(player.getx(), player.gety(), 250, 15000));
+		}
+		if(keyCode == KeyEvent.VK_F8) {
+			//dividerBlocks.add(new DividerBlock(player.getx(), player.gety(), 10));
+			dividers.add(new Divider(400, HEIGHT, 300, 0));
+			dividers.add(new Divider(0, 400, WIDTH, 300));
 		}
 	}
 
