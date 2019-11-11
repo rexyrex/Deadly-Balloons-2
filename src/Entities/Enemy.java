@@ -442,6 +442,7 @@ public class Enemy {
 			skillSet.put("change speed skill", 3.2);
 			skillSet.put("health bar skill", 1.0);
 			skillSet.put("pulse skill", 1.0);
+			skillSet.put("slow field skill", 0.27);
 			
 			color1 = new Color(176,196,222,200);
 
@@ -450,7 +451,7 @@ public class Enemy {
 				r = 25;
 				health = 15;
 				maxHealth = 15;
-				money = 4;
+				money = 10;
 			}
 			
 			if(rank == 2){
@@ -458,7 +459,7 @@ public class Enemy {
 				r = 34;
 				health = 25;
 				maxHealth = 25;
-				money = 6;
+				money = 14;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
@@ -466,21 +467,20 @@ public class Enemy {
 				r = 44;
 				health = 35;
 				maxHealth = 35;
-				money = 8;
+				money = 20;
 				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
 				speed = 3;
 				r = 55;
-
 				health = 50;
 				maxHealth = 50;
-				money = 9;
+				money = 25;
 				dropMultiplier = 2.5;
 			}	
-			pulseEnemyMaxRadius = (int)(r*1.4);
-			pulseEnemyMinRadius = (int)(r*0.7);
+			pulseEnemyMaxRadius = (int)(r*1.2);
+			pulseEnemyMinRadius = (int)(r*0.8);
 		}
 		
 		//shooting enemy
@@ -496,10 +496,10 @@ public class Enemy {
 
 			if(rank == 1){
 				speed = 6;
-				r = 18;
+				r = 20;
 				health = 15;
 				maxHealth = 15;
-				money = 6;
+				money = 10;
 			}
 			
 			if(rank == 2){
@@ -507,7 +507,7 @@ public class Enemy {
 				r = 25;
 				health = 22;
 				maxHealth = 22;
-				money = 7;
+				money = 14;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
@@ -515,17 +515,16 @@ public class Enemy {
 				r = 32;
 				health = 33;
 				maxHealth = 33;
-				money = 9;
+				money = 20;
 				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
 				speed = 3;
 				r = 40;
-
 				health = 47;
 				maxHealth = 47;
-				money = 10;
+				money = 25;
 				dropMultiplier = 2.5;
 			}	
 
@@ -543,37 +542,37 @@ public class Enemy {
 			color1 = new Color(112,128,144,200);
 
 			if(rank == 1){
-				speed = 6;
+				speed = 5;
 				r = 25;
 				health = 14;
 				maxHealth = 14;
-				money = 6;
+				money = 10;
 			}
 			
 			if(rank == 2){
-				speed = 5;
+				speed = 4;
 				r = 35;
 				health = 24;
 				maxHealth = 24;
-				money = 8;
+				money = 12;
 				dropMultiplier = 1.7;
 			}
 			if(rank == 3){
-				speed = 4;
+				speed = 3;
 				r = 42;
 				health = 34;
 				maxHealth = 34;
-				money = 10;
+				money = 15;
 				dropMultiplier = 2.0;
 			}
 			
 			if(rank == 4){
-				speed = 3;
+				speed = 2;
 				r = 50;
 
 				health = 45;
 				maxHealth = 45;
-				money = 12;
+				money = 20;
 				dropMultiplier = 2.5;
 			}
 		}
@@ -585,9 +584,9 @@ public class Enemy {
 			if(rank == 1){
 				speed = 7;
 				r = 10;
-				health = 5;
-				maxHealth = 5;
-				money = 2;
+				health = 4;
+				maxHealth = 4;
+				money = 5;
 			}
 			
 			if(rank == 2){
@@ -596,7 +595,7 @@ public class Enemy {
 				r = 100;
 				health = 200;
 				maxHealth = 200;
-				money = 50;
+				money = 100;
 				dropMultiplier = 3;
 			}
 		}
@@ -690,8 +689,8 @@ public class Enemy {
 			if(rank == 1){
 				speed = 6;
 				r = 72;
-				health = 7000;
-				maxHealth = 7000;
+				health = 10000;
+				maxHealth = 10000;
 				money = 500;
 				
 				slowFieldRadius = 0;
@@ -1168,7 +1167,7 @@ public class Enemy {
 			
 			//spawn divider
 			if(rexBossMode == RexBossModes.NORMAL) {
-				if(RandomUtils.runChance(2.27)) {
+				if(RandomUtils.runChance(1.27)) {
 					int choice = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 					double width1 = RandomUtils.getNumBetween(0, GamePanel.WIDTH);
 					double width2 = RandomUtils.getNumBetween(0, GamePanel.WIDTH);
@@ -1234,20 +1233,20 @@ public class Enemy {
 				double h4x = RandomUtils.getNumBetween(GamePanel.WIDTH/2, GamePanel.WIDTH -20);
 				double h4y = RandomUtils.getNumBetween(GamePanel.HEIGHT/2, GamePanel.HEIGHT -20);
 				
-				if(RandomUtils.runChance(70)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h1x,h1y,20,true));
+				if(RandomUtils.runChance(77.2)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h1x,h1y,27,true));
 				}
 				
-				if(RandomUtils.runChance(70)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h2x,h2y,20,true));
+				if(RandomUtils.runChance(77.2)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h2x,h2y,27,true));
 				}
 				
-				if(RandomUtils.runChance(70)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h3x,h3y,20,true));
+				if(RandomUtils.runChance(77.2)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h3x,h3y,27,true));
 				}
 				
-				if(RandomUtils.runChance(70)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h4x,h4y,20,true));
+				if(RandomUtils.runChance(77.2)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h4x,h4y,27,true));
 				}
 			}
 			
@@ -1363,6 +1362,12 @@ public class Enemy {
 		if(skillSet.containsKey("bomb chance skill")) {
 			if(RandomUtils.runChance(skillSet.get("bomb chance skill"))) {
 				placeBomb();
+			}
+		}
+		
+		if(skillSet.containsKey("slow field skill")) {
+			if(RandomUtils.runChance(skillSet.get("slow field skill"))) {
+				GamePanel.slowFields.add(new SlowField(x, y, 50 * Math.random() + 50, 15000));
 			}
 		}
 		

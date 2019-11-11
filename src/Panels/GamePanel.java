@@ -594,7 +594,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	    } else {
 	    	//Survival Mode
 	    	levelTitle = lvlName;
-	    	player.addScore(3000);
+	    	for(int k=0; k<50; k++) {
+	    		player.increasePower(1);
+	    	}
+	    	
 			//load survival background
 	        try {
 
@@ -787,7 +790,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		//draw slowdown screen
 		if(slowDownTimer !=0){
-			g.setColor(new Color(255,255,255,25));
+			g.setColor(new Color(255,255,255,77));
 			g.fillRect(0, 0, WIDTH, HEIGHT);
 		}
 		
@@ -1421,7 +1424,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
 			if(player.isInRange(l.getx(), l.gety(), l.getr())){
 				dividerBlocks.get(i).hit();
-				//player.stun(50);
+				player.stun(50);
 				player.moveAwayFrom(l.getx(), l.gety());
 			}
 
@@ -1637,7 +1640,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				if(b.isLethal()) {
 					player.loseLife();
 				} else if(!b.isHeal()){
-					player.stun(3000);
+					player.stun(2000);
 				}
 				
 				enemyBullets.remove(i);
@@ -2026,8 +2029,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		if(keyCode == KeyEvent.VK_F8) {
 			//dividerBlocks.add(new DividerBlock(player.getx(), player.gety(), 10));
-			dividers.add(new Divider(400, HEIGHT, 300, 0));
-			dividers.add(new Divider(0, 400, WIDTH, 300));
+			//dividers.add(new Divider(400, HEIGHT, 300, 0));
+			//dividers.add(new Divider(0, 400, WIDTH, 300));
+			//player.stun(3333);
+			
 		}
 	}
 

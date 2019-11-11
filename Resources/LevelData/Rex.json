@@ -4,16 +4,16 @@
 	"background" : "procreate1.png",
 	"waves" : [
 		{  
-	        "waveTitle":"Hi",
+	        "waveTitle":"Rawr",
 	        "waveEnemies":[  
 				{
 					"type": 1,
 					"rank": 4,
-					"count": 3
+					"count": 4
 				},
 				{
 					"type": 4,
-					"rank": 3,
+					"rank": 4,
 					"count": 2
 				}
 	        ]
@@ -28,7 +28,7 @@
 				},
 				{
 					"type": 4,
-					"rank": 3,
+					"rank": 4,
 					"count": 2
 				}
 	        ]
@@ -39,7 +39,7 @@
 				{
 					"type": 8,
 					"rank": 1,
-					"count": 7
+					"count": 10
 				}
 	        ]
 	    },
@@ -49,7 +49,7 @@
 				{
 					"type": 3,
 					"rank": 4,
-					"count": 2
+					"count": 3
 				},
 				{
 					"type": 5,
@@ -69,137 +69,157 @@
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Practice",
+	        "waveTitle":"Shooting Stars",
 	        "waveEnemies":[  
 				{
-					"type": 2,
-					"rank": 4,
-					"count": 5
-				},
-				{
-					"type": 1,
+					"type": 10,
 					"rank": 4,
 					"count": 5
 				}
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Combo",
+	        "waveTitle":"You look Stunning",
+	        "waveEnemies":[  
+				{
+					"type": 11,
+					"rank": 4,
+					"count": 4
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Dodge Ball",
+	        "waveEnemies":[  
+				{
+					"type": 10,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 11,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 12,
+					"rank": 2,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Too Much",
 	        "waveEnemies":[  
 				{
 					"type": 3,
-					"rank": 3,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 11,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 10,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 12,
+					"rank": 2,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Cowboys",
+	        "waveEnemies":[  
+				{
+					"type": 10,
+					"rank": 4,
+					"count": 8
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Slow Down",
+	        "waveEnemies":[  
+				{
+					"type": 9,
+					"rank": 4,
 					"count": 6
 				}
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Natural Chaos",
+	        "waveTitle":"Slow and Steady",
 	        "waveEnemies":[  
 				{
-					"type": 3,
-					"rank": 4,
-					"count": 2
-				},
-				{
-					"type": 2,
-					"rank": 4,
-					"count": 2
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"It's a Disastah",
-	        "waveEnemies":[  
-				{
-					"type": 3,
-					"rank": 4,
-					"count": 2
-				},
-				{
-					"type": 2,
+					"type": 9,
 					"rank": 4,
 					"count": 4
 				},
 				{
-					"type": 1,
+					"type": 11,
 					"rank": 4,
 					"count": 4
 				}
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Never Go Black",
+	        "waveTitle":"Chaos",
 	        "waveEnemies":[  
 				{
-					"type": 4,
+					"type": 6,
 					"rank": 4,
+					"count": 4
+				},
+				{
+					"type": 10,
+					"rank": 4,
+					"count": 4
+				},
+				{
+					"type": 9,
+					"rank": 4,
+					"count": 4
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Meteor",
+	        "waveEnemies":[  
+				{
+					"type": 6,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 7,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 9,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 10,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 11,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 8,
+					"rank": 1,
 					"count": 2
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"A Dark Mix",
-	        "waveEnemies":[  
-				{
-					"type": 1,
-					"rank": 4,
-					"count": 1
-				},
-				{
-					"type": 2,
-					"rank": 4,
-					"count": 1
-				},
-				{
-					"type": 3,
-					"rank": 4,
-					"count": 1
-				},
-				{
-					"type": 4,
-					"rank": 4,
-					"count": 1
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"They Love You",
-	        "waveEnemies":[  
-				{
-					"type": 5,
-					"rank": 3,
-					"count": 1
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"Bigger Lovers",
-	        "waveEnemies":[  
-				{
-					"type": 5,
-					"rank": 4,
-					"count": 1
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"More Practice with Lovers",
-	        "waveEnemies":[  
-				{
-					"type": 5,
-					"rank": 4,
-					"count": 1
-				},
-				{
-					"type": 1,
-					"rank": 4,
-					"count": 1
-				},
-				{
-					"type": 2,
-					"rank": 4,
-					"count": 1
 				}
 	        ]
 	    },
@@ -207,27 +227,42 @@
 	        "waveTitle":"Dinosaurs are NOT extinct",
 	        "waveEnemies":[  
 				{
-					"type": 1,
+					"type": 6,
 					"rank": 4,
 					"count": 1
 				},
 				{
-					"type": 2,
+					"type": 10,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 11,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 12,
+					"rank": 2,
+					"count": 2
+				},
+				{
+					"type": 9,
 					"rank": 4,
 					"count": 1
 				},
 				{
-					"type": 3,
-					"rank": 4,
-					"count": 1
-				},
-				{
-					"type": 4,
-					"rank": 4,
-					"count": 1
+					"type": 8,
+					"rank": 1,
+					"count": 2
 				},
 				{
 					"type": 5,
+					"rank": 4,
+					"count": 1
+				},
+				{
+					"type": 9,
 					"rank": 4,
 					"count": 1
 				}
@@ -237,7 +272,7 @@
 	        "waveTitle":"Calm Before the Storm",
 	        "waveEnemies":[  
 				{
-					"type": 1,
+					"type": 2,
 					"rank": 4,
 					"count": 10
 				}

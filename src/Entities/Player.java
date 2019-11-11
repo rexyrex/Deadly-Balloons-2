@@ -238,7 +238,7 @@ public class Player {
 		isRaged = false;
 		isInRageField = false;
 		rageStartTime = 0;
-		rageLength = 7000;
+		rageLength = 7200;
 		rageElapsed = 0;
 		dmgMultiplier = 1.0;
 		
@@ -246,7 +246,7 @@ public class Player {
 		aoeFreezeLength = 420;
 		aoeFreezeAnimRunning = false;
 		
-		lightningStunLength = 2000;
+		lightningStunLength = 2200;
 		
 		powerLevel = 0;
 		power = 0;
@@ -285,7 +285,7 @@ public class Player {
 		
 		isSuperSpeed = false;
 		superSpeedStartTime = 0;
-		superSpeedLength = 170;
+		superSpeedLength = 180;
 		superSpeed = 22;
 		superSpeedDamping = 1;
 		
@@ -310,7 +310,7 @@ public class Player {
 		
 		maxStamina = 1200;
 		currentStamina = 1200;
-		staminaRegen = 8.2;
+		staminaRegen = 8.7;
 		staminaTimer = System.nanoTime();
 		staminaGainDelay = 50;
 		
@@ -506,7 +506,7 @@ public class Player {
 	public void startRage() {
 		rageStartTime = System.nanoTime();
 		isRaged = true;
-		dmgMultiplier = 1.2;
+		dmgMultiplier = 2.0;
 	}
 	
 	public void stopRage() {
@@ -712,7 +712,7 @@ public class Player {
 				GamePanel.texts.add(new Text(getx(), gety(),2000,"Dmg inc by " + displayIncDmg));
 				incBulletDmg(incDmg);
 			}
-		}		
+		}
 	}
 	
 	public void incBulletDmg(double inc) {
@@ -1269,6 +1269,9 @@ public class Player {
 			
 			g.setColor(new Color(12,23,56, (int)stunAlpha));
 			g.fillOval(x-(int)(r*1.5),y-(int)(r*1.5),2*(int)(r*1.5),2*(int)(r*1.5));
+			
+			g.drawRect((int)(x+ 1.7*r), (int)(y - 1.2*r), 8, 20);
+			g.fillRect((int)(x+ 1.7*r), (int)(y - 1.2*r + 20 * stunElapsed/stunDuration), 8, (int)(20 - 20 * stunElapsed/stunDuration));
 		}
 		
 		if(recovering){
