@@ -4,57 +4,72 @@
 	"background" : "procreate1.png",
 	"waves" : [
 		{  
-	        "waveTitle":"Test",
+	        "waveTitle":"Hi",
 	        "waveEnemies":[  
 				{
-					"type": 9,
+					"type": 1,
 					"rank": 4,
-					"count": 2
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"Still a Noob",
-	        "waveEnemies":[  
+					"count": 3
+				},
 				{
-					"type": 11,
-					"rank": 4,
-					"count": 2
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"They have names?",
-	        "waveEnemies":[  
-				{
-					"type": 10,
-					"rank": 4,
-					"count": 2
-				}
-	        ]
-	    },
-	    {  
-	        "waveTitle":"Faster",
-	        "waveEnemies":[  
-				{
-					"type": 2,
+					"type": 4,
 					"rank": 3,
 					"count": 2
 				}
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Bigger",
+	        "waveTitle":"My name is Rex",
 	        "waveEnemies":[  
 				{
 					"type": 2,
 					"rank": 4,
 					"count": 4
+				},
+				{
+					"type": 4,
+					"rank": 3,
+					"count": 2
 				}
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Mixed",
+	        "waveTitle":"Steal from the Wealthy",
+	        "waveEnemies":[  
+				{
+					"type": 8,
+					"rank": 1,
+					"count": 7
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Investment Payoff",
+	        "waveEnemies":[  
+				{
+					"type": 3,
+					"rank": 4,
+					"count": 2
+				},
+				{
+					"type": 5,
+					"rank": 3,
+					"count": 2
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Pop Em",
+	        "waveEnemies":[  
+				{
+					"type": 12,
+					"rank": 2,
+					"count": 4
+				}
+	        ]
+	    },
+	    {  
+	        "waveTitle":"Practice",
 	        "waveEnemies":[  
 				{
 					"type": 2,
@@ -69,7 +84,7 @@
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Color of Nature",
+	        "waveTitle":"Combo",
 	        "waveEnemies":[  
 				{
 					"type": 3,
@@ -189,7 +204,7 @@
 	        ]
 	    },
 	    {  
-	        "waveTitle":"One of Each Please",
+	        "waveTitle":"Dinosaurs are NOT extinct",
 	        "waveEnemies":[  
 				{
 					"type": 1,
@@ -229,7 +244,7 @@
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Donald",
+	        "waveTitle":"Rexyrex",
 	        "waveEnemies":[  
 				{
 					"type": 1000000,
