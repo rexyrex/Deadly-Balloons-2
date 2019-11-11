@@ -55,8 +55,8 @@ public class Enemy {
 	private double dxa = 0;
 	private double dya = 0;
 	
-	private String[] fnames = { "양","장","임","김","안"};
-	private String[] lnames = { "세훈","주환","희주","석주","민형","광천","성호","상준"};
+	private String[] fnames = { "Rex", "Marcus", "Sehoon"};
+	private String[] lnames = { "Kim", "Siew", "Yang"};
 	
 	private String name;
 
@@ -86,7 +86,10 @@ public class Enemy {
 	private long lastModeChangeElapsed;
 	private long modeDuration;
 	
-	
+	private long healerSpawnStartTime;
+	private long healerSpawnElapsed;
+	private long healerSpawnDuration;
+		
 	//charge enemy related vars
 	private enum ChargeState{
 		STATIONARY, CHARGING
@@ -152,6 +155,10 @@ public class Enemy {
 		lastModeChangeElapsed = 0;
 		lastModeChangeStartTime = System.nanoTime();
 		modeDuration = 30000;
+		
+		healerSpawnElapsed = 0;
+		healerSpawnStartTime = System.nanoTime();
+		healerSpawnDuration = 7000;
 
 		
 		int fn = (int) (Math.random() * fnames.length);
@@ -1124,6 +1131,8 @@ public class Enemy {
 	
 	public void pauseUpdate() {
 		regenTimer = System.nanoTime() - regenOnElapsed * 1000000;
+		lastModeChangeStartTime = System.nanoTime() - lastModeChangeElapsed * 1000000;	
+		healerSpawnStartTime = System.nanoTime() - healerSpawnElapsed * 1000000;	
 	}
 	
 	public void changeRexMode() {
@@ -1169,8 +1178,38 @@ public class Enemy {
 			}
 			
 			//spawn turrets
-			if(rexBossMode == RexBossModes.HEALSPAWN && RandomUtils.runChance(1)) {
-				GamePanel.enemyTurrets.add(new EnemyTurret(x,y,20,true));
+			healerSpawnElapsed = (System.nanoTime() - healerSpawnStartTime) / 1000000;
+			if(rexBossMode == RexBossModes.HEALSPAWN && healerSpawnElapsed > healerSpawnDuration) {
+				healerSpawnStartTime = System.nanoTime();
+				//spawn 4 healers : 1 on each qudrant
+				//healers may not spawn
+				double h1x = RandomUtils.getNumBetween(20, GamePanel.WIDTH/2);
+				double h1y = RandomUtils.getNumBetween(20, GamePanel.HEIGHT/2);
+				
+				double h2x = RandomUtils.getNumBetween(20, GamePanel.WIDTH/2);
+				double h2y = RandomUtils.getNumBetween(GamePanel.HEIGHT/2, GamePanel.HEIGHT -20);
+				
+				double h3x = RandomUtils.getNumBetween(GamePanel.WIDTH/2, GamePanel.WIDTH -20);
+				double h3y = RandomUtils.getNumBetween(20, GamePanel.HEIGHT/2);
+				
+				double h4x = RandomUtils.getNumBetween(GamePanel.WIDTH/2, GamePanel.WIDTH -20);
+				double h4y = RandomUtils.getNumBetween(GamePanel.HEIGHT/2, GamePanel.HEIGHT -20);
+				
+				if(RandomUtils.runChance(70)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h1x,h1y,20,true));
+				}
+				
+				if(RandomUtils.runChance(70)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h2x,h2y,20,true));
+				}
+				
+				if(RandomUtils.runChance(70)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h3x,h3y,20,true));
+				}
+				
+				if(RandomUtils.runChance(70)) {
+					GamePanel.enemyTurrets.add(new EnemyTurret(h4x,h4y,20,true));
+				}
 			}
 			
 			//add bullet
@@ -1204,7 +1243,6 @@ public class Enemy {
 					double aimDestX = x+Math.cos(fireAngleRad) * r;
 					double aimDestY = y+Math.sin(fireAngleRad) * r;
 					
-
 					EnemyBullet eb = new EnemyBullet(Math.toDegrees(tmpEb.getRad()), aimDestX, aimDestY, 20, 10, tmpEb.isLethal(), false);
 					GamePanel.enemyBullets.add(eb);
 					rexBulletsToRemove.add(entry.getKey());

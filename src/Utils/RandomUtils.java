@@ -47,4 +47,8 @@ public class RandomUtils {
 		return getPlusMinus(original, original*percentage, original*percentage);
 	}
 	
+	public static double getNumBetween(double min, double max) {
+		return Math.random() * (max - min) + min;
+	}
+	
 }

@@ -59,6 +59,12 @@ public class EnemyTurret {
 	private boolean hit;
 	private long hitTimer;
 	
+	//spawn in
+	private long spawnStartTime;
+	private long spawnElapsed;
+	private long spawnDuration;
+	private boolean spawned;
+	
 	Color color;
 	
 	public boolean isGettingBombed() { return gettingBombed;}
@@ -86,6 +92,11 @@ public class EnemyTurret {
 		
 		hit = false;
 		hitTimer = 0;
+		
+		spawned = false;
+		spawnStartTime = System.nanoTime();
+		spawnElapsed = 0;
+		spawnDuration = 2000;
 		
 		color = new Color(0,100,0,170);
 	}
@@ -131,12 +142,22 @@ public class EnemyTurret {
 			return true;
 		}
 		
-		fireElapsed = (System.nanoTime() - fireStartTime) / 1000000;
-		if(fireElapsed > fireInterval) {
-			//fire
-			GamePanel.enemyBullets.add(new EnemyBullet(0,x,y,10, 10, false, true));
-			fireStartTime = System.nanoTime();
+		if(spawned) {
+			//only start firing after spawned in fully
+			fireElapsed = (System.nanoTime() - fireStartTime) / 1000000;
+			if(fireElapsed > fireInterval) {
+				//fire
+				GamePanel.enemyBullets.add(new EnemyBullet(0,x,y,10, 10, false, true));
+				fireStartTime = System.nanoTime();
+			}
+		} else {
+			//still spawning in
+			spawnElapsed = (System.nanoTime() - spawnStartTime) / 1000000;
+			if(spawnElapsed > spawnDuration) {
+				spawned = true;
+			}
 		}
+
 		return false;
 	}
 	
@@ -148,44 +169,58 @@ public class EnemyTurret {
 			g.setColor(color.brighter());
 		}
 
+		if(spawned) {
+			g.drawOval((int)(x-r),(int)(y-r), (int)(2*r), (int)(2*r));
+			
+			
+			double progress = (double)fireElapsed/fireInterval;
+			if(progress > 1) {
+				progress = 1;
+			}
+//			g.drawOval(
+//					(int)(x-r/2 * (progress) - r/2 ),
+//					(int)(y-r/2* (progress) - r/2), 
+//					(int)(2*r/2 * (progress) + r/2), 
+//					(int)(2*r/2 * (progress) + r/2));
+			g.drawOval(
+					(int)(x-r + r/2 * (progress)),
+					(int)(y-r + r/2 * (progress)), 
+					(int)(2*r - r * (progress)), 
+					(int)(2*r - r * (progress)));
+			
+			
+			g.draw(
+					new Line2D.Double(
+							x + Math.cos(animationRad) * r, 
+							y + Math.sin(animationRad) * r, 
+							x + Math.cos(animationRad + Math.PI) * r, 
+							y + Math.sin(animationRad + Math.PI) * r));
+			g.draw(
+					new Line2D.Double(
+							x + Math.cos(animationRad + Math.PI/2) * r, 
+							y + Math.sin(animationRad + Math.PI/2) * r, 
+							x + Math.cos(animationRad + Math.PI  + Math.PI/2) * r, 
+							y + Math.sin(animationRad + Math.PI + Math.PI/2) * r));
+			//g.rotate(Math.toRadians(angle));
+			
 
-		g.drawOval((int)(x-r),(int)(y-r), (int)(2*r), (int)(2*r));
-		
-		
-		double progress = (double)fireElapsed/fireInterval;
-		if(progress > 1) {
-			progress = 1;
+			g.drawRect((int)(x-r/2), (int)(y+1.4*r), (int)r, (int)(r/5));
+			g.setColor(color.darker());
+			g.fillRect((int)(x-r/2), (int)(y+1.4*r), (int)(r*(health/maxHealth)), (int)(r/5));		
+		} else {
+			//not spawned yet
+			double progress = (double)spawnElapsed/spawnDuration;
+			if(progress > 1) {
+				progress = 1;
+			}
+			g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), (int)(200 * progress)));
+			g.fillOval(
+					(int)(x-r + r * (progress)),
+					(int)(y-r + r * (progress)), 
+					(int)(2*r - 2*r * (progress)), 
+					(int)(2*r - 2*r * (progress)));
 		}
-//		g.drawOval(
-//				(int)(x-r/2 * (progress) - r/2 ),
-//				(int)(y-r/2* (progress) - r/2), 
-//				(int)(2*r/2 * (progress) + r/2), 
-//				(int)(2*r/2 * (progress) + r/2));
-		g.drawOval(
-				(int)(x-r + r/2 * (progress)),
-				(int)(y-r + r/2 * (progress)), 
-				(int)(2*r - r * (progress)), 
-				(int)(2*r - r * (progress)));
 		
-		
-		g.draw(
-				new Line2D.Double(
-						x + Math.cos(animationRad) * r, 
-						y + Math.sin(animationRad) * r, 
-						x + Math.cos(animationRad + Math.PI) * r, 
-						y + Math.sin(animationRad + Math.PI) * r));
-		g.draw(
-				new Line2D.Double(
-						x + Math.cos(animationRad + Math.PI/2) * r, 
-						y + Math.sin(animationRad + Math.PI/2) * r, 
-						x + Math.cos(animationRad + Math.PI  + Math.PI/2) * r, 
-						y + Math.sin(animationRad + Math.PI + Math.PI/2) * r));
-		//g.rotate(Math.toRadians(angle));
-		
-
-		g.drawRect((int)(x-r/2), (int)(y+1.4*r), (int)r, (int)(r/5));
-		g.setColor(color.darker());
-		g.fillRect((int)(x-r/2), (int)(y+1.4*r), (int)(r*(health/maxHealth)), (int)(r/5));		
 		g.setStroke(new BasicStroke(1));	
 	}
 }
