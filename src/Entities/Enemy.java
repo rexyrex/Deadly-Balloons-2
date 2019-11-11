@@ -1168,7 +1168,7 @@ public class Enemy {
 			
 			//spawn divider
 			if(rexBossMode == RexBossModes.NORMAL) {
-				if(RandomUtils.runChance(2.7)) {
+				if(RandomUtils.runChance(2.27)) {
 					int choice = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 					double width1 = RandomUtils.getNumBetween(0, GamePanel.WIDTH);
 					double width2 = RandomUtils.getNumBetween(0, GamePanel.WIDTH);
