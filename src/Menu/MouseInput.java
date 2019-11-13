@@ -169,8 +169,8 @@ public class MouseInput implements MouseListener{
 				//shooter lvl btn
 				if(mouseIn(mx,my,menu.survivalShooterLvlBtn)) {
 					gp.sfx.get("menu select").play();
-					//gp.initNewLvl("Shooter", GamePanel.GameMode.SURVIVAL, false);
-					//GamePanel.gameState = GamePanel.GameState.PLAY;
+					gp.initNewLvl("Shooter", GamePanel.GameMode.SURVIVAL, false);
+					GamePanel.gameState = GamePanel.GameState.PLAY;
 					return;
 				}
 				

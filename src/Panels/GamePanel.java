@@ -1836,7 +1836,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			switch(levelTitle) {
 				case "Bigger": tmpEnemyType = 7; break;
 				case "Charge": tmpEnemyType = 6; break;
-				case "Shooter": tmpEnemyType = 13; break;
+				case "Shooter": tmpEnemyType = 11; break;
 				default: break;
 			}
 			
