@@ -1,7 +1,7 @@
 	{
 	"levelName" : "Classic",
 	"levelNumber" : 1,
-	"background" : "gimpBack3.png",
+	"background" : "classic.png",
 	"waves" : [
 		{  
 	        "waveTitle":"The Noob Level",

@@ -1,7 +1,7 @@
 	{
 	"levelName" : "Rex",
 	"levelNumber" : 3,
-	"background" : "procreate1.png",
+	"background" : "rex.png",
 	"waves" : [
 		{  
 	        "waveTitle":"Rawr",
