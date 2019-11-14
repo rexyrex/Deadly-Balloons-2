@@ -601,7 +601,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			//load survival background
 	        try {
 
-	            img = ImageIO.read(getClass().getResourceAsStream("/img/"+"survival.png"));
+	            img = ImageIO.read(getClass().getResourceAsStream("/img/"+"survival3.png"));
 	            img = ImageUtils.resize(img, WIDTH, HEIGHT);
 	        } catch (IOException e) {
 	            e.printStackTrace();
