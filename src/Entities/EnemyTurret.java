@@ -118,6 +118,7 @@ public class EnemyTurret {
 		hitTimer = System.nanoTime();
 	}
 	
+	
 	public boolean update() {
 		animationAngle+= 2;
 		animationRad = Math.toRadians(animationAngle);

@@ -282,7 +282,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
         try {
-            img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
+            //img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
             pauseImg = ImageIO.read(getClass().getResourceAsStream("/img/keyboard_img_populated.png"));
             pauseImg = ImageUtils.resize(pauseImg, 0.950);
         } catch (IOException e) {
