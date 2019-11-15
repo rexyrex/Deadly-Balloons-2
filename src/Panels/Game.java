@@ -44,8 +44,8 @@ public class Game {
 		
 		String resultStr = "";
 		if(resetNick) {
-			while(resultStr.length() < 3 || resultStr.length() > 8) {
-				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[3~8 Characters Long]");
+			while(resultStr.length() < 3 || resultStr.length() > 8 || !isAllowedNickname(resultStr)) {
+				resultStr = JOptionPane.showInputDialog("Enter Username (One time process)\n[3~8 Characters Long]\n[Only English + Numbers]");
 				if(resultStr==null) {
 					System.exit(1);
 				}
@@ -77,6 +77,10 @@ public class Game {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
+	}
+	
+	public static boolean isAllowedNickname(String name) {
+	    return name.matches("[a-zA-Z0-9]+");
 	}
 	
 }
