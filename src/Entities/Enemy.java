@@ -656,8 +656,8 @@ public class Enemy {
 			if(rank == 1){
 				speed = 6;
 				r = 50;
-				health = 5000;
-				maxHealth = 5000;
+				health = 7000;
+				maxHealth = 7000;
 				money = 5000;
 			}
 		}
@@ -690,8 +690,8 @@ public class Enemy {
 			if(rank == 1){
 				speed = 6;
 				r = 72;
-				health = 10000;
-				maxHealth = 10000;
+				health = 20000;
+				maxHealth = 20000;
 				money = 500;
 				
 				slowFieldRadius = 0;
@@ -1235,19 +1235,19 @@ public class Enemy {
 				double h4y = RandomUtils.getNumBetween(GamePanel.HEIGHT/2, GamePanel.HEIGHT -20);
 				
 				if(RandomUtils.runChance(77.2)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h1x,h1y,27,true));
+					GamePanel.enemyTurrets.add(new EnemyTurret(h1x,h1y,72,true));
 				}
 				
 				if(RandomUtils.runChance(77.2)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h2x,h2y,27,true));
+					GamePanel.enemyTurrets.add(new EnemyTurret(h2x,h2y,72,true));
 				}
 				
 				if(RandomUtils.runChance(77.2)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h3x,h3y,27,true));
+					GamePanel.enemyTurrets.add(new EnemyTurret(h3x,h3y,72,true));
 				}
 				
 				if(RandomUtils.runChance(77.2)) {
-					GamePanel.enemyTurrets.add(new EnemyTurret(h4x,h4y,27,true));
+					GamePanel.enemyTurrets.add(new EnemyTurret(h4x,h4y,72,true));
 				}
 			}
 			
