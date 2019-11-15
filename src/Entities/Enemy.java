@@ -1113,7 +1113,7 @@ public class Enemy {
 			hitTimer = System.nanoTime();
 		} else {
 			
-			gainHealth(4);
+			gainHealth((int)(dmg*4));
 		}
 	}
 	
