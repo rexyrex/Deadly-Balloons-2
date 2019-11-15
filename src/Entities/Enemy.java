@@ -375,7 +375,6 @@ public class Enemy {
 		
 		//growing
 		if(type ==7){
-			dropMultiplier = 1.5;
 			skillSet.put("growing skill", 2.47);
 			
 			skillSet.put("health bar skill", 1.0);
@@ -421,6 +420,7 @@ public class Enemy {
 		
 		//money enemy
 		if(type ==8){
+			dropMultiplier = 2;
 			skillSet.put("money skill", 1.0);
 			skillSet.put("change direction skill", 2.0);			
 			skillSet.put("health bar skill", 1.0);
@@ -579,14 +579,15 @@ public class Enemy {
 		
 		//swarm enemy
 		if(type ==12){
+			dropMultiplier = 2;
 			color1 = new Color(255,105,180,200);
 
 			if(rank == 1){
 				speed = 7;
 				r = 10;
-				health = 4;
+				health = 5;
 				maxHealth = 4;
-				money = 5;
+				money = 7;
 			}
 			
 			if(rank == 2){
@@ -1154,8 +1155,8 @@ public class Enemy {
 			}
 			
 			//change speed
-			if(RandomUtils.runChance(1)) {
-				changeSpeedRandomly(8,4);
+			if(RandomUtils.runChance(0.7)) {
+				changeSpeedRandomly(4,10);
 			}
 			
 			//change modes
@@ -1304,7 +1305,7 @@ public class Enemy {
 		
 		if(skillSet.containsKey("change speed skill")) {
 			if(RandomUtils.runChance(skillSet.get("change speed skill"))) {
-				changeSpeedRandomly(7,2);
+				changeSpeedRandomly(4,8);
 			}
 		}
 		
@@ -1438,7 +1439,7 @@ public class Enemy {
 			}
 			
 			if(RandomUtils.runChance(0.5)){
-				changeSpeedRandomly(6,1);
+				changeSpeedRandomly(4,8);
 			}
 			
 			if(RandomUtils.runChance(1.2)){
@@ -1461,7 +1462,7 @@ public class Enemy {
 			}
 			
 			if(RandomUtils.runChance(0.5)){
-				changeSpeedRandomly(6,1);
+				changeSpeedRandomly(4,8);
 			}
 			
 			if(RandomUtils.runChance(1.5)){
@@ -1484,7 +1485,7 @@ public class Enemy {
 			}
 			
 			if(RandomUtils.runChance(0.7)){
-				changeSpeedRandomly(7,1);
+				changeSpeedRandomly(4,8);
 			}
 			
 			if(RandomUtils.runChance(2.0)){
