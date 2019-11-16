@@ -438,8 +438,8 @@ public class Enemy {
 		
 		//pulsing enemy
 		if(type ==9){
-			skillSet.put("change direction skill", 3.2);
-			skillSet.put("change speed skill", 3.2);
+			skillSet.put("change direction skill", 2.2);
+			skillSet.put("change speed skill", 1.2);
 			skillSet.put("health bar skill", 1.0);
 			skillSet.put("pulse skill", 1.0);
 			skillSet.put("slow field skill", 0.27);
@@ -490,7 +490,7 @@ public class Enemy {
 			//skillSet.put("health bar skill", 1.0);
 			//skillSet.put("pulse skill", 1.0);
 			
-			skillSet.put("shooting skill",4000.0);
+			skillSet.put("shooting skill",3200.0);
 			
 			color1 = new Color(112,128,144,200);
 
@@ -1305,7 +1305,7 @@ public class Enemy {
 		
 		if(skillSet.containsKey("change speed skill")) {
 			if(RandomUtils.runChance(skillSet.get("change speed skill"))) {
-				changeSpeedRandomly(4,8);
+				changeSpeedRandomly(2,9);
 			}
 		}
 		
@@ -1328,7 +1328,7 @@ public class Enemy {
 			double shootDelay = skillSet.get("shooting skill");
 			if(shootElapsed > (long)shootDelay) {
 				lastShootTime = System.nanoTime();
-				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 17, 8, true, false));
+				GamePanel.enemyBullets.add(new EnemyBullet(fireAngle, x, y, 20, 10, true, false));
 				fireAngle = Math.random() * 360;
 			}
 		}

@@ -81,12 +81,6 @@ High score system
 
 Create Survival Mode Levels
 
---TODO--
-
-Add better backgrounds
-
-BGM
-
 Create hard level (Rex)
 	- balancing
 
@@ -94,10 +88,13 @@ Rex Boss :
 	- spawn dividers 
 	- heal turrets should spawn evenly
 
+--TODO--
 
+Add darker background for Rex
 
+BGM
 
-
+Login Time Save
 
 
 

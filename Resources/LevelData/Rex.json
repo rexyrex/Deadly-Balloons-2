@@ -137,9 +137,14 @@
 	        "waveTitle":"Cowboys",
 	        "waveEnemies":[  
 				{
-					"type": 10,
+					"type": 8,
 					"rank": 4,
 					"count": 8
+				},
+								{
+					"type": 11,
+					"rank": 4,
+					"count": 2
 				}
 	        ]
 	    },
@@ -149,7 +154,7 @@
 				{
 					"type": 9,
 					"rank": 4,
-					"count": 6
+					"count": 7
 				}
 	        ]
 	    },
@@ -159,18 +164,23 @@
 				{
 					"type": 9,
 					"rank": 4,
-					"count": 4
+					"count": 5
 				},
 				{
 					"type": 11,
 					"rank": 4,
-					"count": 4
+					"count": 5
 				}
 	        ]
 	    },
 	    {  
 	        "waveTitle":"Chaos",
 	        "waveEnemies":[  
+	        	{
+					"type": 5,
+					"rank": 4,
+					"count": 4
+				},
 				{
 					"type": 6,
 					"rank": 4,
@@ -224,7 +234,7 @@
 	        ]
 	    },
 	    {  
-	        "waveTitle":"Dinosaurs are NOT extinct",
+	        "waveTitle":"Dinos are NOT extinct",
 	        "waveEnemies":[  
 				{
 					"type": 6,

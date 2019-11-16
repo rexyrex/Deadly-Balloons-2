@@ -1,5 +1,8 @@
 package Audio;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -12,27 +15,37 @@ public class AudioPlayer {
 	public AudioPlayer(String s){
 		try{
 			
-			AudioInputStream ais = 
-					AudioSystem.getAudioInputStream(
-						getClass().getResourceAsStream(
-							s								
-								)	
-							);
-			AudioFormat baseFormat = ais.getFormat();
-			AudioFormat decodeFormat = new AudioFormat(
-					AudioFormat.Encoding.PCM_SIGNED,
-					baseFormat.getSampleRate(),
-					16,
-					baseFormat.getChannels(),
-					baseFormat.getChannels() * 2,
-					baseFormat.getSampleRate(),
-					false
-			);
-			AudioInputStream dais = 
-					AudioSystem.getAudioInputStream(
-							decodeFormat, ais);
-			clip = AudioSystem.getClip();
-			clip.open(dais);
+			try (InputStream in = getClass().getResourceAsStream(s)) {
+	            InputStream bufferedIn = new BufferedInputStream(in);
+	            try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn)) {
+	                clip = AudioSystem.getClip();
+	                clip.open(audioIn);
+	            }
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	       }
+			
+//			AudioInputStream ais = 
+//					AudioSystem.getAudioInputStream(
+//						getClass().getResourceAsStream(
+//							s								
+//								)	
+//							);
+//			AudioFormat baseFormat = ais.getFormat();
+//			AudioFormat decodeFormat = new AudioFormat(
+//					AudioFormat.Encoding.PCM_SIGNED,
+//					baseFormat.getSampleRate(),
+//					16,
+//					baseFormat.getChannels(),
+//					baseFormat.getChannels() * 2,
+//					baseFormat.getSampleRate(),
+//					false
+//			);
+//			AudioInputStream dais = 
+//					AudioSystem.getAudioInputStream(
+//							decodeFormat, ais);
+//			clip = AudioSystem.getClip();
+//			clip.open(dais);
 			
 		} catch(Exception e){}
 		
