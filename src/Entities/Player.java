@@ -535,13 +535,13 @@ public class Player {
 		
 		sideMissileDmg += Math.random()/10 + 0.05;
 		turretDmg += Math.random()/10 + 0.05;
-		bombDmg += Math.random()/10 + 0.05;
+		bombDmg += Math.random()/12 + 0.03;
 		addonDmg += Math.random()/15 + 0.03;
-		spazLength += Math.random() * 30 + 70;
-		firingSideLength += Math.random() * 30 + 70;
+		spazLength += Math.random() * 20 + 50;
+		firingSideLength += Math.random() * 20 + 40;
 		friendDmg += Math.random()/10 + 0.05;
 		lightningDmg += Math.random()/5;
-		lightningStunLength += Math.random() * 50 + 70;
+		lightningStunLength += Math.random() * 30 + 50;
 	}
 	
 	public boolean attemptPurchase(int cost) {

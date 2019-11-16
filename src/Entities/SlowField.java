@@ -122,8 +122,8 @@ public class SlowField {
 			g.drawOval((int)(x-r), (int)(y-r), (int)(2*r), (int)(2*r));
 			
 			g.setColor(new Color(25,25,112,255));
-			g.drawRect((int)(x), (int)(y), 20, 5);
-			g.fillRect((int)(x), (int)(y), (int)(20-20*elapsed/duration), 5);
+			g.drawRect((int)(x-10), (int)(y-2.5), 20, 5);
+			g.fillRect((int)(x-10), (int)(y-2.5), (int)(20-20*elapsed/duration), 5);
 		}
 	}
 
