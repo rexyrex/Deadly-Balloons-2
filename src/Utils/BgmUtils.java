@@ -11,7 +11,7 @@ public class BgmUtils {
 	public BgmUtils() {
 		bgm = new HashMap<String, AudioPlayer>();
 		
-		bgm.put("Rex", new AudioPlayer("/Music/adventures.wav"));
+		bgm.put("Rex", new AudioPlayer("/Music/pianoBass2.wav"));
 		bgm.put("Menu", new AudioPlayer("/Music/Chillstep_2.wav"));
 		bgm.put("Classic", new AudioPlayer("/Music/FutureAmbient_1.wav"));
 		bgm.put("MrYang", new AudioPlayer("/Music/HipHopNoir_1.wav"));
