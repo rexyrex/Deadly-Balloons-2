@@ -73,30 +73,30 @@ public class InfoPanel extends JPanel{
         //scrollPane.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
         //scrollPane.setOpaque(false);
         
-        final JButton instructionToggleBtn = new JButton("Show Controls");
-        add(instructionToggleBtn);
+        //final JButton instructionToggleBtn = new JButton("Show Controls");
+        //add(instructionToggleBtn);
         //add(scrollPane);
         
         
         
-        instructionToggleBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showInstructions = !showInstructions;
-				if(showInstructions) {
-					//InstructionsPanel.this.add(scrollPane);
-					scrollPane.setPreferredSize(new Dimension(300,700));
-					InfoPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
-					scrollPane.setVisible(true);
-				} else {
-					//InstructionsPanel.this.remove(scrollPane);
-					scrollPane.setPreferredSize(new Dimension(10,700));
-					InfoPanel.this.setPreferredSize(new Dimension(10,700));
-					scrollPane.setVisible(false);
-					
-				}
-			}
-		});
+//        instructionToggleBtn.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				showInstructions = !showInstructions;
+//				if(showInstructions) {
+//					//InstructionsPanel.this.add(scrollPane);
+//					scrollPane.setPreferredSize(new Dimension(300,700));
+//					InfoPanel.this.setPreferredSize(new Dimension(300,GamePanel.HEIGHT));
+//					scrollPane.setVisible(true);
+//				} else {
+//					//InstructionsPanel.this.remove(scrollPane);
+//					scrollPane.setPreferredSize(new Dimension(10,700));
+//					InfoPanel.this.setPreferredSize(new Dimension(10,700));
+//					scrollPane.setVisible(false);
+//					
+//				}
+//			}
+//		});
 	}
 	
 	public void updateStats() {
