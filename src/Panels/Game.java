@@ -15,7 +15,10 @@ import javax.swing.JOptionPane;
 
 import Utils.EncryptUtils;
 import Utils.FileUtils;
+import Utils.VersionUtils;
 public class Game {
+	
+	private final static String version = "1.0.0";
 	
 	public static void saveUserName(Path path, SecretKey sk, String userName) {
 		byte[] res = EncryptUtils.encrypt(userName, sk);
@@ -29,6 +32,23 @@ public class Game {
 	}
 
 	public static void main(String args[]){
+		
+		String latestVersion = VersionUtils.getLatestVersion();
+		//rmv quotes
+		latestVersion = latestVersion.substring(1, latestVersion.length()-2);
+		
+		String patchNotes = VersionUtils.getPatchNotes();
+		patchNotes = patchNotes.substring(1, patchNotes.length()-2);
+		
+		if(!latestVersion.equals(version)){
+			JOptionPane.showMessageDialog(null, 
+					"Game version is outdated" + 
+					"\n\nCurrent Version: "+version + 
+					"\nLatest Version: "+ latestVersion + 
+					"\n\nPatch notes: " + patchNotes);
+			System.exit(1);
+		}
+		
 		Path skPath = Paths.get("sk.rex");
 		File skFile = new File(skPath.toString());
 		Path path = Paths.get("uf.rex");
