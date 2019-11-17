@@ -269,7 +269,7 @@ public class Menu {
 						"Key / Ability / Stamina Cost / Other Requirements\n" + 
 						"SPACE / Fire / 0 / None\n" +
 						"Q / Push Enemies / 500 / None\n" +
-						"W / Freeze Enemies / 800 / None\n"+
+						"W / Freeze Enemies / 800 / Cooldown\n"+
 						"E / Place Black Hole / 700 / None\n" +
 						"R / Invincibility / 200 + @/ None\n"+
 						"D / Dash / 200 / None\n"+
@@ -277,7 +277,7 @@ public class Menu {
 						"A / Toggle Addon / 0 / >=1 Addon\n"+
 						"T / Place Turret / 400 / Max 5 Turrets\n"+
 						"S / Place Shelter / 0 / 1 Shelter\n"+
-						"F / Collect / 700 / None\n"+
+						"F / Collect / 700 / Cooldown\n"+
 						"NUMPAD 0 / Pause / 0 / None\n"+
 						""
 						;
