@@ -1603,7 +1603,7 @@ public class Enemy {
 		}	
 		
 		//draw name
-		if(rank>4 && r > 55){
+		if(rank>=4 && r > 55){
 			g.setColor(new Color(245,222,179));
 			g.setStroke(new BasicStroke(3));
 			g.setFont(new Font("Gulim",Font.BOLD,16));

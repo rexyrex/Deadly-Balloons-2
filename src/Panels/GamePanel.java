@@ -2030,22 +2030,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		if(keyCode == KeyEvent.VK_F4) {
 			sp.dropRateBtn.doClick();
 		}
-		if(keyCode == KeyEvent.VK_F5) {
-			waveNumber = 17;
-		}
-		if(keyCode == KeyEvent.VK_F6) {
-			enemies.clear();
-		}
-		if(keyCode == KeyEvent.VK_F7) {
-			slowFields.add(new SlowField(player.getx(), player.gety(), 250, 15000));
-		}
-		if(keyCode == KeyEvent.VK_F8) {
-			//dividerBlocks.add(new DividerBlock(player.getx(), player.gety(), 10));
-			//dividers.add(new Divider(400, HEIGHT, 300, 0));
-			//dividers.add(new Divider(0, 400, WIDTH, 300));
-			//player.stun(3333);
-			
-		}
+//		if(keyCode == KeyEvent.VK_F5) {
+//			waveNumber = 17;
+//		}
+//		if(keyCode == KeyEvent.VK_F6) {
+//			enemies.clear();
+//		}
+//		if(keyCode == KeyEvent.VK_F7) {
+//			slowFields.add(new SlowField(player.getx(), player.gety(), 250, 15000));
+//		}
+//		if(keyCode == KeyEvent.VK_F8) {
+//			//dividerBlocks.add(new DividerBlock(player.getx(), player.gety(), 10));
+//			//dividers.add(new Divider(400, HEIGHT, 300, 0));
+//			//dividers.add(new Divider(0, 400, WIDTH, 300));
+//			//player.stun(3333);
+//		}
 	}
 
 	@Override
