@@ -251,6 +251,7 @@ public class MouseInput implements MouseListener{
 				gp.sfx.get("menu back").play();
 				GamePanel.menuState = GamePanel.MenuState.MAIN;
 				GamePanel.gameState = GamePanel.GameState.MENU;
+				GamePanel.bgmUtils.playBgm("Menu");
 				return;
 			}
 		}
@@ -262,6 +263,7 @@ public class MouseInput implements MouseListener{
 				gp.sfx.get("menu back").play();
 				GamePanel.menuState = GamePanel.MenuState.MAIN;
 				GamePanel.gameState = GamePanel.GameState.MENU;
+				GamePanel.bgmUtils.playBgm("Menu");
 				return;
 			}
 			//resume

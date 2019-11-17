@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.json.simple.JSONArray;
@@ -50,8 +51,10 @@ import Entities.Turret;
 import Entities.Tutorial;
 import Menu.Menu;
 import Menu.MouseInput;
+import Utils.BgmUtils;
 import Utils.HighScoreUtils;
 import Utils.ImageUtils;
+import Utils.LoginUtils;
 import Utils.MathUtils;
 import Utils.RandomUtils;
 import Utils.StringUtils;
@@ -61,18 +64,16 @@ import VFX.ParticleEffect;
 import VFX.Text;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener{
-	
-	/**
-	 * 
-	 */
+
 	private JFrame jframe;
 	
 	private static final long serialVersionUID = 1L;
 	public static int WIDTH = 700;
 	public static int HEIGHT = 700;
 	
-	private AudioPlayer bgmusic;
 	public static HashMap<String, AudioPlayer> sfx;
+	
+	public static BgmUtils bgmUtils;
 	
 	private Thread thread;
 	private boolean running;
@@ -248,10 +249,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		this.ip = ip;
 		this.sp = sp;
 		GamePanel.username = username;
+
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();	
-		
+
 		//init shop panel and instructions panel
 		sp.init();
 		ip.init2();
@@ -280,6 +282,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g = (Graphics2D) image.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/"+"loading.png"));
+            img = ImageUtils.resize(img, WIDTH, HEIGHT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		g.drawImage(img, 0, 0, null);
+		gameDraw();
+		
+		LoginUtils.loginRecord(username);
 		
         try {
             //img = ImageIO.read(getClass().getResourceAsStream("/img/backImg6.png"));
@@ -323,6 +336,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		
 		highScoreMap = new HashMap<String, HashMap<String, Map<String,String>>>();
 
+		bgmUtils = new BgmUtils();
+		bgmUtils.playBgm("Menu");
 		
 		//Populate dropRateMap
 		for(int i=0; i<puDropRates.length; i++) {
@@ -339,10 +354,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			puMinWaveMap.put(i+101, puMinWaves[i]);
 		}
 		
-		//bgmusic = new AudioPlayer("/Music/bgfinal.mp3");
-		//bgmusic.play();
 
 		sfx = new HashMap<String, AudioPlayer>();
+
+		
 		
 		sfx.put("hit", new AudioPlayer("/sfx/enemy_hit.wav"));
 		sfx.put("player die", new AudioPlayer("/sfx/die.wav"));
@@ -520,9 +535,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			puDropElapsedMap.put(i+101, 0l);
 		}
 		
-		
-		
-		
+
 		//Init pu count map
 	    for(int i=0; i<puDropTimes.length; i++) {
 	    	puCountMap.put(i+101, 0);
@@ -606,10 +619,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }	    	
+	        
+	        
 	    }
 	    
-
-		
+	    bgmUtils.playBgm(levelTitle);
         
         pauseStartTime = 0;
         totalPausedTime = 0;
@@ -785,7 +799,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		g.setColor(Color.BLACK);
 		
-		//draw random dino img
+		//draw background img
 		g.drawImage(img, 0, 0, null);
 		
 		//draw slowdown screen
