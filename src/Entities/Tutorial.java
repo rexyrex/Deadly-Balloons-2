@@ -248,7 +248,6 @@ public class Tutorial {
 		}
 		
 		long elapsed = (System.nanoTime() - stageStartTime[stage])/1000000;
-		//System.out.println(elapsed);
 		if(elapsed < stageStartDelay[stage]) {
 			return;
 		}
@@ -259,10 +258,8 @@ public class Tutorial {
 		}
 		
 		long textElapsed = (System.nanoTime() - textFadeStartTime[stage])/1000000;
-		//System.out.println("text Elapsed: " + textElapsed);
 		int alpha = (int) (255 * textElapsed / textFadeTime[stage]);
 		if(alpha > 255) alpha = 255;
-		//System.out.println("Alpha: " + alpha);
 		
 		if(stageReqMet[stage]) {
 			long fadeOutElapsed = (System.nanoTime() -nextStageQueuedTime[stage])/1000000;

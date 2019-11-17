@@ -76,16 +76,16 @@ public class HighScoreUtils {
 		//convert hashMap to Json		
 		JSONObject newJson = new JSONObject();		
 		
-		System.out.println("-- sorted --");
+		//System.out.println("-- sorted --");
 		ArrayList<String> keyList = new ArrayList(sortedScoreMap.keySet());		
 		for (int i = 0; i < keyList.size(); i++) {
 			//get key
 			String key = keyList.get(i);
-			System.out.println("Key :: " + key);
+			//System.out.println("Key :: " + key);
 			//get value corresponding to key
 			int value = sortedScoreMap.get(key);
-			System.out.println("Value :: " + value);
-			System.out.println("--------------------------------");
+			//System.out.println("Value :: " + value);
+			//System.out.println("--------------------------------");
 			if(gameMode.equals("DefaultLevels")){
 				newJson.put(key, secondsToScoreStr(value));
 			} else {
@@ -168,16 +168,16 @@ public class HighScoreUtils {
 		JSONObject newJson = new JSONObject();
 		
 		
-		System.out.println("-- sorted --");
+		//System.out.println("-- sorted --");
 		ArrayList<String> keyList = new ArrayList(sortedScoreMap.keySet());		
 		for (int i = 0; i < keyList.size(); i++) {
 			//get key
 			String key = keyList.get(i);
-			System.out.println("Key :: " + key);
+			//System.out.println("Key :: " + key);
 			//get value corresponding to key
 			int value = sortedScoreMap.get(key);
-			System.out.println("Value :: " + value);
-			System.out.println("--------------------------------");
+			//System.out.println("Value :: " + value);
+			//System.out.println("--------------------------------");
 			if(gameMode.equals("DefaultLevels")) {
 				topFiveMap.put(key, secondsToScoreStr(value));
 			} else {

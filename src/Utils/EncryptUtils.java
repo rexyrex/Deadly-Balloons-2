@@ -65,7 +65,6 @@ public class EncryptUtils {
         }catch(Exception e)
         {
         	e.printStackTrace();
-            System.out.println("Exception");
         }
 		return null;
 	}
@@ -84,7 +83,6 @@ public class EncryptUtils {
             return decS;
         }catch(Exception e)
         {
-            System.out.println("Exception");
         }
         return null;
 	}

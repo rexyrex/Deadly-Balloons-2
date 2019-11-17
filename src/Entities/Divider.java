@@ -66,12 +66,9 @@ public class Divider {
 			//spawn divider blocks
 			
 			while( x1 <= GamePanel.WIDTH && x1 >=0 && y1 <= GamePanel.HEIGHT && y1 >=0) {
-				//System.out.println("x1: " + x1 + ", y1: " + y1);
-				GamePanel.dividerBlocks.add(new DividerBlock(x1,y1,dividerBlockRadius));
-				
+				GamePanel.dividerBlocks.add(new DividerBlock(x1,y1,dividerBlockRadius));				
 				x1 = x1 + dividerBlockRadius * 1.5 * Math.cos(rad);
 				y1 = y1 + dividerBlockRadius * 1.5 * Math.sin(rad);
-				//System.out.println("[NEXT] x1: " + x1 + ", y1: " + y1);
 			}
 			
 			

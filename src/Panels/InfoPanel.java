@@ -100,7 +100,6 @@ public class InfoPanel extends JPanel{
 	}
 	
 	public void updateStats() {
-		//System.out.println("updating stats");
 		statsContents[0][0] = "Wave";
 		statsContents[0][1] = String.valueOf(GamePanel.waveNumber);
 		statsContents[1][0] = "Bullet Damage";

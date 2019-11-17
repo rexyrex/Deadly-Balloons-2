@@ -62,14 +62,11 @@ public class ShopPanel extends JPanel{
 	}
 	
 	public void init() {
-		//System.out.println("Shop Panel Init");
 		itemPurchaseMap = new HashMap<JButton, Integer>();
 		itemBaseCostMap = new HashMap<JButton, Integer>();
 		itemBaseName = new HashMap<JButton, String>();
 		maxPurchaseMap = new HashMap<JButton, Integer>();
 		
-
-        
         initMaps(buyLifeBtn, "F1 : Extra Life", 120, 1000);
         initMaps(buyPowerBtn, "F2 : Power Up", 40, 1000);
         initMaps(buyAbilityBtn, "F3 : Ability Up", 50, 1000);

@@ -66,12 +66,10 @@ public class Lightning {
 //			//get brighter
 //			long timeLeftBrighter = (duration / 5) - elapsed ;
 //			alpha = (int)(255 - 255 * (timeLeftBrighter)/(duration/5));
-//			System.out.println("Getting brighter");
 //		} else {
 //			//get darker
 //			long timeLeftDarker = duration - elapsed ;
 //			alpha = (int)(255 * (timeLeftDarker)/(duration));
-//			System.out.println("Getting darker");
 //		}
 		
 

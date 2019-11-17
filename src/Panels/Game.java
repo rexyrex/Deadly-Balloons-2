@@ -55,7 +55,6 @@ public class Game {
 				
 		byte[] usernameBytes = FileUtils.readBytes(path);
 		String username = EncryptUtils.decrypt(usernameBytes, sk);		
-		System.out.println("Username: " + username);
 		
 		final JFrame window = new JFrame("Rex Shooter");
 		

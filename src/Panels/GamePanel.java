@@ -587,7 +587,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
 					int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
 					int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
-					//System.out.println(tmpEnemyType+ ","+ tmpEnemyRank+ ","+ tmpEnemyCount);
 					Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
 					enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
 				}
@@ -2104,7 +2103,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public void resumeGame() {
 		gameState = GameState.PLAY;
 		totalPausedTime += pauseElapsedTime;
-		System.out.println(totalPausedTime);
 	}
 	
 	public static void updatePuCount(PowerUp pu, boolean remove) {

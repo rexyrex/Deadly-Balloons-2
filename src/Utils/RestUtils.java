@@ -27,19 +27,14 @@ public class RestUtils {
 					sb.append(line).append("\n");
 				}
 				br.close();
-				System.out.println("" + sb.toString());
+				//System.out.println("" + sb.toString());
 			} else {
-				System.out.println(con.getResponseMessage());
+				//System.out.println(con.getResponseMessage());
 			}
-
-
-			System.out.println("ì?‘ë‹µì½”ë“œ : " + con.getResponseCode());
 
 			return sb.toString();
 
 		} catch (MalformedURLException e) {
-
-			System.out.println(requestURL+" is not a URL I understand");
 
 		} catch (IOException e) {
 
@@ -73,19 +68,17 @@ public class RestUtils {
 					sb.append(line).append("\n");
 				}
 				br.close();
-				System.out.println("" + sb.toString());
+				//System.out.println("" + sb.toString());
 			} else {
-				System.out.println(con.getResponseMessage());
+				//System.out.println(con.getResponseMessage());
 			}
 
 
-			System.out.println("Resp Code : " + con.getResponseCode());
+			//System.out.println("Resp Code : " + con.getResponseCode());
 
-			System.out.println("Resp Msg : " + con.getResponseMessage());
+			//System.out.println("Resp Msg : " + con.getResponseMessage());
 
 		} catch (MalformedURLException e) {
-
-			System.out.println(requestURL+" is not a URL I understand");
 
 		} catch (IOException e) {
 
