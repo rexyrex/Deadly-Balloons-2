@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import javax.crypto.SecretKey;
 import javax.swing.JFrame;
@@ -47,6 +47,14 @@ public class Game {
 					"\nLatest Version: "+ latestVersion + 
 					"\n\nPatch notes: " + patchNotes);
 			System.exit(1);
+			
+			try {
+				URI uri = new URI("https://www.rexyrex.com/deadlyballoons");
+				java.awt.Desktop.getDesktop().browse(uri);
+			} catch (IOException | URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		Path skPath = Paths.get("sk.rex");
