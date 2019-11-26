@@ -156,7 +156,9 @@ public class ShopPanel extends JPanel{
 	public void resetPurchases() {    
 	    for (Map.Entry<JButton, Integer> entry : itemPurchaseMap.entrySet()) {
 	        entry.setValue(0);
-	        updateBtnName((JButton) entry.getKey());
+	        JButton jb = (JButton) entry.getKey();
+	        updateBtnName(jb);
+	        jb.setBackground(Color.red);
 	    }	    
 	}
 	
@@ -191,13 +193,13 @@ public class ShopPanel extends JPanel{
 	}
 	
 	public void msgOnGui(String s, boolean bought) {
-		Color c;
-		if(bought) {
-			c = Color.green;
-		} else {
-			c = Color.red;
-		}
-		GamePanel.texts.add(new Text(GamePanel.WIDTH/2 - s.length()/2, GamePanel.HEIGHT/2,2000,s, true, c, Font.BOLD, 30));
+//		Color c;
+//		if(bought) {
+//			c = Color.green;
+//		} else {
+//			c = Color.red;
+//		}
+		//GamePanel.texts.add(new Text(GamePanel.WIDTH/2 - s.length()/2, GamePanel.HEIGHT/2,2000,s, true, c, Font.BOLD, 30));
 	}
 	
 	

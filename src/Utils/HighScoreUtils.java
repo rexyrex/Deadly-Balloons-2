@@ -55,11 +55,20 @@ public class HighScoreUtils {
 		
 		//if username already exists then update score only if better score
 		if(scoreMap.containsKey(userName)) {
-			if(scoreMap.get(userName) > userScore) {
-				scoreMap.put(userName, userScore);
+			if(gameMode.equals("DefaultLevels")) {
+				if(scoreMap.get(userName) > userScore) {
+					scoreMap.put(userName, userScore);
+				} else {
+					return;
+				}
 			} else {
-				return;
+				if(scoreMap.get(userName) < userScore) {
+					scoreMap.put(userName, userScore);
+				} else {
+					return;
+				}
 			}
+			
 		} else {
 			//add user to highscore sheet
 			scoreMap.put(userName, userScore);
