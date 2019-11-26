@@ -18,7 +18,7 @@ import Utils.FileUtils;
 import Utils.VersionUtils;
 public class Game {
 	
-	private final static String version = "1.1.0";
+	private final static String version = "1.1.1";
 	
 	public static void saveUserName(Path path, SecretKey sk, String userName) {
 		byte[] res = EncryptUtils.encrypt(userName, sk);
