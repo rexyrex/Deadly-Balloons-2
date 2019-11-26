@@ -158,7 +158,7 @@ public class ShopPanel extends JPanel{
 	        entry.setValue(0);
 	        JButton jb = (JButton) entry.getKey();
 	        updateBtnName(jb);
-	        jb.setBackground(Color.red);
+	        jb.setBackground(Color.white);
 	    }	    
 	}
 	
