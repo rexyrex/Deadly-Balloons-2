@@ -32,7 +32,7 @@ public class Game {
 	}
 
 	public static void main(String args[]){
-		
+		//test
 		String latestVersion = VersionUtils.getLatestVersion();
 		//rmv quotes
 		latestVersion = latestVersion.substring(1, latestVersion.length()-2);
