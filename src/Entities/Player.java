@@ -133,11 +133,13 @@ public class Player {
 	public HashMap<String, Long> skillLastUsedMap;
 	public HashMap<String, Color> skillColorMap;
 	
-	public String[] skills = {"F - Collect", "W - FreezeAOE"};
-	public long[] skillCds = {15000, 20000};	
+	public String[] skills = {"F - Collect", "W - FreezeAOE", "E - BlackHole", "Q - Push"};
+	public long[] skillCds = {15000, 20000, 10000, 5000};	
 	public Color[] skillColors = {
 		new Color(218,165,32),
-		new Color(175,238,238)
+		new Color(175,238,238),
+		new Color(0,0,0),
+		new Color(255,255,255)
 	};
 	
 	private Turret[] ts = new Turret[5];
@@ -159,7 +161,7 @@ public class Player {
 	private int powerLevel;
 	private int power;
 	private int[] requiredPower = {
-			3,6,9,10,12,14,15
+			3,6,9,10,10,12,12
 	};
 	
 	private double dropRateMultiplier;

@@ -110,14 +110,18 @@ public class HighScoreUtils {
 	}
 	
 	public static void populateAllHighScores() {
+		//Personal Record
+		HashMap<String, String> personalBestMap = new HashMap<String, String>();
+		
+		
 		String[] defaultLevelNames = {"Rex","Classic", "MrYang"};
 		
 		//Default Levels 
 		HashMap<String, Map<String,String>> defaultLevels = new HashMap<String, Map<String,String>>();
 		for(String lvlName : defaultLevelNames) {
 			defaultLevels.put(lvlName, getTopFive("DefaultLevels", lvlName));
+			personalBestMap.put(lvlName, getPersonalHighscore("DefaultLevels", lvlName));
 		}
-		
 		
 		String[] survivalLevelNames = {"Bigger","Charge", "Shooter"};
 		
@@ -125,10 +129,12 @@ public class HighScoreUtils {
 		HashMap<String, Map<String,String>> survivalLevels = new HashMap<String, Map<String,String>>();
 		for(String lvlName : survivalLevelNames) {
 			survivalLevels.put(lvlName, getTopFive("SurvivalLevels", lvlName));
+			personalBestMap.put(lvlName, getPersonalHighscore("SurvivalLevels", lvlName));
 		}
 		
 		GamePanel.highScoreMap.put("DefaultLevels", defaultLevels);
 		GamePanel.highScoreMap.put("SurvivalLevels", survivalLevels);
+		GamePanel.personalBestMap.put("PersonalRecords", personalBestMap);
 	}
 	
 	public static Map<String, String> getTopFive(String gameMode, String levelName){
@@ -198,6 +204,17 @@ public class HighScoreUtils {
 		}	
 		
 		return topFiveMap;
+	}
+	
+	public static String getPersonalHighscore(String gameMode, String levelName) {
+		String highScore = RestUtils.get("https://deadly-balloons-2.firebaseio.com/HighScores/" + gameMode + "/" + levelName + "/" + GamePanel.username + ".json");
+		if(null == (highScore)) {
+			highScore = "No Score";
+		} else if(highScore.equals("null")) {
+			highScore = "No Score";
+		}
+		
+		return GamePanel.username + " : " + highScore;
 	}
 	
 	public static String getHighscores(String gameMode, String levelName) {

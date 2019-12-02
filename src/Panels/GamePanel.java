@@ -113,6 +113,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	//highscores
 	public static HashMap<String, HashMap<String, Map<String,String>>> highScoreMap;
+	public static HashMap<String, HashMap<String, String>> personalBestMap;
 	
 	//key presses
 	private Set<Integer> keysPressed = new HashSet<Integer>();
@@ -126,17 +127,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	public static HashMap<Integer, Integer> puMinWaveMap;
 	
 	private double puDropRates[] = {
-			0.17, // 1. extra life
-			0.35, // 2. power +1
-			0.7, // 3. power +2
+			0.15, // 1. extra life
+			0.3, // 2. power +1
+			0.2, // 3. power +2
 			0.2, // 4. slow enemies
-			0.15, // 5. inc speed
-			0.25, // 6. bomb
-			0.14, // 7. firerate
-			0.09, // 8. addon
+			0.12, // 5. inc speed
+			0.22, // 6. bomb
+			0.12, // 7. firerate
+			0.07, // 8. addon
 			0.5, // 9. stamina
-			0.12, // 10. max stamina
-			0.05, // 11. shelter
+			0.10, // 10. max stamina
+			0.04, // 11. shelter
 			0 // 12. die
 	};
 	
@@ -335,14 +336,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		puMinWaveMap = new HashMap<Integer, Integer>();
 		
 		highScoreMap = new HashMap<String, HashMap<String, Map<String,String>>>();
+		personalBestMap = new HashMap<String, HashMap<String, String>>();
 
 		bgmUtils = new BgmUtils();
 		bgmUtils.playBgm("Menu");
-		
-		//Populate dropRateMap
-		for(int i=0; i<puDropRates.length; i++) {
-			puDropRateMap.put(i+1, puDropRates[i]);
-		}
 
 		//Populate dropTimeMap
 		for(int i=0; i<puDropTimes.length; i++) {
@@ -354,9 +351,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 			puMinWaveMap.put(i+101, puMinWaves[i]);
 		}
 		
-
 		sfx = new HashMap<String, AudioPlayer>();
-
 		
 		
 		sfx.put("hit", new AudioPlayer("/sfx/enemy_hit.wav"));
@@ -540,6 +535,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	    for(int i=0; i<puDropTimes.length; i++) {
 	    	puCountMap.put(i+101, 0);
 	    }
+	    
+		
+		//Populate dropRateMap
+	    puDropRateMap.clear();
+	    if(gm == GameMode.DEFAULT) {
+	    	for(int i=0; i<puDropRates.length; i++) {
+				puDropRateMap.put(i+1, puDropRates[i]);
+			}
+	    } else {
+	    	//survival mode and tutorial drops nothing
+	    	for(int i=0; i<puDropRates.length; i++) {
+	    		
+				puDropRateMap.put(i+1, 0.0);
+			}
+	    	puDropRateMap.put(2, puDropRates[1]);
+	    	puDropRateMap.put(5, puDropRates[4]);
+	    	puDropRateMap.put(7, puDropRates[5]);
+	    }
+		
 		
 	    
 	    if(gm == GameMode.DEFAULT || gm == GameMode.TUTORIAL) {	    	
@@ -582,13 +596,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 					//JsonObject Cast
 					JSONObject enemyInfoJsonObj = (JSONObject) enemyInfoObj;
 					
-					
-					
 					int tmpEnemyType = (int) (long) enemyInfoJsonObj.get("type");
 					int tmpEnemyRank = (int) (long) enemyInfoJsonObj.get("rank");
 					int tmpEnemyCount = (int) (long) enemyInfoJsonObj.get("count");
 					Enemy tmpEnemy = new Enemy(tmpEnemyType, tmpEnemyRank, 1);
-					enemyToAdd.put(tmpEnemy, tmpEnemyCount);				
+					enemyToAdd.put(tmpEnemy, tmpEnemyCount);
 				}
 				waveData.add(enemyToAdd);
 			}
@@ -1002,9 +1014,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		g.drawString("Turrets : " + (5-turrets.size()) + "/5", WIDTH-135, 130);
 		
 		//draw player money
-		g.setColor(new Color(50,205,50));
-		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
-		g.drawString("Money : " + player.getScore(), WIDTH-135, 150);
+//		g.setColor(new Color(50,205,50));
+//		g.setFont(new Font("Comic Sans MS",Font.BOLD,14));
+//		g.drawString("Money : " + player.getScore(), WIDTH-135, 150);
+		sp.updateMoneyText(player.getScore());
 		
 		//Draw SKills on CD
 		HashMap<String, Long> cdSkills = player.getCdSkills();
@@ -1932,8 +1945,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_Q){
+			if(player.skillTimeRemaining("Q - Push") > 0) {
+				skillCdWarn();
+				return;
+			}
 			if(player.useStamina(500)){
 				sfx.get("push").play();
+				player.useSkillWithCd("Q - Push");
 				player.startPushing();
 			}
 		}
@@ -1951,8 +1969,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		}
 		
 		if(keyCode == KeyEvent.VK_E){
+			if(player.skillTimeRemaining("E - BlackHole") > 0) {
+				skillCdWarn();
+				return;
+			}
 			if(player.useStamina(700)){
 				sfx.get("place black hole").play();
+				player.useSkillWithCd("E - BlackHole");
 				player.placeBlackHole();
 			}
 		}	

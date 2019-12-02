@@ -18,7 +18,7 @@ import Utils.FileUtils;
 import Utils.VersionUtils;
 public class Game {
 	//committer change
-	private final static String version = "1.1.1";
+	public final static String version = "1.1.1";
 	
 	public static void saveUserName(Path path, SecretKey sk, String userName) {
 		byte[] res = EncryptUtils.encrypt(userName, sk);
@@ -45,7 +45,7 @@ public class Game {
 					"Game version is outdated" + 
 					"\n\nCurrent Version: "+version + 
 					"\nLatest Version: "+ latestVersion + 
-					"\n\nPatch notes: " + patchNotes);
+					"\n\nNew Version Download: " + patchNotes);
 			System.exit(1);
 			
 			try {

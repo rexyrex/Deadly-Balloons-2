@@ -36,7 +36,8 @@ public class ShopPanel extends JPanel{
     final JButton buyPowerBtn = new JButton("<html>F2 : Power Up 0 <br />( Cost : " + 40 + " )</html>");
     final JButton buyAbilityBtn = new JButton("<html>F3 : Ability Up 0 <br />( Cost : " + 50 + " )</html>");
     final JButton dropRateBtn = new JButton("<html>F4 : Drop Rate 0 <br />( Cost : " + 200 + " )</html>");
-
+    final JLabel moneyLabel = new JLabel("Money", SwingConstants.CENTER);
+    
 	public ShopPanel(){
 		super();
 		setBackground(Color.BLACK);
@@ -55,10 +56,21 @@ public class ShopPanel extends JPanel{
 		
 		JLabel shopTitleLabel = new JLabel("tmp", SwingConstants.CENTER);
 		shopTitleLabel.setForeground(Color.white);
-		shopTitleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+		shopTitleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
 		shopTitleLabel.setText("Shop");			
         add(shopTitleLabel);
 		
+	}
+	
+	public void updateMoneyText(int money) {
+		String moneyText = 
+				"<html>" +
+				"Money : " + money + ": 0" +"<br/>" +
+				//"Z - Fire" + "<br/>" +
+				//"Z - Fire" + "<br/>" +
+				"</html>";
+		moneyLabel.setForeground(Color.green);
+		moneyLabel.setText(moneyText);	
 	}
 	
 	public void init() {
@@ -67,9 +79,21 @@ public class ShopPanel extends JPanel{
 		itemBaseName = new HashMap<JButton, String>();
 		maxPurchaseMap = new HashMap<JButton, Integer>();
 		
-        initMaps(buyLifeBtn, "F1 : Extra Life", 120, 1000);
-        initMaps(buyPowerBtn, "F2 : Power Up", 40, 1000);
-        initMaps(buyAbilityBtn, "F3 : Ability Up", 50, 1000);
+		String moneyText = 
+				"<html>" +
+				"Money : 0" + "<br/>" +
+				//"Z - Fire" + "<br/>" +
+				//"Z - Fire" + "<br/>" +
+				"</html>";
+		
+		moneyLabel.setForeground(Color.green);
+		moneyLabel.setText(moneyText);			
+		moneyLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 25));
+        add(moneyLabel);
+		
+        initMaps(buyLifeBtn, "F1 : Extra Life", 120, 10);
+        initMaps(buyPowerBtn, "F2 : Power Up", 40, 30);
+        initMaps(buyAbilityBtn, "F3 : Ability Up", 50, 30);
         initMaps(dropRateBtn, "F4 : Drop Rate", 200, 10);
         
         

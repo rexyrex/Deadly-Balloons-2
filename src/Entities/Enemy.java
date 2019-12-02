@@ -1121,7 +1121,7 @@ public class Enemy {
 		if(health+gain > maxHealth){
 			health = maxHealth;
 		} else {
-			GamePanel.texts.add(new Text(getx(), gety(), 2000, "힐링된다!"));
+			GamePanel.texts.add(new Text(getx(), gety(), 2000, "Heal"));
 			health += gain;
 		}
 	}

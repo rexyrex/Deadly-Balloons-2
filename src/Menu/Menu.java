@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import Audio.AudioPlayer;
+import Panels.Game;
 import Panels.GamePanel;
 import Utils.RestUtils;
 import VFX.Explosion;
@@ -30,7 +31,7 @@ public class Menu {
 	public Rectangle goToControlsBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	public Rectangle controlsToMainBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
 	
-	public Rectangle backFromHighScoresBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 600, btnLength, btnHeight);
+	public Rectangle backFromHighScoresBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 620, btnLength, btnHeight);
 	
 	public Rectangle tutorialModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 200, btnLength, btnHeight);
 	public Rectangle defaultModeBtn = new Rectangle(GamePanel.WIDTH /2 - btnLength/2, 300, btnLength, btnHeight);
@@ -112,7 +113,12 @@ public class Menu {
 			g.setColor(Color.white);
 			
 			renderTitle("Deadly Balloons 2.0", g);
-						
+			
+			g.setFont(new Font("Comic Sans MS", Font.ITALIC,18));
+			String desc = "Version " + Game.version;
+			int length = (int) g.getFontMetrics().getStringBounds(desc,g).getWidth();
+			g.drawString(desc, (GamePanel.WIDTH-length)/2, 140);
+			
 			g.setFont(menuBtnFont);
 			
 			g.drawString("Play", playBtn.x+20, playBtn.y+35);
@@ -129,6 +135,10 @@ public class Menu {
 			
 			g.drawString("Quit", quitBtn.x+20, quitBtn.y+35);
 			g2d.draw(quitBtn);
+			
+			g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+			g.drawString("Logged in as " + GamePanel.username, 20, GamePanel.HEIGHT-10);
+			
 		}
 		
 		if(GamePanel.menuState == GamePanel.MenuState.CREDITS) {
@@ -196,6 +206,11 @@ public class Menu {
 					renderText(c,f,entry.getValue(), x+110, height);
 					height+= 24;
 				}
+				renderText(new Color(255,255,255,255),f,gp.personalBestMap.get("PersonalRecords").get(levelEntry.getKey()), x, height);
+				g2d.setStroke(new BasicStroke(3));
+				Rectangle emphasis = new Rectangle(x-5, height+8, GamePanel.WIDTH/4+15, 25);
+				g2d.draw(emphasis);
+				g2d.setStroke(new BasicStroke(1));
 				x += 240;
 			}
 			
@@ -222,6 +237,11 @@ public class Menu {
 					renderText(c,f,entry.getValue(), x+110, height);
 					height+= 24;
 				}
+				g2d.setStroke(new BasicStroke(3));
+				renderText(new Color(255,255,255,255),f,gp.personalBestMap.get("PersonalRecords").get(levelEntry.getKey()), x, height);
+				Rectangle emphasis = new Rectangle(x-5, height+8, GamePanel.WIDTH/4+15, 25);
+				g2d.draw(emphasis);
+				g2d.setStroke(new BasicStroke(1));
 				x += 240;
 			}
 
