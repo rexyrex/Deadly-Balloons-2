@@ -18,7 +18,7 @@ import Utils.FileUtils;
 import Utils.VersionUtils;
 public class Game {
 	//committer change
-	public final static String version = "1.1.1";
+	public final static String version = "1.2.0";
 	
 	public static void saveUserName(Path path, SecretKey sk, String userName) {
 		byte[] res = EncryptUtils.encrypt(userName, sk);
